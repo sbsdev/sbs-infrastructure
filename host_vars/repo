@@ -1,0 +1,14 @@
+---
+staging_debs:
+  - daisy-pipeline_20140110-2_all.deb
+  - daisy-pipeline2_1.7_all.deb
+  - dtbook-to-odt_1.0.0~20140203.133629-e840608_all.deb
+  - sbs-braille-tables_1.7.9_all.deb
+  - tcolorbox_2.51-5_all.deb
+production_debs:
+  - daisy-pipeline_20140110-1_all.deb
+  - daisy-pipeline2_1.7_all.deb
+  - dtbook-to-odt_1.0.0~20140203.133629-e840608_all.deb
+  - sbs-braille-tables_1.7.9_all.deb
+  - tcolorbox_2.51-5_all.deb
+
