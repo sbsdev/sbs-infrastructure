@@ -6,7 +6,12 @@
   
   tasks:
     - name: enable unsigned packages
-      # Add a line to a file if it does not exist, without passing regexp
+      # FIXME: I guess it would be better to have signed packages. For
+      # an explanation on how to do this see
+      # http://kaivanov.blogspot.ch/2012/08/creating-apt-repository-with-reprepro.html.
+      # Alternatively maybe we should drop the idea of a local repo
+      # altogether and move to ansible 1.6 where you can just specify
+      # local debs to the apt module. Simplicity matters.
       lineinfile: dest=/etc/apt/apt.conf line="APT::Get::AllowUnauthenticated \"true\";" create=yes
 
     # most dependencies are packaged as debs
