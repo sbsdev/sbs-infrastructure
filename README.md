@@ -26,7 +26,7 @@ ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisypro
 
 ## License
 
-Copyright 2014 Swiss Library for the Blind, Visually Impaired and Print Disabled.
+Copyright (c) 2014 [Swiss Library for the Blind, Visually Impaired and Print Disabled](http://www.sbs.ch/).
 
 Licensed under the [MIT License](./LICENSE).
 
