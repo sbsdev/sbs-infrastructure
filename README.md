@@ -24,6 +24,11 @@ To deploy to the production server run
 ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisyproducer.yml
 ```
 
+## License
+
+Copyright 2014 Swiss Library for the Blind, Visually Impaired and Print Disabled.
+
+Licensed under the [MIT License](./LICENSE).
 
 [Ansible playbook]: http://www.ansible.com/home
 [Daisyproducer]: http://www.daisyproducer.org
