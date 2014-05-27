@@ -25,6 +25,7 @@
         - liblouis2
         - liblouis-data
         - python-louis
+        - dtbook2sbsform
         - sbs-braille-tables
       notify:
         - restart apache
@@ -41,11 +42,6 @@
       command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl 
                chdir=/opt/pipeline/transformers/se_tpb_dtbook2latex
       when: install_pipeline1.changed
-      notify:
-        - restart apache
-
-    - name: deploy dtbook2sbsform 
-      unarchive: src=files/dtbook2sbsform.zip dest=/opt
       notify:
         - restart apache
 
