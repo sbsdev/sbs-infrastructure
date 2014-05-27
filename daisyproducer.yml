@@ -5,43 +5,22 @@
     - "vars/passwords.yml"
   
   tasks:
-    - name: enable unsigned packages
-      # FIXME: I guess it would be better to have signed packages. For
-      # an explanation on how to do this see
-      # http://kaivanov.blogspot.ch/2012/08/creating-apt-repository-with-reprepro.html.
-      # Alternatively maybe we should drop the idea of a local repo
-      # altogether and move to ansible 1.6 where you can just specify
-      # local debs to the apt module. Simplicity matters.
-      lineinfile: dest=/etc/apt/apt.conf line="APT::Get::AllowUnauthenticated \"true\";" create=yes
+    
+    - name: test
+      debug: msg={{ item }}
+      with_items: debs
 
     # most dependencies are packaged as debs
     - name: deploy debs
-      apt: name={{ item }} state=latest update_cache=yes
-      with_items:
-        - daisy-pipeline2
-        - dtbook-to-odt
-        - sbs-hyphenation-tables
-        - tcolorbox
-        - liblouis2
-        - liblouis-data
-        - python-louis
-        - dtbook2sbsform
-        - sbs-braille-tables
+      apt: deb="files/{{ item }}"
+      with_items: debs
       notify:
         - restart apache
           
-    # pipeline is a bit special in that we need to copy something after installing the deb
-    - name: deploy pipeline1
-      apt: name=daisy-pipeline state=latest
-      register: install_pipeline1
-      notify:
-        - restart apache
-
     # copy the sbs specific dtbook2latex so that it is picked up by the transformer
     - name: copy dtbook2latex_sbs.xsl
       command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl 
                chdir=/opt/pipeline/transformers/se_tpb_dtbook2latex
-      when: install_pipeline1.changed
       notify:
         - restart apache
 
