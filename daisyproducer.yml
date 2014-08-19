@@ -41,20 +41,20 @@
         - restart apache
 
     - name: fix daisyproducer app path in abacus_import cron job
-      lineinfile: dest={{ daisyproducer_app_path }}/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData 
+      lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData
                   regexp='^INSTALLDIR=/path/to/daisyproducer$' 
                   line='INSTALLDIR={{ daisyproducer_app_path }}'
       when: install_daisyproducer.changed
 
     - name: adapt local settings for daisyproducer
       template: src=templates/settings_local.j2 
-                dest={{ daisyproducer_app_path }}/settings_local.py 
+                dest={{ daisyproducer_app_path }}/daisyproducer/settings_local.py
                 backup=yes
                 mode=644
       when: install_daisyproducer.changed
 
     - name: build localized daisyproducer messages
-      command: django-admin compilemessages chdir={{ daisyproducer_app_path }}
+      command: django-admin compilemessages chdir={{ daisyproducer_app_path }}/daisyproducer
       when: install_daisyproducer.changed
 
     - name: migrate daisyproducer db
