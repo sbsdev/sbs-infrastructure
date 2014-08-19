@@ -4,5 +4,12 @@ daisyproducer_db_name: daisyproducer_prod
 daisyproducer_cmis_host: pam01.sbszh.ch
 daisyproducer_server_email: daisyproducer@xmlp
 daisyproducer_debug: False
+debs:
+  - daisy-pipeline_20140110-1_all.deb
+  - daisy-pipeline2_1.7_all.deb
+  - dtbook-to-odt_1.0.0~20140203.133629-e840608_all.deb
+  - dtbook2sbsform-0.8-95-ge063ed5.deb
+  - sbs-braille-tables_1.7.9_all.deb
+  - tcolorbox_2.51-5_all.deb
 
 
