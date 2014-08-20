@@ -10,6 +10,7 @@ debs:
   - dtbook-to-odt_1.0.0~20140203.133629-e840608_all.deb
   - dtbook2sbsform-0.8-95-ge063ed5.deb
   - sbs-braille-tables_1.7.9_all.deb
+  - sbs-hyphenation-tables_1.14-SNAPSHOT_all.deb
   - tcolorbox_2.51-5_all.deb
 
 
