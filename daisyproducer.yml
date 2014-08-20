@@ -61,6 +61,21 @@
       django_manage: command=migrate app_path={{ daisyproducer_app_path }}
       when: install_daisyproducer.changed
 
+    - name: remove the old crontab entry
+      lineinfile: dest=/etc/crontab state=absent
+                  regexp="/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData"
+
+    - name: remove the old crontab entry comment
+      lineinfile: dest=/etc/crontab state=absent
+                  regexp="daisyproducer ABACUS import every 10 minutes"
+
+    - name: add a cron job to run the daisyproducer ABACUS import
+      cron: name="run the daisyproducer ABACUS import every 10 minutes on weekdays" 
+            minute="*/10" hour="6-20" weekday="1-5"
+            cron_file="daisyproducerImportABACUSProductData"
+            user="www-data"
+            job="{{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData > /dev/null 2>&1"
+
   handlers:
     - name: restart apache
       service: name=apache2 state=restarted
