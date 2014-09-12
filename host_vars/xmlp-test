@@ -5,7 +5,7 @@ daisyproducer_cmis_host: pam02.sbszh.ch
 daisyproducer_server_email: daisyproducer@xmlp-test
 daisyproducer_debug: True
 debs:
-  - daisy-pipeline_20140110-2_all.deb
+  - daisy-pipeline_20140912-2_all.deb
   - daisy-pipeline2_1.7_all.deb
   - dtbook-to-odt_1.0.0~20140203.133629-e840608_all.deb
   - dtbook2sbsform-0.8-95-ge063ed5.deb
