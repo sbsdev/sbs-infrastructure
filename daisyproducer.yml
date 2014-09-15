@@ -10,6 +10,9 @@
       copy: src="files/{{ item }}" dest=/tmp
       with_items: debs
 
+    - name: make sure we have default-jdk
+      apt: name=default-jdk
+
     # most dependencies are packaged as debs
     - name: install debs
       # this should really work with the apt module but alas it doesn't
