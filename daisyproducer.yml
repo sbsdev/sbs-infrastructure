@@ -64,6 +64,12 @@
       django_manage: command=migrate app_path={{ daisyproducer_app_path }}
       when: install_daisyproducer.changed
 
+    - name: configure apache virtual host
+      template: src=templates/virtualhost.j2
+                dest=/etc/apache2/sites-available/{{ ansible_hostname }}.sbszh.ch
+                backup=yes
+                mode=644
+
     - name: remove the old crontab entry
       lineinfile: dest=/etc/crontab state=absent
                   regexp="/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData"

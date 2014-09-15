@@ -1,0 +1,43 @@
+#
+# VirtualHost {{ ansible_hostname }}.sbszh.ch
+#
+#
+<VirtualHost *:80>
+    ServerAdmin sysadmin@sbszh.ch
+    ServerName {{ ansible_hostname }}.sbszh.ch
+    ServerAlias {{ ansible_hostname }}.sbszh.ch
+    ServerAlias {{ ansible_hostname }}
+
+    DocumentRoot {{ document_root }}/
+    ErrorLog /var/log/apache2/{{ ansible_hostname }}.sbszh.ch-error_log
+    CustomLog /var/log/apache2/{{ ansible_hostname }}.sbszh.ch-access_log combined
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    # LogLevel info
+
+    HostnameLookups Off
+    UseCanonicalName Off
+    ServerSignature On
+
+    Alias /media/ /usr/share/pyshared/django/contrib/admin/static/
+
+    <Directory /usr/share/pyshared/django/contrib/admin/static/>
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    Alias /stylesheets/ {{ document_root }}/daisyproducer/daisyproducer/public/stylesheets/
+    Alias /javascripts/ {{ document_root }}/daisyproducer/daisyproducer/public/javascripts/
+    Alias /images/      {{ document_root }}/daisyproducer/daisyproducer/public/images/
+
+    <Directory {{ document_root }}/daisyproducer/daisyproducer>
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    Alias /archive/ {{ document_root }}/daisyproducer/daisyproducer/archive/
+    Alias /schema/  {{ document_root }}/daisyproducer/daisyproducer/documents/schema/
+
+    WSGIScriptAlias / {{ document_root }}/daisyproducer/daisyproducer/daisyproducer.wsgi
+</VirtualHost>

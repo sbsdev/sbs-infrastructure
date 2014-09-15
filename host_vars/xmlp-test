@@ -4,6 +4,7 @@ daisyproducer_db_name: daisyproducer_test
 daisyproducer_cmis_host: pam02.sbszh.ch
 daisyproducer_server_email: daisyproducer@xmlp-test
 daisyproducer_debug: True
+document_root: /srv/xmlp-test.sbszh.ch
 debs:
   - daisy-pipeline_20140912-2_all.deb
   - daisy-pipeline2_1.7_all.deb
