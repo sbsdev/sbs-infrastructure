@@ -1,0 +1,16 @@
+---
+
+- name: make sure we have default-jdk
+  apt: name=default-jdk
+
+- name: copy deb
+  copy: src="files/{{ pipeline1_deb }}" dest=/tmp
+
+- name: install pipeline1
+  command: dpkg -i "/tmp/{{ pipeline1_deb }}"
+
+# copy the sbs specific dtbook2latex so that it is picked up by the transformer
+- name: copy dtbook2latex_sbs.xsl
+  command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl
+           chdir=/usr/lib/daisy-pipeline/transformers/se_tpb_dtbook2latex
+

@@ -1,0 +1,39 @@
+---
+
+- name: install Java7
+  apt: name=openjdk-7-jdk
+
+- name: download wildfly
+  get_url: url=http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
+           dest=/tmp/wildfly-8.1.0.Final.tar.gz
+
+- name: install wildfly
+  unarchive: src=/tmp/wildfly-8.1.0.Final.tar.gz
+             copy=no
+             dest=/srv/
+             creates=/srv/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+  register: install_wildfly
+
+- name: add admin user
+  shell: /srv/wildfly-8.1.0.Final/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}
+  when: install_wildfly.changed
+
+- name: create config file
+  template: src=standalone-full.js
+            dest=/srv/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+  when: install_wildfly.changed
+
+- name: create directories
+  file: path={{ item }} state=directory
+  with_items:
+    - /var/spool/mdr2
+    - /var/spool/abacus
+    - /var/lib/mdr2/structured
+    - /var/lib/mdr2/recording
+    - /var/lib/mdr2/recorded
+    - /var/lib/mdr2/encoded
+    - /var/lib/mdr2/iso
+
+- name: deploy madras application
+  copy: src=/home/eglic/src/mdr2/target/mdr2.war
+        dest=/srv/wildfly-8.1.0.Final/standalone/deployments/

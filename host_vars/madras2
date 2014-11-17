@@ -1,0 +1,5 @@
+---
+production_path: /var/lib/mdr2
+abacus_import_dir: /var/spool/mdr2
+abacus_export_dir: /var/spool/abacus
+database_url: jdbc:mysql://madras2:{{ madras2_db_password }}@s21.sbszh.ch:3309/madras2
