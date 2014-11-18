@@ -1,6 +1,6 @@
 # SBS infrastructure
 
-[Ansible playbook][] to install a [Daisyproducer][] server.
+[Ansible playbook][] to install a [Daisyproducer][] and a Madreas server.
 
 ## Deployment
 
@@ -16,6 +16,14 @@ To deploy to the production server run
 
 ```
 ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisyproducer.yml
+```
+
+### Madras2
+
+To deploy to the madras test server run
+
+```
+ansible-playbook -i test -K --vault-password-file .vault_pass.txt madras2.yml
 ```
 
 ## License
