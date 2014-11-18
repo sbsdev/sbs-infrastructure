@@ -4,6 +4,9 @@
   vars_files:
     - "vars/passwords.yml"
   
+  roles:
+    - pipeline1
+
   tasks:
     
     - name: copy debs
@@ -19,13 +22,6 @@
       # apt: deb="/tmp/{{ item }}" 
       command: dpkg -i "/tmp/{{ item }}"
       with_items: debs
-      notify:
-        - restart apache
-
-    # copy the sbs specific dtbook2latex so that it is picked up by the transformer
-    - name: copy dtbook2latex_sbs.xsl
-      command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl 
-               chdir=/usr/lib/daisy-pipeline/transformers/se_tpb_dtbook2latex
       notify:
         - restart apache
 
