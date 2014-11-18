@@ -1,0 +1,35 @@
+---
+
+- name: copy deb
+  copy: src="{{ pipeline2_deb }}" dest=/tmp
+  register: copy_deb
+
+- name: install pipeline1
+  shell: DEBIAN_FRONTEND=noninteractive dpkg -i "/tmp/{{ pipeline2_deb }}"
+  when: copy_deb.changed
+
+- name: set REMOTE=true for pipeline2
+  lineinfile: dest=/etc/default/pipeline2d
+              line='REMOTE=true'
+  notify:
+    - restart pipeline2
+
+- name: set memory for pipeline2
+  lineinfile: dest=/etc/default/pipeline2d
+              line='export JAVA_MAX_MEM=2G'
+  notify:
+    - restart pipeline2
+
+- name: set client secret in cli
+  lineinfile: "dest=/etc/opt/daisy-pipeline2/config.yml
+               regexp='^client_secret: '
+               line='client_secret: {{ pipeline2_client_secret }}'"
+  notify:
+    - restart pipeline2
+
+- name: set client secret in server
+  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+              regexp='^org.daisy.pipeline.ws.authentication.secret='
+              line='org.daisy.pipeline.ws.authentication.secret={{ pipeline2_client_secret }}'
+  notify:
+    - restart pipeline2

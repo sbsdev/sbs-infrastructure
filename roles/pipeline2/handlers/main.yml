@@ -1,0 +1,3 @@
+---
+- name: restart pipeline2
+  service: name=pipeline2d state=restarted
