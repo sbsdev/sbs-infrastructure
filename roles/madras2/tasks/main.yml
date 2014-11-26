@@ -7,20 +7,40 @@
   get_url: url=http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
            dest=/tmp/wildfly-8.1.0.Final.tar.gz
 
+- name: create a wildfly user
+  shell: adduser --system --group --no-create-home --home /opt/wildfly --uid 35 --quiet --disabled-login wildfly || true
+
 - name: install wildfly
   unarchive: src=/tmp/wildfly-8.1.0.Final.tar.gz
              copy=no
-             dest=/srv/
-             creates=/srv/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+             dest=/opt/
+             owner=wildfly group=wildfly
+             creates=/opt/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
   register: install_wildfly
 
-- name: add admin user
-  shell: /srv/wildfly-8.1.0.Final/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}
-  when: install_wildfly.changed
+# owner and group are ignored by the ansible unarchive task, see
+# ansible/ansible-modules-core#234, so we need to explicitly set them
+- name: set ownership
+  file: path=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly recurse=yes
+
+- name: create a symlink
+  file: path=/opt/wildfly src=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly state=link
+
+- name: create wildfly defaults file
+  template: src=wildfly.conf.j2
+            dest=/etc/default/wildfly
+
+- name: create startup script
+  template: src=wildfly-init-debian.sh.j2
+            dest=/etc/init.d/wildfly
+            mode=0755
+
+- name: enable the wildfly service
+  service: name=wildfly enabled=yes
 
 - name: create config file
-  template: src=standalone-full.js
-            dest=/srv/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+  template: src=standalone-full.xml.j2
+            dest=/opt/wildfly/standalone/configuration/standalone-full.xml
   when: install_wildfly.changed
 
 - name: create directories
@@ -34,6 +54,15 @@
     - /var/lib/mdr2/encoded
     - /var/lib/mdr2/iso
 
+- name: start the wildfly service
+  service: name=wildfly state=started
+
+# - name: copy madras application
+#   copy: src=/home/eglic/src/mdr2/target/mdr2.war dest=/tmp/mdr2.war
+
+# - name: deploy madras application
+#   jboss: src=/tmp/mdr2.war deployment=mdr2.war state=present
+#          deploy_path=/opt/wildfly/standalone/deployments
+
 - name: deploy madras application
-  copy: src=/home/eglic/src/mdr2/target/mdr2.war
-        dest=/srv/wildfly-8.1.0.Final/standalone/deployments/
+  copy: src=/home/eglic/src/mdr2/target/mdr2.war dest=/opt/wildfly/standalone/deployments/mdr2.war
