@@ -48,6 +48,7 @@
   with_items:
     - /var/spool/mdr2
     - /var/spool/abacus
+    - /var/spool/agadir
     - /var/lib/mdr2/structured
     - /var/lib/mdr2/recording
     - /var/lib/mdr2/recorded
