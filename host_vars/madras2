@@ -6,4 +6,5 @@ database_url: jdbc:mysql://madras2:{{ madras2_db_password }}@db.sbszh.ch:3309/ma
 archive-spool-dir: /var/spool/agadir
 archive-periodical-spool-dir: /var/spool/agadir-zeitschriften
 archive-other-spool-dir: /var/spool/agadir-kleinauftraege
-archive-database-url: jdbc:mysql://agadir:{{ agadir_db_password }}@db.sbszh.ch:3309/agadir
+archive-database-url: jdbc:mysql://madras2:{{ madras2_db_password }}@db.sbszh.ch:3309/agadir
+archive-web-root: http://archive.sbszh.ch/archive/master
