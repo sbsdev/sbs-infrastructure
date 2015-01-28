@@ -38,6 +38,9 @@
 - name: enable the wildfly service
   service: name=wildfly enabled=yes
 
+- name: add an admin user to be able to access the wildfly admin console
+  shell: /opt/wildfly/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}
+
 - name: create config file
   template: src=standalone-full.xml.j2
             dest=/opt/wildfly/standalone/configuration/standalone-full.xml
