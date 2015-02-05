@@ -63,6 +63,17 @@
     - /var/lib/mdr2/recorded
     - /var/lib/mdr2/encoded
     - /var/lib/mdr2/iso
+    - /var/lib/mdr2/split
+
+- name: mount all needed directories from the main file server and from the studio server
+  mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
+  with_items:
+    - { name: '/var/spool/agadir', src: 'a03:/disk/sdb1/madras2/agadir'}
+    - { name: '/var/lib/mdr2/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
+    - { name: '/var/lib/mdr2/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
+    - { name: '/var/lib/mdr2/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
+    - { name: '/var/lib/mdr2/iso', src: 'a03:/disk/sdb1/madras2/iso'}
+    - { name: '/var/lib/mdr2/split', src: 'a03:/disk/sdb1/madras2/split'}
 
 - name: start the wildfly service
   service: name=wildfly state=started
