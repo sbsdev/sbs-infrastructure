@@ -26,6 +26,12 @@
 - name: create a symlink
   file: path=/opt/wildfly src=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly state=link
 
+- name: make sure wildfly gets enough memory
+  lineinfile: dest=/opt/wildfly/bin/standalone.conf
+              regexp='^(.*)Xms(\d+)m -Xmx(\d+)m(.*)$'
+              line='\1Xms512m -Xmx2048m\4'
+              backrefs=yes
+
 - name: create wildfly defaults file
   template: src=wildfly.conf.j2
             dest=/etc/default/wildfly
