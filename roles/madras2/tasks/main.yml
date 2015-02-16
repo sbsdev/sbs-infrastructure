@@ -62,12 +62,12 @@
 
 - name: create directories
   file: path={{ item }} state=directory
+        owner={{ wildfly_user }} group={{ wildfly_group }}
   with_items:
     - /var/spool/mdr2
     - /var/spool/abacus
     - /var/spool/agadir
     - /var/lib/mdr2/structured
-    - /var/lib/mdr2/recording
     - /var/lib/mdr2/recorded
     - /var/lib/mdr2/encoded
     - /var/lib/mdr2/iso
