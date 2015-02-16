@@ -7,21 +7,22 @@
   get_url: url=http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
            dest=/tmp/wildfly-8.1.0.Final.tar.gz
 
-- name: create a wildfly user
-  shell: adduser --system --group --no-create-home --home /opt/wildfly --uid 35 --quiet --disabled-login wildfly || true
+# wildfly runs under a special user
+# - name: create a wildfly user
+#   shell: adduser --system --group --no-create-home --home /opt/wildfly --uid 35 --quiet --disabled-login wildfly || true
 
 - name: install wildfly
   unarchive: src=/tmp/wildfly-8.1.0.Final.tar.gz
              copy=no
              dest=/opt/
-             owner=wildfly group=wildfly
+             owner={{ wildfly_user }} group={{ wildfly_group }}
              creates=/opt/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
   register: install_wildfly
 
 # owner and group are ignored by the ansible unarchive task, see
 # ansible/ansible-modules-core#234, so we need to explicitly set them
 - name: set ownership
-  file: path=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly recurse=yes
+  file: path=/opt/wildfly-8.1.0.Final owner={{ wildfly_user }} group={{ wildfly_group }} recurse=yes
 
 - name: create a symlink
   file: path=/opt/wildfly src=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly state=link
