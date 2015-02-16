@@ -1,5 +1,11 @@
 ---
 
+- name: install Java7
+  apt: name=openjdk-7-jdk
+
+- name: pipeline2 needs a ruby interpreter
+  apt: name=ruby1.9.1
+
 - name: copy deb
   copy: src="{{ pipeline2_deb }}" dest=/tmp
   register: copy_deb
