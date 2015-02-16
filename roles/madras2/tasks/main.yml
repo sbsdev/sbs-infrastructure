@@ -28,7 +28,11 @@
   file: path=/opt/wildfly-8.1.0.Final owner={{ wildfly_user }} group={{ wildfly_group }} recurse=yes
 
 - name: create a symlink
-  file: path=/opt/wildfly src=/opt/wildfly-8.1.0.Final owner=wildfly group=wildfly state=link
+  file: path=/opt/wildfly
+        src=/opt/wildfly-8.1.0.Final
+        owner={{ wildfly_user }}
+        group={{ wildfly_group }}
+        state=link
 
 - name: make sure wildfly gets enough memory
   lineinfile: dest=/opt/wildfly/bin/standalone.conf
