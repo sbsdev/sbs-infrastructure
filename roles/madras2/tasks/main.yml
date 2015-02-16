@@ -3,6 +3,9 @@
 - name: install Java7
   apt: name=openjdk-7-jdk
 
+- name: install genisoimage
+  apt: name=genisoimage
+
 - name: download wildfly
   get_url: url=http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
            dest=/tmp/wildfly-8.1.0.Final.tar.gz
