@@ -3,8 +3,8 @@
 - name: make sure we have default-jdk
   apt: name=default-jdk
 
-- name: pipeline2 needs a ruby interpreter
-  apt: name=ruby1.9.1
+- name: install lame
+  apt: name=lame
 
 - name: copy deb
   copy: src="{{ pipeline1_deb }}" dest=/tmp
