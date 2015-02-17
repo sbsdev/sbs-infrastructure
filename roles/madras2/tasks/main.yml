@@ -17,25 +17,26 @@
 - name: install wildfly
   unarchive: src=/tmp/wildfly-8.1.0.Final.tar.gz
              copy=no
-             dest=/opt/
+             dest={{ wildfly_prefix }}
              owner={{ wildfly_user }} group={{ wildfly_group }}
-             creates=/opt/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+             creates={{ wildfly_prefix }}/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
   register: install_wildfly
 
 # owner and group are ignored by the ansible unarchive task, see
 # ansible/ansible-modules-core#234, so we need to explicitly set them
 - name: set ownership
-  file: path=/opt/wildfly-8.1.0.Final owner={{ wildfly_user }} group={{ wildfly_group }} recurse=yes
+  file: path={{ wildfly_prefix }}/wildfly-8.1.0.Final
+        owner={{ wildfly_user }} group={{ wildfly_group }}
+        recurse=yes
 
 - name: create a symlink
-  file: path=/opt/wildfly
-        src=/opt/wildfly-8.1.0.Final
-        owner={{ wildfly_user }}
-        group={{ wildfly_group }}
+  file: path={{ wildfly_prefix }}/wildfly
+        src={{ wildfly_prefix }}/wildfly-8.1.0.Final
+        owner={{ wildfly_user }} group={{ wildfly_group }}
         state=link
 
 - name: make sure wildfly gets enough memory
-  lineinfile: dest=/opt/wildfly/bin/standalone.conf
+  lineinfile: dest={{ wildfly_prefix }}/wildfly/bin/standalone.conf
               regexp='^(.*)Xms(\d+)m -Xmx(\d+)m(.*)$'
               line='\1Xms512m -Xmx2048m\4'
               backrefs=yes
@@ -53,11 +54,11 @@
   service: name=wildfly enabled=yes
 
 - name: add an admin user to be able to access the wildfly admin console
-  shell: /opt/wildfly/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}
+  shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}"
 
 - name: create config file
   template: src=standalone-full.xml.j2
-            dest=/opt/wildfly/standalone/configuration/standalone-full.xml
+            dest={{ wildfly_prefix }}/wildfly/standalone/configuration/standalone-full.xml
   when: install_wildfly.changed
 
 - name: create spool directories
@@ -96,7 +97,7 @@
 
 # - name: deploy madras application
 #   jboss: src=/tmp/mdr2.war deployment=mdr2.war state=present
-#          deploy_path=/opt/wildfly/standalone/deployments
+#          deploy_path={{ wildfly_prefix }}/wildfly/standalone/deployments
 
 - name: deploy madras application
   copy: src=/home/eglic/src/mdr2/target/mdr2.war dest=/opt/wildfly/standalone/deployments/mdr2.war

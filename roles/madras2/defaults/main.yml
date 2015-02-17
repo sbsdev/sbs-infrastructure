@@ -1,3 +1,4 @@
 ---
+wildfly_prefix: /usr/local
 wildfly_user: madras2
 wildfly_group: dtb
