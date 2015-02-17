@@ -60,28 +60,33 @@
             dest=/opt/wildfly/standalone/configuration/standalone-full.xml
   when: install_wildfly.changed
 
-- name: create directories
+- name: create spool directories
   file: path={{ item }} state=directory
         owner={{ wildfly_user }} group={{ wildfly_group }}
   with_items:
     - /var/spool/mdr2
     - /var/spool/abacus
-    - /var/spool/agadir
-    - /var/lib/mdr2/structured
-    - /var/lib/mdr2/recorded
-    - /var/lib/mdr2/encoded
-    - /var/lib/mdr2/iso
-    - /var/lib/mdr2/split
 
 - name: mount all needed directories from the main file server and from the studio server
   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
   with_items:
-    - { name: '/var/spool/agadir', src: 'a03:/disk/sdb1/madras2/agadir'}
-    - { name: '/var/lib/mdr2/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
-    - { name: '/var/lib/mdr2/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
-    - { name: '/var/lib/mdr2/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
-    - { name: '/var/lib/mdr2/iso', src: 'a03:/disk/sdb1/madras2/iso'}
-    - { name: '/var/lib/mdr2/split', src: 'a03:/disk/sdb1/madras2/split'}
+    - { name: '/mnt/a03/agadir', src: 'a03:/disk/sdb1/madras2/agadir'}
+    - { name: '/mnt/a03/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
+    - { name: '/mnt/a03/iso', src: 'a03:/disk/sdb1/madras2/iso'}
+    - { name: '/mnt/a03/split', src: 'a03:/disk/sdb1/madras2/split'}
+    - { name: '/mnt/miloun/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
+    - { name: '/mnt/miloun/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
+
+- name: create symlinks to the mounts so that the dirs are where madras2 expects them
+  file: path={{ item.path }} src={{ item.src }} state=link
+        owner={{ wildfly_user }} group={{ wildfly_group }}
+  with_items:
+    - { path: '/var/spool/agadir', src: '/mnt/a03/agadir' }
+    - { path: '/var/lib/mdr2/structured', src: '/mnt/miloun/structured' }
+    - { path: '/var/lib/mdr2/recorded', src: '/mnt/miloun/recorded' }
+    - { path: '/var/lib/mdr2/encoded', src: '/mnt/a03/encoded' }
+    - { path: '/var/lib/mdr2/iso', src: '/mnt/a03/iso' }
+    - { path: '/var/lib/mdr2/split', src: '/mnt/a03/split' }
 
 - name: start the wildfly service
   service: name=wildfly state=started
