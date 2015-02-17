@@ -22,13 +22,6 @@
              creates={{ wildfly_prefix }}/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
   register: install_wildfly
 
-# owner and group are ignored by the ansible unarchive task, see
-# ansible/ansible-modules-core#234, so we need to explicitly set them
-- name: set ownership
-  file: path={{ wildfly_prefix }}/wildfly-8.1.0.Final
-        owner={{ wildfly_user }} group={{ wildfly_group }}
-        recurse=yes
-
 - name: create a symlink
   file: path={{ wildfly_prefix }}/wildfly
         src={{ wildfly_prefix }}/wildfly-8.1.0.Final
