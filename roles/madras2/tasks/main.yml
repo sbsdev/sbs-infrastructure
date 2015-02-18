@@ -54,12 +54,9 @@
             dest={{ wildfly_prefix }}/wildfly/standalone/configuration/standalone-full.xml
   when: install_wildfly.changed
 
-- name: create spool directories
-  file: path={{ item }} state=directory
+- name: create spool directory for outgoing files to ABACUS
+  file: path=/var/spool/abacus state=directory
         owner={{ wildfly_user }} group={{ wildfly_group }}
-  with_items:
-    - /var/spool/mdr2
-    - /var/spool/abacus
 
 - name: mount all needed directories from the main file server and from the studio server
   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
