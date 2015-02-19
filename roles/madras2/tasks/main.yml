@@ -61,7 +61,7 @@
 - name: mount all needed directories from the main file server and from the studio server
   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
   with_items:
-    - { name: '/mnt/a03/agadir', src: 'a03:/disk/sdb1/madras2/agadir'}
+    - { name: '/mnt/a03/agadir', src: 'a03:/disk/sdb1/agadir/in'}
     - { name: '/mnt/a03/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
     - { name: '/mnt/a03/iso', src: 'a03:/disk/sdb1/madras2/iso'}
     - { name: '/mnt/a03/split', src: 'a03:/disk/sdb1/madras2/split'}
