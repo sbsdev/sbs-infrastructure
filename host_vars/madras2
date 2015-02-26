@@ -3,8 +3,8 @@ production_path: /var/lib/mdr2
 abacus_import_dir: /var/spool/mdr2
 abacus_export_dir: /var/spool/abacus
 database_url: jdbc:mysql://madras2:{{ madras2_db_password }}@db.sbszh.ch:3309/madras2
-archive_spool_dir: /var/spool/agadir
-archive_periodical_spool_dir: /var/spool/agadir-zeitschriften
-archive_other_spool_dir: /var/spool/agadir-kleinauftraege
+archive_spool_dir: /var/spool/agadir/books
+archive_periodical_spool_dir: /var/spool/agadir/other
+archive_other_spool_dir: /var/spool/agadir/other
 archive_database_url: jdbc:mysql://madras2:{{ madras2_db_password }}@db.sbszh.ch:3309/agadir
 archive_web_root: http://archive.sbszh.ch/archive/master

@@ -68,11 +68,18 @@
     - { name: '/mnt/miloun/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
     - { name: '/mnt/miloun/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
 
+# FIXME: this fails because root apparently cannot mount this
+# - name: mount the archive for other productions
+#   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
+#   with_items:
+#     - { name: '/mnt/a03/d14', src: 'a03:/mnt/archive/d14'}
+
 - name: create symlinks to the mounts so that the dirs are where madras2 expects them
   file: path={{ item.path }} src={{ item.src }} state=link
         owner={{ wildfly_user }} group={{ wildfly_group }}
   with_items:
-    - { path: '/var/spool/agadir', src: '/mnt/a03/agadir' }
+    - { path: '/var/spool/agadir/books', src: '/mnt/a03/agadir' }
+    - { path: '/var/spool/agadir/other', src: '/mnt/a03/d14' }
     - { path: '/var/lib/mdr2/structured', src: '/mnt/miloun/structured' }
     - { path: '/var/lib/mdr2/recorded', src: '/mnt/miloun/recorded' }
     - { path: '/var/lib/mdr2/encoded', src: '/mnt/a03/encoded' }
