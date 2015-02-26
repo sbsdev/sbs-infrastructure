@@ -7,24 +7,24 @@
   apt: name=genisoimage
 
 - name: download wildfly
-  get_url: url=http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
-           dest=/tmp/wildfly-8.1.0.Final.tar.gz
+  get_url: url=http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz
+           dest=/tmp/wildfly-8.2.0.Final.tar.gz
 
 # wildfly runs under a special user
 # - name: create a wildfly user
 #   shell: adduser --system --group --no-create-home --home /opt/wildfly --uid 35 --quiet --disabled-login wildfly || true
 
 - name: install wildfly
-  unarchive: src=/tmp/wildfly-8.1.0.Final.tar.gz
+  unarchive: src=/tmp/wildfly-8.2.0.Final.tar.gz
              copy=no
              dest={{ wildfly_prefix }}
              owner={{ wildfly_user }} group={{ wildfly_group }}
-             creates={{ wildfly_prefix }}/wildfly-8.1.0.Final/standalone/configuration/standalone-full.xml
+             creates={{ wildfly_prefix }}/wildfly-8.2.0.Final/standalone/configuration/standalone-full.xml
   register: install_wildfly
 
 - name: create a symlink
   file: path={{ wildfly_prefix }}/wildfly
-        src={{ wildfly_prefix }}/wildfly-8.1.0.Final
+        src={{ wildfly_prefix }}/wildfly-8.2.0.Final
         owner={{ wildfly_user }} group={{ wildfly_group }}
         state=link
 
