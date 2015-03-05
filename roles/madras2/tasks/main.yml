@@ -67,6 +67,7 @@
     - { name: '/mnt/a03/split', src: 'a03:/disk/sdb1/madras2/split'}
     - { name: '/mnt/miloun/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
     - { name: '/mnt/miloun/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
+    - { name: '/mnt/miloun/recording', src: 'miloun:/mnt/studio/studio/madras2/recording'}
 
 # FIXME: this fails because root apparently cannot mount this
 # - name: mount the archive for other productions
@@ -82,6 +83,7 @@
     - { path: '/var/spool/agadir/other', src: '/mnt/a03/d14' }
     - { path: '/var/lib/mdr2/structured', src: '/mnt/miloun/structured' }
     - { path: '/var/lib/mdr2/recorded', src: '/mnt/miloun/recorded' }
+    - { path: '/var/lib/mdr2/recording', src: '/mnt/miloun/recording' }
     - { path: '/var/lib/mdr2/encoded', src: '/mnt/a03/encoded' }
     - { path: '/var/lib/mdr2/iso', src: '/mnt/a03/iso' }
     - { path: '/var/lib/mdr2/split', src: '/mnt/a03/split' }
