@@ -2,3 +2,6 @@
 wildfly_prefix: /usr/local
 wildfly_user: madras2
 wildfly_group: dtb
+java_initial_memory: 512m
+java_maximum_memory: 2048m
+java_user_timezone: UTC

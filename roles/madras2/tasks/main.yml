@@ -29,10 +29,8 @@
         state=link
 
 - name: make sure wildfly gets enough memory
-  lineinfile: dest={{ wildfly_prefix }}/wildfly/bin/standalone.conf
-              regexp='^(.*)Xms(\d+)m -Xmx(\d+)m(.*)$'
-              line='\1Xms512m -Xmx2048m\4'
-              backrefs=yes
+  template: src=standalone.conf.j2
+            dest={{ wildfly_prefix }}/wildfly/bin/standalone.conf
 
 - name: create wildfly defaults file
   template: src=wildfly.conf.j2
