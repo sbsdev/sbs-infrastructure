@@ -47,11 +47,6 @@
 - name: add an admin user to be able to access the wildfly admin console
   shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}"
 
-- name: create config file
-  template: src=standalone-full.xml.j2
-            dest={{ wildfly_prefix }}/wildfly/standalone/configuration/standalone-full.xml
-  when: install_wildfly.changed
-
 - name: create spool directory for outgoing files to ABACUS
   file: path=/var/spool/abacus state=directory
         owner={{ wildfly_user }} group={{ wildfly_group }}
@@ -89,12 +84,26 @@
 - name: start the wildfly service
   service: name=wildfly state=started
 
-# - name: copy madras application
-#   copy: src=/home/eglic/src/mdr2/target/mdr2.war dest=/tmp/mdr2.war
+- name: download database driver
+  get_url: url=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar
+           dest=/tmp/mysql-connector-java-5.1.35.jar
+
+- name: deploy the database driver
+  jboss: src=/tmp/mysql-connector-java-5.1.35.jar
+         deployment=mysql-connector-java-5.1.35.jar
+         deploy_path={{ wildfly_prefix }}/wildfly/standalone/deployments
+
+- name: create config file for wildfly cli
+  template: src=configure_wildfly_standalone.cli.j2
+            dest=/tmp/configure_wildfly_standalone.cli
+
+- name: configure system properties and datasources
+  command: "{{ wildfly_prefix }}/wildfly/bin/jboss-cli.sh --file=/tmp/configure_wildfly_standalone.cli"
 
 # - name: deploy madras application
 #   jboss: src=/tmp/mdr2.war deployment=mdr2.war state=present
 #          deploy_path={{ wildfly_prefix }}/wildfly/standalone/deployments
 
-- name: deploy madras application
-  copy: src=/home/eglic/src/mdr2/target/mdr2.war dest=/opt/wildfly/standalone/deployments/mdr2.war
+# - name: deploy madras application
+#   copy: src=/home/eglic/src/mdr2/target/mdr2.war
+#         dest={{ wildfly_prefix }}/wildfly/standalone/deployments/mdr2.war
