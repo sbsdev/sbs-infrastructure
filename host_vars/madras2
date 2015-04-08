@@ -7,7 +7,7 @@ database_name: madras2
 database_port: 3309
 database_user: madras2
 archive_spool_dir: /var/spool/agadir/books
-archive_periodical_spool_dir: /var/spool/agadir/other
+archive_periodical_spool_dir: /var/spool/agadir/periodicals
 archive_other_spool_dir: /var/spool/agadir/other
 archive_database_server: db.sbszh.ch
 archive_database_name: agadir
