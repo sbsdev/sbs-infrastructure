@@ -1,6 +1,6 @@
 # SBS infrastructure
 
-[Ansible playbook][] to install a [Daisyproducer][] and a Madreas server.
+[Ansible playbook][] to install a [Daisyproducer][] and a Madras2 server.
 
 ## Deployment
 
