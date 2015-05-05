@@ -35,6 +35,7 @@
       git: repo=git://github.com/sbsdev/daisyproducer.git 
            dest={{ daisyproducer_app_path }}
            accept_hostkey=yes
+           force=yes
       register: install_daisyproducer
       notify:
         - restart apache
