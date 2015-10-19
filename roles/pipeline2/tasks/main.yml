@@ -11,7 +11,7 @@
   register: copy_deb
 
 - name: install pipeline2
-  shell: DEBIAN_FRONTEND=noninteractive dpkg -i "/tmp/{{ pipeline2_deb }}"
+  shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
   when: copy_deb.changed
 
 - name: set REMOTE=false for pipeline2
