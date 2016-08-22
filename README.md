@@ -27,6 +27,14 @@ To deploy to the madras test server run
 ansible-playbook -i test -K --vault-password-file .vault_pass.txt madras2.yml
 ```
 
+### Pipeline
+
+To deploy to the pipeline test server run
+
+```
+ansible-playbook -i test -K --vault-password-file .vault_pass.txt pipeline.yml
+```
+
 ## Edit Passwords
 
 ```

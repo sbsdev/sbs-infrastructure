@@ -1,0 +1,54 @@
+---
+- hosts: pipeline
+  sudo: yes
+  vars_files:
+    - "vars/passwords.yml"
+  tasks:
+    - name: enable jessie backports
+      apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main'
+
+    - name: install Java8
+      apt: name=openjdk-8-jre
+
+    - name: copy deb
+      copy: src="{{ pipeline2_deb }}" dest=/tmp
+
+    - name: install pipeline2
+      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
+
+    - name: remove database
+      file: path="{{ daisy_pipeline2_path }}" state=absent
+
+    - name: set REMOTE=false for pipeline2
+      lineinfile: dest=/etc/default/pipeline2d
+                  line='REMOTE=false'
+      notify:
+        - restart pipeline2
+
+    - name: set memory for pipeline2
+      lineinfile: dest=/etc/default/pipeline2d
+                  line='export JAVA_MAX_MEM=2G'
+      notify:
+        - restart pipeline2
+
+    # - name: set liblouis.external to true
+    #   # not sure if this is really needed. AFAIK liblouis comes with the
+    #   # braille modules. See
+    #   # https://github.com/sbsdev/deployment/blob/master/src/plans/pipeline2.clj#L31
+    #   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+    #               line='org.daisy.pipeline.liblouis.external=true'
+
+    - name: copy webui deb
+      copy: src="{{ pipeline2_webui_deb }}" dest=/tmp
+
+    - name: install webui
+      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_webui_deb }}"
+      notify:
+        - restart pipeline2_webui
+
+  handlers:
+    - name: restart pipeline2
+      service: name=pipeline2d state=restarted
+
+    - name: restart pipeline2_webui
+      service: name=daisy-pipeline2-webui state=restarted
