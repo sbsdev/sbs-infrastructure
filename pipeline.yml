@@ -46,6 +46,14 @@
       notify:
         - restart pipeline2_webui
 
+    - name: copy sbs module deb
+      copy: src="{{ sbs_module_deb }}" dest=/tmp
+
+    - name: install sbs modules
+      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ sbs_module_deb }}"
+      notify:
+        - restart pipeline2_webui
+
   handlers:
     - name: restart pipeline2
       service: name=pipeline2d state=restarted
