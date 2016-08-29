@@ -16,6 +16,12 @@
     - name: install lame
       apt: name=lame
 
+    # in some cases it is beneficial to remove the pipeline database
+    # (to get rid of old jobs, etc). But this causes problems when the
+    # deb isn't actually reinstalled and we restart the service.
+    # - name: remove database
+    #   file: path=/var/opt/daisy-pipeline2 state=absent
+
     - name: copy deb
       copy: src="{{ pipeline2_deb }}" dest=/tmp
 
