@@ -13,6 +13,9 @@
     - name: set java to the right version
       alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
+    - name: install lame
+      apt: name=lame
+
     - name: copy deb
       copy: src="{{ pipeline2_deb }}" dest=/tmp
 
