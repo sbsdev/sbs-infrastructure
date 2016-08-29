@@ -22,9 +22,6 @@
     - name: install pipeline2
       shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
 
-    - name: remove database
-      file: path="{{ daisy_pipeline2_path }}" state=absent
-
     - name: set REMOTE=false for pipeline2
       lineinfile: dest=/etc/default/pipeline2d
                   line='REMOTE=false'
