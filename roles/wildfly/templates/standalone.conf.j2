@@ -1,0 +1,21 @@
+## -*- shell-script -*- ######################################################
+##                                                                          ##
+##  JBoss Bootstrap Script Configuration                                    ##
+##                                                                          ##
+##############################################################################
+
+if [ "x$JBOSS_MODULES_SYSTEM_PKGS" = "x" ]; then
+   JBOSS_MODULES_SYSTEM_PKGS="org.jboss.byteman"
+fi
+
+#
+# Specify options to pass to the Java VM.
+#
+if [ "x$JAVA_OPTS" = "x" ]; then
+   JAVA_OPTS="-Xms{{ java_initial_memory }} -Xmx{{ java_maximum_memory }} -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+   JAVA_OPTS="$JAVA_OPTS -Duser.timezone={{ java_user_timezone }}"
+   JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
+else
+   echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
+fi
+

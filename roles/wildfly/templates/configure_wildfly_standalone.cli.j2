@@ -1,0 +1,18 @@
+# $WILDFLY_HOME/bin/jboss-cli.sh --file=/path/to/this/file.
+connect
+batch
+
+## Create a module
+module add --name=com.mysql --resources=/tmp/mysql-connector-java-{{ mysql_connector_version }}.jar --dependencies=javax.api,javax.transaction.api
+
+## Add JDBC driver
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-class-name=com.mysql.jdbc.Driver,driver-xa-datasource-class-name=com.mysql.jdbc.jdbc2.optional.MysqlXADataSource)
+
+## Make the management web interface visible
+/interface=management:undefine-attribute(name=inet-address)
+/interface=management:write-attribute(name=any-address,value=true)
+/interface=public:undefine-attribute(name=inet-address)
+/interface=public:write-attribute(name=any-address,value=true)
+
+reload
+run-batch
