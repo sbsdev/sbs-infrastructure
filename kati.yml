@@ -1,0 +1,10 @@
+---
+- hosts: kati
+  sudo: yes
+  vars_files:
+    - "vars/passwords.yml"
+  roles:
+    - wildfly
+
+# configure the datasource manually
+
