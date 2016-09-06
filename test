@@ -1,8 +1,5 @@
 [daisyproducer]
 xmlp-test
 
-[madras2]
-madras2
-
 [pipeline]
 pipeline.sbs.ch
