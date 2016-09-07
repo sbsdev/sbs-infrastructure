@@ -12,10 +12,18 @@ fi
 # Specify options to pass to the Java VM.
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
-   JAVA_OPTS="-Xms{{ java_initial_memory }} -Xmx{{ java_maximum_memory }} -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
-   JAVA_OPTS="$JAVA_OPTS -Duser.timezone={{ java_user_timezone }}"
+   JAVA_OPTS="-Xms{{ java_initial_memory }} -Xmx{{ java_maximum_memory }} -XX:MetaspaceSize={{ java_metaspace_size }} -XX:MaxMetaspaceSize={{ java_maximum_metaspace_size }} -Djava.net.preferIPv4Stack=true"
    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
 else
    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
 fi
+
+# Sample JPDA settings for shared memory debugging
+#JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_shmem,server=y,suspend=n,address=jboss"
+
+# Uncomment to gather JBoss Modules metrics
+#JAVA_OPTS="$JAVA_OPTS -Djboss.modules.metrics=true"
+
+# Uncomment this to run with a security manager enabled
+# SECMGR="true"
 
