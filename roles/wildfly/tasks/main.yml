@@ -24,7 +24,8 @@
              copy=no
              dest={{ wildfly_prefix }}
              owner={{ wildfly_user }} group={{ wildfly_group }}
-             creates={{ wildfly_prefix }}/{{ wildfly_version }}/standalone/configuration/standalone-full.xml
+             creates={{ wildfly_prefix }}/wildfly-{{ wildfly_version }}/standalone/configuration/standalone-full.xml
+  register: install_wildfly
 
 - name: create a symlink
   file: path={{ wildfly_prefix }}/wildfly
@@ -64,4 +65,4 @@
 
 - name: configure system properties and datasources
   command: "{{ wildfly_prefix }}/wildfly/bin/jboss-cli.sh --file=/tmp/configure_wildfly_standalone.cli"
-
+  when: install_wildfly.changed
