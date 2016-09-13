@@ -6,5 +6,20 @@
   roles:
     - wildfly
 
-# configure the datasource manually
+  tasks:
+    - name: copy stone font debian package
+      copy: src=ttf-stonesans_0.1-1_all.deb dest=/tmp
+
+    - name: install stone font debian package
+      apt: deb=/tmp/ttf-stonesans_0.1-1_all.deb
+
+    - name: install other fonts
+      apt: name={{ item }}
+      with_items:
+        - ttf-mscorefonts-installer
+        - ttf-tiresias
+
+    - name: configure the datasource manually
+      debug: msg="Configure the datasources"
+
 
