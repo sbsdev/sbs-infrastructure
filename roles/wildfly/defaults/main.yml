@@ -4,8 +4,8 @@ wildfly_url: http://download.jboss.org/wildfly/{{ wildfly_version }}/wildfly-{{ 
 wildfly_prefix: /usr/local
 wildfly_user: wildfly
 wildfly_group: dtb
-java_initial_memory: 512m
-java_maximum_memory: 2048m
+java_initial_memory: 1G
+java_maximum_memory: 2G
 java_metaspace_size: 384M
 java_maximum_metaspace_size: 512M
 java_user_timezone: UTC
