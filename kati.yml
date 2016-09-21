@@ -22,4 +22,14 @@
     - name: configure the datasource manually
       debug: msg="Configure the datasources"
 
+    - name: deploy war manually using the admin web interface
+      debug: msg="deploy the war manually using the admin web interface"
+
+    # - name: copy war
+    #   copy: src=catalog.war dest=/tmp/catalog.war
+
+    # - name: deploy application
+    #   jboss: src=/tmp/catalog.war
+    #          deployment=catalog.war
+    #          deploy_path=/usr/local/wildfly/standalone/deployments
 
