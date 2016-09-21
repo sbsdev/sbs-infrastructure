@@ -6,7 +6,7 @@ wildfly_user: wildfly
 wildfly_group: dtb
 java_initial_memory: 512m
 java_maximum_memory: 2048m
-java_metaspace_size: 96M
-java_maximum_metaspace_size: 256M
+java_metaspace_size: 384M
+java_maximum_metaspace_size: 512M
 java_user_timezone: UTC
 mysql_connector_version: 5.1.39
