@@ -3,12 +3,12 @@
   become: true
   vars_files:
     - "vars/passwords.yml"
-  
+
   roles:
     - pipeline1
 
   tasks:
-    
+
     - name: copy debs
       copy: src="files/{{ item }}" dest=/tmp
       with_items: debs
@@ -19,7 +19,7 @@
     # most dependencies are packaged as debs
     - name: install debs
       # this should really work with the apt module but alas it doesn't
-      # apt: deb="/tmp/{{ item }}" 
+      # apt: deb="/tmp/{{ item }}"
       command: dpkg --skip-same-version -i "/tmp/{{ item }}"
       with_items: debs
       notify:
@@ -32,7 +32,7 @@
 
     # install the daisyproducer web app
     - name: pull daisyproducer from git
-      git: repo=https://github.com/sbsdev/daisyproducer.git 
+      git: repo=https://github.com/sbsdev/daisyproducer.git
            dest={{ daisyproducer_app_path }}
            force=yes
       register: install_daisyproducer
@@ -40,7 +40,7 @@
         - restart apache
 
     - name: adapt local settings for daisyproducer
-      template: src=templates/settings_local.j2 
+      template: src=templates/settings_local.j2
                 dest={{ daisyproducer_app_path }}/daisyproducer/settings_local.py
                 backup=yes
                 mode=644
@@ -56,7 +56,7 @@
 
     - name: fix daisyproducer app path in abacus_import cron job
       lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData
-                  regexp='^INSTALLDIR=/path/to/daisyproducer$' 
+                  regexp='^INSTALLDIR=/path/to/daisyproducer$'
                   line='INSTALLDIR={{ daisyproducer_app_path }}'
       when: install_daisyproducer.changed
 
@@ -69,12 +69,12 @@
 
     - name: fix daisyproducer app path in clean_excess_document_versions cron job
       lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions
-                  regexp='^INSTALLDIR=/path/to/daisyproducer$' 
+                  regexp='^INSTALLDIR=/path/to/daisyproducer$'
                   line='INSTALLDIR={{ daisyproducer_app_path }}'
       when: install_daisyproducer.changed
 
     - name: add a cron job to clean out excess old versions
-      cron: name="Clean out old versions from the database and the file system" 
+      cron: name="Clean out old versions from the database and the file system"
             special_time=weekly
             cron_file="daisyproducerCleanOldVersions"
             user="www-data"
