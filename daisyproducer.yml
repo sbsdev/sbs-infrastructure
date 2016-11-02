@@ -32,9 +32,8 @@
 
     # install the daisyproducer web app
     - name: pull daisyproducer from git
-      git: repo=git://github.com/sbsdev/daisyproducer.git 
+      git: repo=https://github.com/sbsdev/daisyproducer.git 
            dest={{ daisyproducer_app_path }}
-           accept_hostkey=yes
            force=yes
       register: install_daisyproducer
       notify:
