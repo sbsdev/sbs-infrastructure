@@ -1,6 +1,6 @@
 ---
 - hosts: pipeline
-  sudo: yes
+  become: true
   vars_files:
     - "vars/passwords.yml"
   tasks:
