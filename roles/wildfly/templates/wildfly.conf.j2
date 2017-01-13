@@ -3,7 +3,8 @@
 # default location: /etc/default/wildfly
 
 ## Location of JDK
-JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+{# Debian Wheezy (i.e. Debian 7) only has Java 7 #}
+JAVA_HOME="/usr/lib/jvm/java-{% if ansible_lsb.major_release|int >= 8 %}8{% else %}7{% endif %}-openjdk-amd64"
 
 ## Location of WildFly
 JBOSS_HOME="{{ wildfly_prefix }}/wildfly"
