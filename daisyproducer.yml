@@ -6,6 +6,7 @@
 
   roles:
     - pipeline1
+    - { role: wildfly, wildfly_version: 8.2.1.Final }
 
   tasks:
 
