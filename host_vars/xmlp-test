@@ -11,3 +11,4 @@ debs:
   - sbs-braille-tables_1.8.3_all.deb
   - sbs-hyphenation-tables_1.19_all.deb
   - tcolorbox_2.51-5_all.deb
+  - hyphen-de-base_1.1-2_all.deb
