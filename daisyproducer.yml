@@ -32,6 +32,35 @@
     - name: make sure we have /usr/share/libhyphen/substrings.pl
       apt: name=libhyphen-dev
 
+    - name: create a directory for the generated hyphenation tables
+      file:
+        path: /usr/share/hyphen/generated
+        state: directory
+        mode: 0755
+        owner: wildfly
+        group: wildfly
+
+    - name: Move the existing hyphen dicts to the generated directory
+      copy:
+        src: '/usr/share/hyphen/{{ item }}'
+        dest: '/usr/share/hyphen/generated/{{ item }}'
+        remote_src: True
+        owner: wildfly
+        group: wildfly
+      with_items:
+        - "hyph_de_DE.dic"
+        - "hyph_de_DE_OLDSPELL.dic"
+
+    - name: replace old hyphen dicts with links to the generated ones
+      file:
+        path: '/usr/share/hyphen/{{ item }}'
+        src: '/usr/share/hyphen/generated/{{ item }}'
+        state: link
+        force: yes
+      with_items:
+        - "hyph_de_DE.dic"
+        - "hyph_de_DE_OLDSPELL.dic"
+
     # install the daisyproducer web app
     - name: pull daisyproducer from git
       git: repo=https://github.com/sbsdev/daisyproducer.git
