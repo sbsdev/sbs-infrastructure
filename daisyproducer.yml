@@ -19,9 +19,7 @@
 
     # most dependencies are packaged as debs
     - name: install debs
-      # this should really work with the apt module but alas it doesn't
-      # apt: deb="/tmp/{{ item }}"
-      command: dpkg --skip-same-version -i "/tmp/{{ item }}"
+      apt: deb="/tmp/{{ item }}"
       with_items: debs
       notify:
         - restart apache
