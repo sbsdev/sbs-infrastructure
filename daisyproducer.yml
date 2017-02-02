@@ -29,6 +29,9 @@
       notify:
         - restart apache
 
+    - name: make sure we have /usr/share/libhyphen/substrings.pl
+      apt: name=libhyphen-dev
+
     # install the daisyproducer web app
     - name: pull daisyproducer from git
       git: repo=https://github.com/sbsdev/daisyproducer.git
