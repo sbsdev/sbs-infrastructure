@@ -12,15 +12,9 @@
   alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
   when: ansible_lsb.major_release|int >= 8
 
-# on Debian Wheezy just install Java 7 and hope the requested Wildfly
-# version works with it
-
-- name: install Java7
-  apt: name=openjdk-7-jre
-  when: ansible_lsb.major_release|int < 8
-
-- name: set java to the right version
-  alternatives: name=java path=/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+# on Debian Wheezy install Java 8 manually
+- name: install Java 8 manually
+  debug: msg="On old Debian versions install Java 8 manually"
   when: ansible_lsb.major_release|int < 8
 
 - name: download wildfly

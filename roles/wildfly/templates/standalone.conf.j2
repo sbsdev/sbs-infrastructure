@@ -12,8 +12,7 @@ fi
 # Specify options to pass to the Java VM.
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
-   {# Debian Wheezy (i.e. Debian 7) doesn't have Java 8, so MetaspaceSize will not work #}
-   JAVA_OPTS="-Xms{{ java_initial_memory }} -Xmx{{ java_maximum_memory }} {% if ansible_lsb.major_release|int >= 8 %}-XX:MetaspaceSize={{ java_metaspace_size }} -XX:MaxMetaspaceSize={{ java_maximum_metaspace_size }}{% endif %} -Djava.net.preferIPv4Stack=true"
+   JAVA_OPTS="-Xms{{ java_initial_memory }} -Xmx{{ java_maximum_memory }} -XX:MetaspaceSize={{ java_metaspace_size }} -XX:MaxMetaspaceSize={{ java_maximum_metaspace_size }} -Djava.net.preferIPv4Stack=true"
    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
 else
    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
