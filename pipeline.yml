@@ -67,7 +67,7 @@
 
   handlers:
     - name: restart pipeline2
-      service: name=pipeline2d state=restarted
+      service: name=daisy-pipeline2 state=restarted
 
     - name: restart pipeline2_webui
       service: name=daisy-pipeline2-webui state=restarted
