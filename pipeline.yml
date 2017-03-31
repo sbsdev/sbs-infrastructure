@@ -26,7 +26,9 @@
       copy: src="{{ pipeline2_deb }}" dest=/tmp
 
     - name: install pipeline2
-      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
+      apt: deb="/tmp/{{ pipeline2_deb }}"
+      notify:
+        - restart pipeline2
 
     - name: set REMOTE=false for pipeline2
       lineinfile: dest=/etc/default/pipeline2d
@@ -51,7 +53,7 @@
       copy: src="{{ sbs_module_deb }}" dest=/tmp
 
     - name: install sbs modules
-      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ sbs_module_deb }}"
+      apt: deb="/tmp/{{ sbs_module_deb }}"
       notify:
         - restart pipeline2
 
@@ -59,7 +61,7 @@
       copy: src="{{ pipeline2_webui_deb }}" dest=/tmp
 
     - name: install webui
-      shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_webui_deb }}"
+      apt: deb="/tmp/{{ pipeline2_webui_deb }}"
       notify:
         - restart pipeline2_webui
 
