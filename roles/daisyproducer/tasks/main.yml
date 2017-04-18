@@ -1,0 +1,38 @@
+---
+
+- name: install Apache
+  apt: name=apache2
+
+- name: enable relevant apache modules
+  apache2_module: name={{ item }}
+  with_items:
+    - wsgi
+    - proxy
+    - proxy_http
+    - rewrite
+  notify:
+    - restart apache
+
+- name: install required packages
+  apt: name={{ item }}
+  with_items:
+    - python
+    - python-django
+    - python-lxml
+    - python-docutils
+    - python-libxml2
+    - python-libxslt1
+    - python-pypdf
+    - python-stdnum
+    - sun-java6-jre
+    - texlive-xetex
+    - texlive-latex-extra
+    - texlive-latex-recommended
+    - texlive-lang-german
+    - latexmk
+    - ttf-tiresias
+    - lmodern
+    - xsltproc
+    - jing
+    - unzip
+    - python-cmislib
