@@ -11,7 +11,7 @@
   register: copy_deb
 
 - name: install pipeline1
-  command: dpkg --skip-same-version -i "/tmp/{{ pipeline1_deb }}"
+  apt: deb="/tmp/{{ pipeline1_deb }}"
   when: copy_deb.changed
 
 # copy the sbs specific dtbook2latex so that it is picked up by the transformer
