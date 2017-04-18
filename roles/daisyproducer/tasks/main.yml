@@ -1,7 +1,17 @@
 ---
 
-- name: install Apache
-  apt: name=apache2
+- name: install required packages
+  apt: name={{ item }}
+  with_items: required_debs
+
+# Unfortunately cmislib is only avalibable as a deb in testing, so
+# install it from pypi
+- name: install cmislib from pypi
+  pip: name=cmislib
+
+- name: install Apache and modules
+  apt: name={{ item }}
+  with_items: apache_debs
 
 - name: enable relevant apache modules
   apache2_module: name={{ item }}
@@ -13,26 +23,50 @@
   notify:
     - restart apache
 
-- name: install required packages
-  apt: name={{ item }}
-  with_items:
-    - python
-    - python-django
-    - python-lxml
-    - python-docutils
-    - python-libxml2
-    - python-libxslt1
-    - python-pypdf
-    - python-stdnum
-    - sun-java6-jre
-    - texlive-xetex
-    - texlive-latex-extra
-    - texlive-latex-recommended
-    - texlive-lang-german
-    - latexmk
-    - ttf-tiresias
-    - lmodern
-    - xsltproc
-    - jing
-    - unzip
-    - python-cmislib
+# install liblouis
+
+# install pipeline1
+
+# install daisyproducer
+- name: pull daisyproducer from git
+  git: repo=https://github.com/sbsdev/daisyproducer.git
+       dest={{ daisyproducer_app_path }}
+       force=yes
+  register: install_daisyproducer
+  notify:
+    - restart apache
+
+- name: build localized daisyproducer messages
+  django_manage: command=compilemessages app_path={{ daisyproducer_app_path }}
+  when: install_daisyproducer.changed
+
+- name: migrate daisyproducer db
+  django_manage: command=migrate app_path={{ daisyproducer_app_path }}
+  when: install_daisyproducer.changed
+
+- name: fix daisyproducer app path in abacus_import cron job
+  lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData
+              regexp='^INSTALLDIR=/path/to/daisyproducer$'
+              line='INSTALLDIR={{ daisyproducer_app_path }}'
+  when: install_daisyproducer.changed
+
+- name: add a cron job to run the daisyproducer ABACUS import
+  cron: name="run the daisyproducer ABACUS import every 10 minutes on weekdays"
+        minute="*/10" hour="6-20" weekday="1-5"
+        cron_file="daisyproducerImportABACUSProductData"
+        user="www-data"
+        job="{{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData > /dev/null 2>&1"
+
+- name: fix daisyproducer app path in clean_excess_document_versions cron job
+  lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions
+              regexp='^INSTALLDIR=/path/to/daisyproducer$'
+              line='INSTALLDIR={{ daisyproducer_app_path }}'
+  when: install_daisyproducer.changed
+
+- name: add a cron job to clean out excess old versions
+  cron: name="Clean out old versions from the database and the file system"
+        special_time=weekly
+        cron_file="daisyproducerCleanOldVersions"
+        user="www-data"
+        job="{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+

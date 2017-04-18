@@ -9,17 +9,21 @@ required_debs:
   - python-pypdf
   - python-stdnum
   - default-jre
-  - texlive-xetex
+  - texlive-xetex # contains ucharclasses
   - texlive-latex-extra
   - texlive-latex-recommended
   - texlive-lang-german
   - latexmk
   - ttf-tiresias
+  - ttf-mscorefonts-installer # for arial font in large print
   - lmodern
   - xsltproc
   - jing
   - unzip
-  - python-cmislib
+  - mysql-client
+  - python-mysqldb
+  - openoffice.org-hyphenation-de # hyphenation patterns
+  - python-httplib2 # for talking to alfresco (abacus_import)
 
 apache_debs:
   - apache2
