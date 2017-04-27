@@ -49,19 +49,28 @@
   template: src=wildfly.conf.j2
             dest=/etc/default/wildfly
 
-- name: create startup script
-  template: src=wildfly-init-debian.sh.j2
-            dest=/etc/init.d/wildfly
-            mode=0755
+- name: create the runit startup scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/sv/wildfly/{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - {src: wildfly-sv-run.j2, dest: run}
+    - {src: wildfly-sv-finish.j2, dest: finish}
 
+# FIXME: use the runit module for this once we upgrade to Ansible 2.3
 - name: enable the wildfly service
-  service: name=wildfly enabled=yes
+  file:
+    path: "/var/service/wildfly"
+    src: "/etc/sv/wildfly"
+    state: "link"
 
 - name: add an admin user to be able to access the wildfly admin console
   shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ wildfly_admin_user }} -p {{ wildfly_admin_password }}"
 
+# FIXME: use the runit module for this once we upgrade to Ansible 2.3
 - name: start the wildfly service
-  service: name=wildfly state=started
+  command: sv restart wildfly
 
 - name: download database driver
   get_url: url=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}.jar
