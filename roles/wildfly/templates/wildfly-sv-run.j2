@@ -1,0 +1,18 @@
+#!/bin/sh
+
+[ -r conf ] && . ./conf
+
+NAME=wildfly
+DESC="WildFly Application Server"
+DEFAULT="/etc/default/$NAME"
+# Make sure wildfly is started with system locale
+if [ -r /etc/default/locale ]; then
+        . /etc/default/locale
+        export LANG
+fi
+# Overwrite settings from default file
+if [ -f "$DEFAULT" ]; then
+        . "$DEFAULT"
+fi
+
+exec su - {{ wildfly_user }} -c "/bin/sh $JBOSS_HOME/bin/standalone.sh -c $JBOSS_CONFIG"
