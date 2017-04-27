@@ -1,0 +1,38 @@
+---
+- name: download liblouis
+  get_url:
+    url: "https://github.com/liblouis/liblouis/releases/download/v{{ version }}/liblouis-{{ version }}.tar.gz"
+    dest: "/tmp/liblouis-{{ version }}.tar.gz"
+
+- name: Expand liblouis archive.
+  unarchive:
+    src: "/tmp/liblouis-{{ version }}.tar.gz"
+    dest: /tmp
+    creates: "/tmp/liblouis-{{ version }}/README"
+    copy: no
+
+- name: configure
+  command: ./configure --enable-ucs4
+  args:
+    chdir: "/tmp/liblouis-{{ version }}"
+    creates: "/tmp/liblouis-{{ version }}/liblouis/config.h"
+
+- name: build and install liblouis
+  command: make {{ item }}
+  args:
+    chdir: "/tmp/liblouis-{{ version }}"
+    creates: "/usr/local/bin/lou_checktable"
+  register: install_liblouis
+  with_items:
+    - all
+    - install
+
+- name: run ldconfig
+  command: ldconfig
+  when: install_liblouis.changed
+
+- name: install Python bindings
+  command: python setup.py install
+  args:
+    chdir: "/tmp/liblouis-{{ version }}/python"
+    creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ version }}.egg-info"
