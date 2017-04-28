@@ -24,13 +24,8 @@
   notify:
     - restart pipeline2
 
-- name: set client secret in cli
-  lineinfile: "dest=/etc/opt/daisy-pipeline2/config.yml
-               regexp='^client_secret: '
-               line='client_secret: {{ pipeline2_client_secret }}'"
-  notify:
-    - restart pipeline2
-
+# FIXME: is this still needed? Why do we need to set the client_secret
+# if we do not even install the cli client?
 - name: set client secret in server
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               regexp='^org.daisy.pipeline.ws.authentication.secret='
