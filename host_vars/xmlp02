@@ -1,0 +1,7 @@
+---
+daisyproducer_host: xmlp02.sbszh.ch
+daisyproducer_app_path: /srv/xmlp02.sbszh.ch/daisyproducer
+daisyproducer_db_name: daisyproducer_test
+daisyproducer_cmis_host: pam02.sbszh.ch
+daisyproducer_server_email: daisyproducer@xmlp02
+daisyproducer_debug: True
