@@ -12,4 +12,5 @@ galaxy_info:
       versions:
         - jessie
 
-dependencies: ['java8']
+dependencies:
+  - java8
