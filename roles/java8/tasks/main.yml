@@ -1,0 +1,19 @@
+---
+
+- name: enable jessie backports
+  apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main'
+
+- name: disable other java 8 repos
+  apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' state=absent
+
+- name: disable other java 8 src repos
+  apt_repository: repo='deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' state=absent
+
+- name: install Java8
+  apt: name=openjdk-8-jre
+
+- name: set java to the right version
+  alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+
+

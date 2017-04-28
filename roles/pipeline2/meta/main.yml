@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Christian Egli
+  description: Role to install Daisy Pipeline2
+  company: Swiss Library for the Blind, Visually Impaired and Print Disabled
+
+  license: GPLv3+
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+
+dependencies: ['java8']

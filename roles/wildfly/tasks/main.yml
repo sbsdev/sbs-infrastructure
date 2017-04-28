@@ -1,22 +1,5 @@
 ---
 
-- name: enable jessie backports
-  apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main'
-  when: ansible_lsb.major_release|int >= 8
-
-- name: install Java8
-  apt: name=openjdk-8-jre
-  when: ansible_lsb.major_release|int >= 8
-
-- name: set java to the right version
-  alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-  when: ansible_lsb.major_release|int >= 8
-
-# on Debian Wheezy install Java 8 manually
-- name: install Java 8 manually
-  debug: msg="On old Debian versions install Java 8 manually"
-  when: ansible_lsb.major_release|int < 8
-
 - name: download wildfly
   get_url: url={{ wildfly_url }}
            dest=/tmp/wildfly-{{ wildfly_version }}.tar.gz
