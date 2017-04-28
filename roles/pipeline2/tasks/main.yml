@@ -1,27 +1,25 @@
 ---
-
-- name: install Java7
-  apt: name=openjdk-7-jdk
-
-- name: pipeline2 needs a ruby interpreter
-  apt: name=ruby1.9.1
-
 - name: copy deb
   copy: src="{{ pipeline2_deb }}" dest=/tmp
-  register: copy_deb
 
 - name: install pipeline2
-  shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
-  when: copy_deb.changed
+  apt: deb="/tmp/{{ pipeline2_deb }}"
+
+# in some cases it is beneficial to remove the pipeline database
+# (to get rid of old jobs, etc). But this causes problems when the
+# deb isn't actually reinstalled and we restart the service.
+# - name: remove database
+#   file: path="{{ daisy_pipeline2_path }}"
+#         state=absent
 
 - name: set REMOTE=false for pipeline2
-  lineinfile: dest=/etc/default/pipeline2d
+  lineinfile: dest=/etc/default/daisy-pipeline2
               line='REMOTE=false'
   notify:
     - restart pipeline2
 
 - name: set memory for pipeline2
-  lineinfile: dest=/etc/default/pipeline2d
+  lineinfile: dest=/etc/default/daisy-pipeline2
               line='export JAVA_MAX_MEM=2G'
   notify:
     - restart pipeline2
