@@ -1,4 +1,5 @@
 ---
+daisyproducer_host: xmlp.sbszh.ch
 daisyproducer_app_path: /srv/demo.xmlp.sbszh.ch/daisyproducer
 daisyproducer_db_name: daisyproducer_prod
 daisyproducer_cmis_host: pam01.sbszh.ch
