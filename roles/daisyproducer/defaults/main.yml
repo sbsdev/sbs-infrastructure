@@ -1,7 +1,6 @@
 ---
 required_debs:
   - python
-  - python-django
   - python-lxml
   - python-docutils
   - python-libxml2
@@ -24,8 +23,6 @@ required_debs:
   - python-mysqldb
   - openoffice.org-hyphenation-de # hyphenation patterns
   - python-httplib2 # for talking to alfresco (abacus_import)
+  - gettext # to compile the Django translation strings
 
-apache_debs:
-  - apache2
-  - libapache2-mod-wsgi
 

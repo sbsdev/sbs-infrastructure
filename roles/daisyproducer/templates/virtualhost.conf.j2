@@ -1,0 +1,42 @@
+
+<VirtualHost *:80>
+    ServerAdmin sysadmin@sbszh.ch
+    ServerName {{ daisyproducer_host }}
+    ServerAlias {{ daisyproducer_host }}
+    ServerAlias {{ ansible_host }}
+
+    DocumentRoot /srv/{{ daisyproducer_host }}/
+    ErrorLog /var/log/apache2/{{ daisyproducer_host }}-error_log
+    CustomLog /var/log/apache2/{{ daisyproducer_host }}-access_log combined
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    # LogLevel info
+
+    HostnameLookups Off
+    UseCanonicalName Off
+    ServerSignature On
+
+    Alias /media/ /usr/share/python-django-common/django/contrib/admin/static/admin/
+
+    <Directory /usr/share/python-django-common/django/contrib/admin/static/admin/>
+        Require all granted
+    </Directory>
+
+    Alias /stylesheets/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/stylesheets/
+    Alias /javascripts/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/javascripts/
+    Alias /images/      /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/images/
+
+    <Directory /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer>
+        Require all granted
+    </Directory>
+
+    Alias /archive/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/archive/
+    Alias /schema/  /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/documents/schema/
+
+    RewriteEngine On
+    RewriteRule "^/hyphenations/(.*)" "http://{{ daisyproducer_host }}:8080/hyphenations/$1" [P]
+
+    WSGIScriptAlias / /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/daisyproducer.wsgi
+
+</VirtualHost>

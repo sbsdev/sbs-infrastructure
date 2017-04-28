@@ -1,0 +1,31 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '{{ daisyproducer_db_name }}',
+        'USER': 'daisyproducer',
+        'PASSWORD': '{{ daisyproducer_db_password }}',
+        'HOST': 'db.sbszh.ch',
+        'PORT': '3309',
+        'OPTIONS': {
+            #    "default-character-set": "utf8",
+            "charset": "utf8",
+            "init_command": "SET storage_engine=INNODB",
+            },
+        }
+    }
+
+ALLOWED_HOSTS = ['{{ daisyproducer_host }}']
+
+import os.path
+DAISY_PIPELINE_PATH = os.path.join('/', 'usr', 'lib', 'daisy-pipeline')
+EXTERNAL_PATH = os.path.join('/', 'opt')
+
+# CMIS
+CMIS_HOST = '{{ daisyproducer_cmis_host }}'
+CMIS_USER = 'DaisyProducer'
+CMIS_PASSWORD = '{{ daisyproducer_cmis_password }}'
+
+DEBUG = TEMPLATE_DEBUG = True
+
+SERVE_STATIC_FILES = False
+SERVER_EMAIL = '{{ daisyproducer_server_email }}'

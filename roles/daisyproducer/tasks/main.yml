@@ -1,31 +1,39 @@
 ---
 
+- name: enable jessie backports
+  apt_repository:
+    repo: 'deb http://ftp.debian.org/debian jessie-backports main'
+    filename: 'jessie-backports'
+
+- name: install python-django
+  apt:
+    name: 'python-django'
+    default_release: 'jessie-backports'
+
 - name: install required packages
   apt: name={{ item }}
-  with_items: required_debs
+  with_items: "{{ required_debs }}"
 
 # Unfortunately cmislib is only avalibable as a deb in testing, so
 # install it from pypi
+- name: install pip
+  apt: name=python-pip
+
 - name: install cmislib from pypi
   pip: name=cmislib
 
-- name: install Apache and modules
-  apt: name={{ item }}
-  with_items: apache_debs
+# install virtual host
+- name: install vhost
+  template:
+    src: virtualhost.conf.j2
+    dest: "/etc/apache2/sites-available/{{ ansible_host }}.sbszh.ch.conf"
 
-- name: enable relevant apache modules
-  apache2_module: name={{ item }}
-  with_items:
-    - wsgi
-    - proxy
-    - proxy_http
-    - rewrite
+- name: enable vhost
+  command: a2ensite {{ ansible_host }}.sbszh.ch.conf
+  args:
+    creates: /etc/apache2/sites-enabled/xmlp02.sbszh.ch.conf
   notify:
     - restart apache
-
-# install liblouis
-
-# install pipeline1
 
 # install daisyproducer
 - name: pull daisyproducer from git
@@ -36,8 +44,18 @@
   notify:
     - restart apache
 
+- name: adapt local settings for daisyproducer
+  template: src=templates/settings_local.py.j2
+            dest={{ daisyproducer_app_path }}/daisyproducer/settings_local.py
+            backup=yes
+            mode=644
+  when: install_daisyproducer.changed
+
 - name: build localized daisyproducer messages
-  django_manage: command=compilemessages app_path={{ daisyproducer_app_path }}
+  django_manage:
+    command: compilemessages
+    app_path: "{{ daisyproducer_app_path }}"
+    pythonpath: "{{ daisyproducer_app_path }}/daisyproducer"
   when: install_daisyproducer.changed
 
 - name: migrate daisyproducer db

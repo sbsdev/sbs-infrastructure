@@ -1,0 +1,6 @@
+dependencies:
+  - apache
+  - pipeline1
+  - pipeline2
+  - liblouis
+
