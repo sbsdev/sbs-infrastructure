@@ -1,3 +1,4 @@
 ---
 daisy_pipeline2_path: /opt/daisy-pipeline2/etc
 pipeline2_deb: daisy-pipeline2_1.10.1~20170331.152356-344db30_all.deb
+odt_module_deb: dtbook-to-odt_1.0.0-SNAPSHOT_all.deb
