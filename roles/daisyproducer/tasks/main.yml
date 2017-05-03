@@ -85,3 +85,9 @@
         user="www-data"
         job="{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
 
+- name: make sure archive is owned by www-data
+  file:
+    path: "{{ daisyproducer_app_path }}/daisyproducer/archive"
+    owner: www-data
+    group: www-data
+    mode: 0775
