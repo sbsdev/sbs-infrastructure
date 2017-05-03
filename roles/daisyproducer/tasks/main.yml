@@ -11,6 +11,19 @@
     default_release: "{{ item.default_release | default('jessie') }}"
   with_items: "{{ required_debs }}"
 
+- name: copy local debs
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  with_items: "{{ local_debs }}"
+
+- name: install local debs
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items: "{{ local_debs }}"
+  notify:
+    - restart apache
+
 # Unfortunately cmislib is only avalibable as a deb in testing, so
 # install it from pypi
 - name: install pip

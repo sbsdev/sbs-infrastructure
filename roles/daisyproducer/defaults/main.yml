@@ -25,6 +25,8 @@ required_debs:
   - {name: python-httplib2} # for talking to alfresco (abacus_import)
   - {name: gettext} # to compile the Django translation strings
   - {name: python-django, default_release: jessie-backports}
+local_debs:
+  - dtbook2sbsform-0.10.deb
 
 
 
