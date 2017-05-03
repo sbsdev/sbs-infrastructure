@@ -5,13 +5,10 @@
     repo: 'deb http://ftp.debian.org/debian jessie-backports main'
     filename: 'jessie-backports'
 
-- name: install python-django
-  apt:
-    name: 'python-django'
-    default_release: 'jessie-backports'
-
 - name: install required packages
-  apt: name={{ item }}
+  apt:
+    name: "{{ item.name }}"
+    default_release: "{{ item.default_release | default('jessie') }}"
   with_items: "{{ required_debs }}"
 
 # Unfortunately cmislib is only avalibable as a deb in testing, so
