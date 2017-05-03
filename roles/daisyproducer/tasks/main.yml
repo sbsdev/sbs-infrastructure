@@ -59,7 +59,6 @@
             dest={{ daisyproducer_app_path }}/daisyproducer/settings_local.py
             backup=yes
             mode=644
-  when: install_daisyproducer.changed
 
 - name: build localized daisyproducer messages
   django_manage:
