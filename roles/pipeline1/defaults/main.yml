@@ -1,2 +1,7 @@
 ---
-pipeline1_deb: daisy-pipeline_20150511-2_all.deb
+pipeline1_required_debs:
+  - default-jdk
+  - lame
+  - espeak
+pipeline1_local_debs:
+  - daisy-pipeline_20150511-2_all.deb

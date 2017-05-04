@@ -1,18 +1,19 @@
 ---
 
-- name: make sure we have default-jdk
-  apt: name=default-jdk
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ pipeline1_required_debs }}"
 
-- name: install lame
-  apt: name=lame
-
-- name: copy deb
-  copy: src="{{ pipeline1_deb }}" dest=/tmp
+- name: copy local debs
+  copy: src="{{ item }}" dest=/tmp
   register: copy_deb
+  with_items: "{{ pipeline1_local_debs }}"
 
-- name: install pipeline1
-  apt: deb="/tmp/{{ pipeline1_deb }}"
+- name: install local debs
+  apt: deb="/tmp/{{ item }}"
   when: copy_deb.changed
+  with_items: "{{ pipeline1_local_debs }}"
 
 # copy the sbs specific dtbook2latex so that it is picked up by the transformer
 - name: copy dtbook2latex_sbs.xsl
