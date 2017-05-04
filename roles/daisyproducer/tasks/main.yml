@@ -9,18 +9,18 @@
   apt:
     name: "{{ item.name }}"
     default_release: "{{ item.default_release | default('jessie') }}"
-  with_items: "{{ required_debs }}"
+  with_items: "{{ daisyproducer_required_debs }}"
 
 - name: copy local debs
   copy:
     src: "{{ item }}"
     dest: "/tmp"
-  with_items: "{{ local_debs }}"
+  with_items: "{{ daisyproducer_local_debs }}"
 
 - name: install local debs
   apt:
     deb: "/tmp/{{ item }}"
-  with_items: "{{ local_debs }}"
+  with_items: "{{ daisyproducer_local_debs }}"
   notify:
     - restart apache
 

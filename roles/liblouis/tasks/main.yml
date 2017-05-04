@@ -1,26 +1,26 @@
 ---
 - name: download liblouis
   get_url:
-    url: "https://github.com/liblouis/liblouis/releases/download/v{{ version }}/liblouis-{{ version }}.tar.gz"
-    dest: "/tmp/liblouis-{{ version }}.tar.gz"
+    url: "https://github.com/liblouis/liblouis/releases/download/v{{ liblouis_version }}/liblouis-{{ liblouis_version }}.tar.gz"
+    dest: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
 
 - name: Expand liblouis archive.
   unarchive:
-    src: "/tmp/liblouis-{{ version }}.tar.gz"
+    src: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
     dest: /tmp
-    creates: "/tmp/liblouis-{{ version }}/README"
+    creates: "/tmp/liblouis-{{ liblouis_version }}/README"
     copy: no
 
 - name: configure
   command: ./configure --enable-ucs4
   args:
-    chdir: "/tmp/liblouis-{{ version }}"
-    creates: "/tmp/liblouis-{{ version }}/liblouis/config.h"
+    chdir: "/tmp/liblouis-{{ liblouis_version }}"
+    creates: "/tmp/liblouis-{{ liblouis_version }}/liblouis/config.h"
 
 - name: build and install liblouis
   command: make {{ item }}
   args:
-    chdir: "/tmp/liblouis-{{ version }}"
+    chdir: "/tmp/liblouis-{{ liblouis_version }}"
     creates: "/usr/local/bin/lou_checktable"
   register: install_liblouis
   with_items:
@@ -34,8 +34,9 @@
 - name: install Python bindings
   command: python setup.py install
   args:
-    chdir: "/tmp/liblouis-{{ version }}/python"
-    creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ version }}.egg-info"
+    chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
+    creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ liblouis_version }}.egg-info"
+
 - name: copy sbs tables
   copy:
     src: "{{ item }}"
