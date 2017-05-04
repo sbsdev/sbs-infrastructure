@@ -85,17 +85,20 @@
         job="{{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData > /dev/null 2>&1"
 
 - name: fix daisyproducer app path in clean_excess_document_versions cron job
-  lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions
-              regexp='^INSTALLDIR=/path/to/daisyproducer$'
-              line='INSTALLDIR={{ daisyproducer_app_path }}'
+  lineinfile:
+    dest: "{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions"
+    regexp: "^INSTALLDIR=/path/to/daisyproducer$"
+    line: "INSTALLDIR={{ daisyproducer_app_path }}"
   when: install_daisyproducer.changed
 
 - name: add a cron job to clean out excess old versions
-  cron: name="Clean out old versions from the database and the file system"
-        special_time=weekly
-        cron_file="daisyproducerCleanOldVersions"
-        user="www-data"
-        job="{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+  cron:
+    name: "Clean out old versions from the database and the file system"
+    special_time: weekly
+    cron_file: "daisyproducerCleanOldVersions"
+    user: "www-data"
+    job: "{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+
 - name: add a daily cron job to write liblouis whitelist tables
   template:
     src: write_liblouis_tables.j2
