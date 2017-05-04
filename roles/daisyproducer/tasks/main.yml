@@ -96,6 +96,11 @@
         cron_file="daisyproducerCleanOldVersions"
         user="www-data"
         job="{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+- name: add a daily cron job to write liblouis whitelist tables
+  template:
+    src: write_liblouis_tables.j2
+    dest: /etc/cron.daily/write_liblouis_tables
+    mode: "0755"
 
 - name: make sure archive is owned by www-data
   file:
