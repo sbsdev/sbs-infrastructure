@@ -1,6 +1,6 @@
 galaxy_info:
   author: Christian Egli
-  description: Role to install Wildfly application server
+  description: Role to install Apache with wsgi
   company: Swiss Library for the Blind, Visually Impaired and Print Disabled
 
   license: GPLv3+
@@ -12,5 +12,3 @@ galaxy_info:
       versions:
         - jessie
 
-dependencies:
-  - java8

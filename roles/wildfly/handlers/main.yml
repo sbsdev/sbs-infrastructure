@@ -1,0 +1,5 @@
+---
+- name: restart wildfly
+  runit:
+    name: "wildfly"
+    state: "restarted"

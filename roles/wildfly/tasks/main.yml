@@ -41,19 +41,18 @@
     - {src: wildfly-sv-run.j2, dest: run}
     - {src: wildfly-sv-finish.j2, dest: finish}
 
-# FIXME: use the runit module for this once we upgrade to Ansible 2.3
 - name: enable the wildfly service
-  file:
-    path: "/var/service/wildfly"
-    src: "/etc/sv/wildfly"
-    state: "link"
+  runit:
+    name: "wildfly"
+    enabled: "yes"
 
 - name: add an admin user to be able to access the wildfly admin console
   shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ wildfly_admin_user }} -p {{ wildfly_admin_password }}"
 
-# FIXME: use the runit module for this once we upgrade to Ansible 2.3
 - name: start the wildfly service
-  command: sv restart wildfly
+  runit:
+    name: "wildfly"
+    state: "started"
 
 - name: download database driver
   get_url: url=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}.jar
@@ -66,3 +65,5 @@
 - name: configure system properties and datasources
   command: "{{ wildfly_prefix }}/wildfly/bin/jboss-cli.sh --file=/tmp/configure_wildfly_standalone.cli"
   when: install_wildfly.changed
+  notify:
+    restart wildfly

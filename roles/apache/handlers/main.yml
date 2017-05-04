@@ -1,5 +1,5 @@
 ---
 - name: restart apache
-  # FIXME: unfortunately the runit module is only available in Ansible 2.3.
-  # So we just invoke runit via command
-  command: sv restart apache
+  runit:
+    name: "apache"
+    state: "restarted"
