@@ -36,3 +36,15 @@
   args:
     chdir: "/tmp/liblouis-{{ version }}/python"
     creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ version }}.egg-info"
+- name: copy sbs tables
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  with_items: "{{ liblouis_local_debs }}"
+
+- name: install sbs tables
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items: "{{ liblouis_local_debs }}"
+  notify:
+    - restart apache
