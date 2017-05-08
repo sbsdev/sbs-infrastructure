@@ -15,6 +15,12 @@
   when: copy_deb.changed
   with_items: "{{ pipeline1_local_debs }}"
 
+- name: adapt the settings
+  template:
+    src: pipeline.user.properties.j2
+    dest: /usr/lib/daisy-pipeline/pipeline.user.properties
+    mode: 0644
+
 # copy the sbs specific dtbook2latex so that it is picked up by the transformer
 - name: copy dtbook2latex_sbs.xsl
   command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl
