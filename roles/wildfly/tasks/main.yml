@@ -38,8 +38,8 @@
     dest: "/etc/sv/wildfly/{{ item.dest }}"
     mode: 0755
   with_items:
-    - {src: wildfly-sv-run.j2, dest: run}
-    - {src: wildfly-sv-finish.j2, dest: finish}
+    - {src: runit-run.j2, dest: run}
+    - {src: runit-finish.j2, dest: finish}
 
 - name: enable the wildfly service
   runit:
