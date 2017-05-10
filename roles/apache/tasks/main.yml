@@ -21,3 +21,5 @@
   notify:
     - restart apache
 
+- name: create the runit startup scripts
+  include: runit.yml

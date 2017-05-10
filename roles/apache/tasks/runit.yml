@@ -1,0 +1,32 @@
+---
+
+- name: create the directory for the service
+  file:
+    path: /etc/sv/apache
+    state: directory
+    mode: 0755
+
+- name: create the supervise directories
+  file:
+    path: "{{ item }}/supervise"
+    state: directory
+    mode: 0700
+  with_items:
+    - /etc/sv/apache
+    - /etc/sv/apache/log
+
+- name: create the runit startup scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/sv/apache/{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - {src: runit-run.j2, dest: run}
+    - {src: runit-finish.j2, dest: finish}
+    - {src: runit-log-run.j2, dest: "log/run"}
+
+- name: enable the apache service
+  runit:
+    name: "apache"
+    enabled: "yes"
+
