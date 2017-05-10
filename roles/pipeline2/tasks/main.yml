@@ -43,6 +43,17 @@
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               line='org.daisy.pipeline.liblouis.external=true'
 
+- name: create the runit startup scripts
+  template:
+    src: runit-run.j2
+    dest: /etc/sv/daisy-pipeline2/run
+    mode: 0755
+
+- name: enable the daisy-pipeline2 service
+  runit:
+    name: "daisy-pipeline2"
+    enabled: "yes"
+
 # install odt pipeline module
 - name: copy odt pipeline module deb
   copy: src="{{ odt_module_deb }}" dest=/tmp
