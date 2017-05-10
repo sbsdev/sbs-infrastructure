@@ -13,14 +13,17 @@
 #         state=absent
 
 - name: set REMOTE=false for pipeline2
-  lineinfile: dest=/etc/default/daisy-pipeline2
-              line='REMOTE=false'
+  lineinfile:
+    path: /etc/default/daisy-pipeline2
+    regexp: "^#?REMOTE=(true|false)$"
+    line: 'REMOTE=false'
   notify:
     - restart pipeline2
 
 - name: set memory for pipeline2
-  lineinfile: dest=/etc/default/daisy-pipeline2
-              line='export JAVA_MAX_MEM=2G'
+  lineinfile:
+    path: /etc/default/daisy-pipeline2
+    line: 'export JAVA_MAX_MEM=2G'
   notify:
     - restart pipeline2
 
