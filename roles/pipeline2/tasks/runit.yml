@@ -1,0 +1,34 @@
+---
+
+- set_fact:
+    service_name: "daisy-pipeline2"
+
+- name: create the directory for the service
+  file:
+    path: "/etc/sv/{{ service_name }}"
+    state: directory
+    mode: 0755
+
+- name: create the supervise directories
+  file:
+    path: "/etc/sv/{{ item }}/supervise"
+    state: directory
+    mode: 0700
+  with_items:
+    - "{{ service_name }}"
+    - "{{ service_name }}/log"
+
+- name: create the runit startup scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/sv/{{ service_name }}/{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - {src: runit-run.j2, dest: run}
+    - {src: runit-log-run.j2, dest: "log/run"}
+
+- name: enable the service
+  runit:
+    name: "{{ service_name }}"
+    enabled: "yes"
+

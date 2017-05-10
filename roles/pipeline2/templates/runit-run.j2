@@ -15,4 +15,3 @@ SCRIPTNAME=/etc/init.d/$NAME
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 exec chpst -u ${DAEMON_USER}:${DAEMON_USER} $DAEMON 2>&1
-
