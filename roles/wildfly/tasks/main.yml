@@ -32,22 +32,11 @@
   template: src=wildfly.conf.j2
             dest=/etc/default/wildfly
 
-- name: create the runit startup scripts
-  template:
-    src: "{{ item.src }}"
-    dest: "/etc/sv/wildfly/{{ item.dest }}"
-    mode: 0755
-  with_items:
-    - {src: runit-run.j2, dest: run}
-    - {src: runit-finish.j2, dest: finish}
-
-- name: enable the wildfly service
-  runit:
-    name: "wildfly"
-    enabled: "yes"
-
 - name: add an admin user to be able to access the wildfly admin console
   shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ wildfly_admin_user }} -p {{ wildfly_admin_password }}"
+
+- name: create the runit startup scripts
+  include: runit.yml
 
 - name: start the wildfly service
   runit:
