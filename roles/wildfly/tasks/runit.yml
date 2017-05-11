@@ -9,14 +9,6 @@
     state: directory
     mode: 0755
 
-- name: create the supervise directories
-  file:
-    path: "/etc/sv/{{ item }}/supervise"
-    state: directory
-    mode: 0700
-  with_items:
-    - "{{ service_name }}"
-
 - name: create the runit startup scripts
   template:
     src: "{{ item.src }}"
