@@ -105,6 +105,14 @@
     dest: /etc/cron.daily/write_liblouis_tables
     mode: "0755"
 
+- name: ensure liblouis tables directory is writable by www-data
+  file:
+    path: /usr/local/share/liblouis/tables
+    state: directory
+    owner: root
+    group: www-data
+    mode: 02775 # new files should have the gid of the root directory
+
 - name: make sure archive is owned by www-data
   file:
     path: "{{ daisyproducer_app_path }}/daisyproducer/archive"
