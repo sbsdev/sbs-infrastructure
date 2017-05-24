@@ -3,6 +3,14 @@
 - set_fact:
     service_name: "daisy-pipeline2"
 
+# Before we enable runit we need to disable the other init system.
+# Otherwise we'll have two pipelines running
+- name: disable the other init system
+  systemd:
+    name: "{{ service_name }}"
+    state: stopped
+    masked: yes
+
 - name: create the directory for the service
   file:
     path: "/etc/sv/{{ service_name }}"
