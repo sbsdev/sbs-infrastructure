@@ -5,9 +5,12 @@
 
 - name: create the directory for the service
   file:
-    path: "/etc/sv/{{ service_name }}"
+    path: "/etc/sv/{{ item }}"
     state: directory
     mode: 0755
+  with_items:
+    - "{{ service_name }}"
+    - "{{ service_name }}/log"
 
 - name: create the runit startup scripts
   template:
