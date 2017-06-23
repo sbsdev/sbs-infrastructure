@@ -16,20 +16,20 @@
   args:
     chdir: "/tmp/liblouis-{{ liblouis_version }}"
     creates: "/tmp/liblouis-{{ liblouis_version }}/liblouis/config.h"
+  register: configure_liblouis
 
 - name: build and install liblouis
   command: make {{ item }}
   args:
     chdir: "/tmp/liblouis-{{ liblouis_version }}"
-    creates: "/usr/local/bin/lou_checktable"
-  register: install_liblouis
   with_items:
     - all
     - install
+  when: configure_liblouis.changed
 
 - name: run ldconfig
   command: ldconfig
-  when: install_liblouis.changed
+  when: configure_liblouis.changed
 
 - name: install Python bindings
   command: python setup.py install
