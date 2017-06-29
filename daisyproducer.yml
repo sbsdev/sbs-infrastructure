@@ -12,7 +12,7 @@
 
     - name: copy debs
       copy: src="files/{{ item }}" dest=/tmp
-      with_items: debs
+      with_items: "{{ debs }}"
 
     - name: make sure we have default-jdk
       apt: name=default-jdk
@@ -20,7 +20,7 @@
     # most dependencies are packaged as debs
     - name: install debs
       apt: deb="/tmp/{{ item }}"
-      with_items: debs
+      with_items: "{{ debs }}"
       notify:
         - restart apache
 
