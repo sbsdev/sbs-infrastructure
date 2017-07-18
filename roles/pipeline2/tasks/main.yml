@@ -43,12 +43,12 @@
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               line='org.daisy.pipeline.liblouis.external=true'
 
-# install odt pipeline module
-- name: copy odt pipeline module deb
-  copy: src="{{ odt_module_deb }}" dest=/tmp
+# install sbs pipeline module
+- name: copy sbs pipeline module deb
+  copy: src="{{ sbs_module_deb }}" dest=/tmp
 
-- name: install odt pipeline module
-  apt: deb="/tmp/{{ odt_module_deb }}"
+- name: install sbs pipeline module
+  apt: deb="/tmp/{{ sbs_module_deb }}"
 
 - name: create the runit startup scripts
   include: runit.yml
