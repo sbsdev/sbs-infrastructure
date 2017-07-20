@@ -14,4 +14,4 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-exec chpst -u ${DAEMON_USER}:${DAEMON_USER} $DAEMON 2>&1
+exec chpst -u ${DAEMON_USER}:${DAEMON_USER} -e env $DAEMON 2>&1

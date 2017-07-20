@@ -17,6 +17,20 @@
     state: directory
     mode: 0755
 
+- name: create the directory for the services env variables
+  file:
+    path: "/etc/sv/{{ service_name }}/env"
+    state: directory
+    mode: 0755
+
+- name: define env variables for daemon
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/sv/{{ service_name }}/env/{{ item.dest }}"
+  with_items:
+    - {dest: JAVA_MAX_MEM, content: "2G"}
+    - {dest: REMOTE, content: "false"}
+
 - name: create the runit startup scripts
   template:
     src: "{{ item.src }}"
