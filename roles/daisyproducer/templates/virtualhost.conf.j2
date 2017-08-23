@@ -2,8 +2,9 @@
 <VirtualHost *:80>
     ServerAdmin sysadmin@sbszh.ch
     ServerName {{ daisyproducer_host }}
-    ServerAlias {{ daisyproducer_host }}
-    ServerAlias {{ ansible_host }}
+{% for alias in daisyproducer_server_aliases %}
+    ServerAlias {{ alias }}
+{% endfor %}
 
     DocumentRoot /srv/{{ daisyproducer_host }}/
     ErrorLog /var/log/apache2/{{ daisyproducer_host }}-error_log
