@@ -7,6 +7,5 @@ daisyproducer_server_email: daisyproducer@xmlp02
 # the first value of the list of server aliases is also used for
 # ALLOWED_HOSTS in settings_local.py
 daisyproducer_server_aliases:
-  - xmlp-test
-  - xmlp-test.sbszh.ch
+  - xmlp02
 daisyproducer_debug: True
