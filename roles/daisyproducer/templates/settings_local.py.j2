@@ -14,7 +14,7 @@ DATABASES = {
         }
     }
 
-ALLOWED_HOSTS = ['{{ daisyproducer_host }}', '{{ ansible_host }}']
+ALLOWED_HOSTS = ['{{ daisyproducer_server_aliases|first }}', '.sbszh.ch']
 
 import os.path
 DAISY_PIPELINE_PATH = os.path.join('/', 'usr', 'lib', 'daisy-pipeline')
