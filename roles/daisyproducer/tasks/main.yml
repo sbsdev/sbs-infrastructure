@@ -49,6 +49,7 @@
 - name: pull daisyproducer from git
   git: repo=https://github.com/sbsdev/daisyproducer.git
        dest={{ daisyproducer_app_path }}
+       version=master
        force=yes
   register: install_daisyproducer
   notify:
