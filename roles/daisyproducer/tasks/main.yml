@@ -1,43 +1,71 @@
 ---
 
+- name: enable jessie backports
+  apt_repository:
+    repo: 'deb http://ftp.debian.org/debian jessie-backports main'
+    filename: 'jessie-backports'
+
 - name: install required packages
-  apt: name={{ item }}
-  with_items: required_debs
+  apt:
+    name: "{{ item.name }}"
+    default_release: "{{ item.default_release | default('jessie') }}"
+  with_items: "{{ daisyproducer_required_debs }}"
 
-# Unfortunately cmislib is only avalibable as a deb in testing, so
-# install it from pypi
-- name: install cmislib from pypi
-  pip: name=cmislib
+- name: copy local debs
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  with_items: "{{ daisyproducer_local_debs }}"
 
-- name: install Apache and modules
-  apt: name={{ item }}
-  with_items: apache_debs
-
-- name: enable relevant apache modules
-  apache2_module: name={{ item }}
-  with_items:
-    - wsgi
-    - proxy
-    - proxy_http
-    - rewrite
+- name: install local debs
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items: "{{ daisyproducer_local_debs }}"
   notify:
     - restart apache
 
-# install liblouis
+# Unfortunately cmislib is only avalibable as a deb in testing, so
+# install it from pypi
+- name: install pip
+  apt: name=python-pip
 
-# install pipeline1
+- name: install cmislib from pypi
+  pip: name=cmislib
+
+# install virtual host
+- name: install vhost
+  template:
+    src: virtualhost.conf.j2
+    dest: "/etc/apache2/sites-available/{{ ansible_host }}.sbszh.ch.conf"
+
+- name: enable vhost
+  command: a2ensite {{ ansible_host }}.sbszh.ch.conf
+  args:
+    creates: /etc/apache2/sites-enabled/xmlp02.sbszh.ch.conf
+  notify:
+    - restart apache
 
 # install daisyproducer
 - name: pull daisyproducer from git
   git: repo=https://github.com/sbsdev/daisyproducer.git
        dest={{ daisyproducer_app_path }}
+       version=master
        force=yes
   register: install_daisyproducer
   notify:
     - restart apache
 
+- name: adapt local settings for daisyproducer
+  template: src=templates/settings_local.py.j2
+            dest={{ daisyproducer_app_path }}/daisyproducer/settings_local.py
+            backup=yes
+            mode=644
+
 - name: build localized daisyproducer messages
-  django_manage: command=compilemessages app_path={{ daisyproducer_app_path }}
+  django_manage:
+    command: compilemessages
+    app_path: "{{ daisyproducer_app_path }}"
+    pythonpath: "{{ daisyproducer_app_path }}/daisyproducer"
   when: install_daisyproducer.changed
 
 - name: migrate daisyproducer db
@@ -57,16 +85,58 @@
         user="www-data"
         job="{{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData > /dev/null 2>&1"
 
+- name: create a log file for the daisyproducer ABACUS import
+  copy:
+    content: ""
+    dest: /var/log/daisyproducer_abacus_import.log
+    force: no
+    group: www-data
+    owner: www-data
+    mode: 0644
+
 - name: fix daisyproducer app path in clean_excess_document_versions cron job
-  lineinfile: dest={{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions
-              regexp='^INSTALLDIR=/path/to/daisyproducer$'
-              line='INSTALLDIR={{ daisyproducer_app_path }}'
+  lineinfile:
+    dest: "{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions"
+    regexp: "^INSTALLDIR=/path/to/daisyproducer$"
+    line: "INSTALLDIR={{ daisyproducer_app_path }}"
   when: install_daisyproducer.changed
 
 - name: add a cron job to clean out excess old versions
-  cron: name="Clean out old versions from the database and the file system"
-        special_time=weekly
-        cron_file="daisyproducerCleanOldVersions"
-        user="www-data"
-        job="{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+  cron:
+    name: "Clean out old versions from the database and the file system"
+    special_time: weekly
+    cron_file: "daisyproducerCleanOldVersions"
+    user: "www-data"
+    job: "{{ daisyproducer_app_path }}/daisyproducer/documents/misc/cron.d/daisyproducer_clean_excess_document_versions > /dev/null 2>&1"
+
+- name: add a daily cron job to write liblouis whitelist tables
+  template:
+    src: write_liblouis_tables.j2
+    dest: /etc/cron.daily/write_liblouis_tables
+    mode: "0755"
+
+- name: ensure liblouis tables directory is writable by www-data
+  file:
+    path: /usr/local/share/liblouis/tables
+    state: directory
+    owner: root
+    group: www-data
+    mode: 02775 # new files should have the gid of the root directory
+
+- name: make sure archive is owned by www-data
+  file:
+    path: "{{ daisyproducer_app_path }}/daisyproducer/archive"
+    owner: www-data
+    group: www-data
+    mode: 0775
+    recurse: yes
+    state: directory
+
+- name: create a spool directory for ebooks
+  file:
+    path: '/var/spool/daisyproducer'
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
 

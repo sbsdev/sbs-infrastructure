@@ -1,0 +1,4 @@
+---
+- name: restart pipeline2_webui
+  service: name=daisy-pipeline2-webui state=restarted
+

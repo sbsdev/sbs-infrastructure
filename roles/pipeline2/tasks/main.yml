@@ -1,38 +1,41 @@
 ---
-
-- name: install Java7
-  apt: name=openjdk-7-jdk
-
-- name: pipeline2 needs a ruby interpreter
-  apt: name=ruby1.9.1
-
 - name: copy deb
-  copy: src="{{ pipeline2_deb }}" dest=/tmp
-  register: copy_deb
+  copy:
+    src: "{{ item }}"
+    dest: /tmp
+  with_items:
+    - "{{ pipeline2_deb }}"
 
 - name: install pipeline2
-  shell: DEBIAN_FRONTEND=noninteractive dpkg --skip-same-version -i "/tmp/{{ pipeline2_deb }}"
-  when: copy_deb.changed
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items:
+    - "{{ pipeline2_deb }}"
+
+# in some cases it is beneficial to remove the pipeline database
+# (to get rid of old jobs, etc). But this causes problems when the
+# deb isn't actually reinstalled and we restart the service.
+# - name: remove database
+#   file: path="{{ daisy_pipeline2_path }}"
+#         state=absent
 
 - name: set REMOTE=false for pipeline2
-  lineinfile: dest=/etc/default/pipeline2d
-              line='REMOTE=false'
+  lineinfile:
+    path: /etc/default/daisy-pipeline2
+    regexp: "^#?REMOTE=(true|false)$"
+    line: 'REMOTE=false'
   notify:
     - restart pipeline2
 
 - name: set memory for pipeline2
-  lineinfile: dest=/etc/default/pipeline2d
-              line='export JAVA_MAX_MEM=2G'
+  lineinfile:
+    path: /etc/default/daisy-pipeline2
+    line: 'export JAVA_MAX_MEM=2G'
   notify:
     - restart pipeline2
 
-- name: set client secret in cli
-  lineinfile: "dest=/etc/opt/daisy-pipeline2/config.yml
-               regexp='^client_secret: '
-               line='client_secret: {{ pipeline2_client_secret }}'"
-  notify:
-    - restart pipeline2
-
+# FIXME: is this still needed? Why do we need to set the client_secret
+# if we do not even install the cli client?
 - name: set client secret in server
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               regexp='^org.daisy.pipeline.ws.authentication.secret='
@@ -46,3 +49,14 @@
   # https://github.com/sbsdev/deployment/blob/master/src/plans/pipeline2.clj#L31
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               line='org.daisy.pipeline.liblouis.external=true'
+
+# install sbs pipeline module
+- name: copy sbs pipeline module deb
+  copy: src="{{ sbs_module_deb }}" dest=/tmp
+
+- name: install sbs pipeline module
+  apt: deb="/tmp/{{ sbs_module_deb }}"
+
+- name: create the runit startup scripts
+  include: runit.yml
+

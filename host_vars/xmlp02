@@ -1,0 +1,11 @@
+---
+daisyproducer_host: xmlp02.sbszh.ch
+daisyproducer_app_path: /srv/xmlp02.sbszh.ch/daisyproducer
+daisyproducer_db_name: daisyproducer_test
+daisyproducer_cmis_host: pam02.sbszh.ch
+daisyproducer_server_email: daisyproducer@xmlp02
+# the first value of the list of server aliases is also used for
+# ALLOWED_HOSTS in settings_local.py
+daisyproducer_server_aliases:
+  - xmlp02
+daisyproducer_debug: True

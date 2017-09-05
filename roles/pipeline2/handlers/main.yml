@@ -1,3 +1,5 @@
 ---
 - name: restart pipeline2
-  service: name=pipeline2d state=restarted
+  runit:
+    name: daisy-pipeline2
+    state: restarted

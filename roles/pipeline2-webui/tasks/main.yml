@@ -1,0 +1,10 @@
+---
+- name: copy webui deb
+  copy: src="{{ pipeline2_webui_deb }}" dest=/tmp
+
+- name: install webui
+  apt: deb="/tmp/{{ pipeline2_webui_deb }}"
+  notify:
+    - restart pipeline2_webui
+
+

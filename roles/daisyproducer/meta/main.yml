@@ -1,0 +1,9 @@
+dependencies:
+  - apache
+  - pipeline1
+  - pipeline2
+  - role: liblouis
+    liblouis_version: 2.5.2
+    liblouis_local_debs:
+      - sbs-braille-tables_1.8.3_all.deb
+

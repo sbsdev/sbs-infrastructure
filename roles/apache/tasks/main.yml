@@ -1,0 +1,25 @@
+---
+
+- name: install Apache and modules
+  apt: name={{ item }}
+  with_items: "{{ apache_required_debs }}"
+
+- name: disable default site
+  command: a2dissite 000-default.conf
+  args:
+    removes: /etc/apache2/sites-enabled/000-default.conf
+  notify:
+    - restart apache
+
+- name: enable relevant apache modules
+  apache2_module: name={{ item }}
+  with_items:
+    - wsgi
+    - proxy
+    - proxy_http
+    - rewrite
+  notify:
+    - restart apache
+
+- name: create the runit startup scripts
+  include: runit.yml

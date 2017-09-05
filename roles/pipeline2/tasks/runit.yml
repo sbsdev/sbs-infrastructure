@@ -1,0 +1,47 @@
+---
+
+- set_fact:
+    service_name: "daisy-pipeline2"
+
+# Before we enable runit we need to disable the other init system.
+# Otherwise we'll have two pipelines running
+- name: disable the other init system
+  systemd:
+    name: "{{ service_name }}"
+    state: stopped
+    masked: yes
+
+- name: create the directory for the service
+  file:
+    path: "/etc/sv/{{ service_name }}"
+    state: directory
+    mode: 0755
+
+- name: create the directory for the services env variables
+  file:
+    path: "/etc/sv/{{ service_name }}/env"
+    state: directory
+    mode: 0755
+
+- name: define env variables for daemon
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/sv/{{ service_name }}/env/{{ item.dest }}"
+  with_items:
+    - {dest: JAVA_MAX_MEM, content: "2G"}
+    - {dest: REMOTE, content: "false"}
+
+- name: create the runit startup scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/sv/{{ service_name }}/{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - {src: runit-run.j2, dest: run}
+    - {src: runit-log-run.j2, dest: "log/run"}
+
+- name: enable the service
+  runit:
+    name: "{{ service_name }}"
+    enabled: "yes"
+

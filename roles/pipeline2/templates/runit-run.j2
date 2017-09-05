@@ -1,0 +1,17 @@
+#!/bin/sh
+
+[ -r conf ] && . ./conf
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="DAISY Pipeline 2 server"         # Introduce a short description here
+NAME=daisy-pipeline2                   # Introduce the short server's name here
+DAEMON=/opt/daisy-pipeline2/bin/pipeline2  # Introduce the server's location here
+DAEMON_ARGS=""                         # Arguments to run the daemon with
+DAEMON_USER=pipeline2
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+exec chpst -u ${DAEMON_USER}:${DAEMON_USER} -e env $DAEMON 2>&1

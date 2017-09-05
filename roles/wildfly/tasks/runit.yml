@@ -1,0 +1,25 @@
+---
+
+- set_fact:
+    service_name: "wildfly"
+
+- name: create the directory for the service
+  file:
+    path: "/etc/sv/{{ service_name }}"
+    state: directory
+    mode: 0755
+
+- name: create the runit startup scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/sv/{{ service_name }}/{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - {src: runit-run.j2, dest: run}
+    - {src: runit-finish.j2, dest: finish}
+
+- name: enable the service
+  runit:
+    name: "{{ service_name }}"
+    enabled: "yes"
+

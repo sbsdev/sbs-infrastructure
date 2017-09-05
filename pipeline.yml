@@ -3,16 +3,10 @@
   become: true
   vars_files:
     - "vars/passwords.yml"
+  roles:
+    - java8
+
   tasks:
-    - name: enable jessie backports
-      apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main'
-
-    - name: install Java8
-      apt: name=openjdk-8-jre
-
-    - name: set java to the right version
-      alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-
     - name: install lame
       apt: name=lame
 

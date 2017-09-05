@@ -1,0 +1,51 @@
+---
+- name: download liblouis
+  get_url:
+    url: "https://github.com/liblouis/liblouis/releases/download/v{{ liblouis_version }}/liblouis-{{ liblouis_version }}.tar.gz"
+    dest: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
+
+- name: Expand liblouis archive.
+  unarchive:
+    src: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
+    dest: /tmp
+    creates: "/tmp/liblouis-{{ liblouis_version }}/README"
+    copy: no
+
+- name: configure
+  command: ./configure --enable-ucs4
+  args:
+    chdir: "/tmp/liblouis-{{ liblouis_version }}"
+    creates: "/tmp/liblouis-{{ liblouis_version }}/liblouis/config.h"
+  register: configure_liblouis
+
+- name: build and install liblouis
+  command: make {{ item }}
+  args:
+    chdir: "/tmp/liblouis-{{ liblouis_version }}"
+  with_items:
+    - all
+    - install
+  when: configure_liblouis.changed
+
+- name: run ldconfig
+  command: ldconfig
+  when: configure_liblouis.changed
+
+- name: install Python bindings
+  command: python setup.py install
+  args:
+    chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
+    creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ liblouis_version }}.egg-info"
+
+- name: copy sbs tables
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  with_items: "{{ liblouis_local_debs }}"
+
+- name: install sbs tables
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items: "{{ liblouis_local_debs }}"
+  notify:
+    - restart apache

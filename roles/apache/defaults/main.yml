@@ -1,0 +1,4 @@
+---
+apache_required_debs:
+  - apache2
+  - libapache2-mod-wsgi
