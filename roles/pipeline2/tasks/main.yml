@@ -1,9 +1,16 @@
 ---
 - name: copy deb
-  copy: src="{{ pipeline2_deb }}" dest=/tmp
+  copy:
+    src: "{{ item }}"
+    dest: /tmp
+  with_items:
+    - "{{ pipeline2_deb }}"
 
 - name: install pipeline2
-  apt: deb="/tmp/{{ pipeline2_deb }}"
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items:
+    - "{{ pipeline2_deb }}"
 
 # in some cases it is beneficial to remove the pipeline database
 # (to get rid of old jobs, etc). But this causes problems when the
