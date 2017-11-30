@@ -6,5 +6,5 @@ dependencies:
   - role: liblouis
     liblouis_version: 2.5.2
     liblouis_local_debs:
-      - sbs-braille-tables_1.8.7_all.deb
+      - sbs-braille-tables_1.8.8_all.deb
 
