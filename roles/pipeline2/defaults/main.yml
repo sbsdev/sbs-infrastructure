@@ -1,4 +1,4 @@
 ---
 daisy_pipeline2_path: /opt/daisy-pipeline2/etc
-pipeline2_deb: daisy-pipeline2_1.10.1~20170828.161817-71323b0b_all.deb
-sbs_module_deb: mod-sbs_1.8.1~20170828.161845-71323b0b_all.deb
+pipeline2_deb: daisy-pipeline2_1.10.1~20171016.134609-b99a7e52_all.deb
+sbs_module_deb: mod-sbs_1.8.1~20171016.134641-b99a7e52_all.deb
