@@ -4,4 +4,4 @@ pipeline1_required_debs:
   - lame
   - espeak
 pipeline1_local_debs:
-  - daisy-pipeline_20171024-2_all.deb
+  - daisy-pipeline_20171130-2_all.deb
