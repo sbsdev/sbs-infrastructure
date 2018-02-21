@@ -27,6 +27,6 @@ daisyproducer_required_debs:
   - {name: python-django, default_release: jessie-backports}
 daisyproducer_local_debs:
   - dtbook2sbsform-0.13.deb
-
+daisyproducer_git_version: master
 
 
