@@ -3,8 +3,5 @@ dependencies:
   - pipeline1
   - pipeline2
   - hyphenator
-  - role: liblouis
-    liblouis_version: 2.5.2
-    liblouis_local_debs:
-      - sbs-braille-tables_1.8.8_all.deb
+  - liblouis
 
