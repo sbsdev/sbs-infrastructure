@@ -10,3 +10,6 @@ daisyproducer_server_aliases:
   - xmlp
   - xmlp.sbszh.ch
 daisyproducer_debug: False
+liblouis_version: 2.5.2
+liblouis_local_debs:
+  - sbs-braille-tables_1.8.8_all.deb
