@@ -43,14 +43,6 @@
     #   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
     #               line='org.daisy.pipeline.liblouis.external=true'
 
-    - name: copy sbs module deb
-      copy: src="{{ sbs_module_deb }}" dest=/tmp
-
-    - name: install sbs modules
-      apt: deb="/tmp/{{ sbs_module_deb }}"
-      notify:
-        - restart pipeline2
-
     - name: copy webui deb
       copy: src="{{ pipeline2_webui_deb }}" dest=/tmp
 
