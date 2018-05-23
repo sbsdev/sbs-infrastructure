@@ -9,4 +9,8 @@ daisyproducer_server_email: daisyproducer@xmlp02
 daisyproducer_server_aliases:
   - xmlp02
 daisyproducer_debug: True
-daisyproducer_git_version: feature/2018-1
+liblouis_version: 2.5.2
+liblouis_local_debs:
+  - sbs-braille-tables_1.8.8_all.deb
+daisyproducer_local_debs:
+  - dtbook2sbsform-0.15.deb
