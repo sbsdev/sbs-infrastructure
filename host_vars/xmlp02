@@ -13,4 +13,4 @@ liblouis_version: 2.5.2
 liblouis_local_debs:
   - sbs-braille-tables_1.8.8_all.deb
 daisyproducer_local_debs:
-  - dtbook2sbsform-0.15.deb
+  - dtbook2sbsform-0.15-4-g2d16a00.deb
