@@ -26,7 +26,7 @@ daisyproducer_required_debs:
   - {name: gettext} # to compile the Django translation strings
   - {name: python-django, default_release: jessie-backports}
 daisyproducer_local_debs:
-  - dtbook2sbsform-0.16.deb
+  - dtbook2sbsform-0.17.deb
 daisyproducer_git_version: master
 
 
