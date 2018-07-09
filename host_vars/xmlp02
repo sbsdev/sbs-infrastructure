@@ -9,7 +9,4 @@ daisyproducer_server_email: daisyproducer@xmlp02
 daisyproducer_server_aliases:
   - xmlp02
 daisyproducer_debug: True
-liblouis_version: 2.5.2
-liblouis_local_debs:
-  - sbs-braille-tables_1.8.8_all.deb
 
