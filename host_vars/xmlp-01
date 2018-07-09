@@ -13,4 +13,5 @@ daisyproducer_debug: False
 liblouis_version: 2.5.2
 liblouis_local_debs:
   - sbs-braille-tables_1.8.8_all.deb
-
+pipeline1_local_debs:
+  - daisy-pipeline_20180425-2_all.deb
