@@ -16,7 +16,7 @@ daisyproducer_required_debs:
   - {name: ttf-tiresias}
   - {name: ttf-mscorefonts-installer} # for arial font in large print
   - {name: lmodern}
-  - {name: xsltproc}
+  - {name: libsaxonhe-java}
   - {name: jing}
   - {name: unzip}
   - {name: mysql-client}
