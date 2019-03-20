@@ -25,6 +25,7 @@ daisyproducer_required_debs:
   - {name: python-httplib2} # for talking to alfresco (abacus_import)
   - {name: gettext} # to compile the Django translation strings
   - {name: python-django, default_release: jessie-backports}
+  - {name: python-requests} # used for the new Pipeline2 client
 daisyproducer_local_debs:
   - dtbook2sbsform-0.18.deb
 daisyproducer_git_version: master
