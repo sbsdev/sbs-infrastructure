@@ -9,5 +9,4 @@ daisyproducer_server_email: daisyproducer@xmlp02
 daisyproducer_server_aliases:
   - xmlp02
 daisyproducer_debug: True
-daisyproducer_git_version: epub3-migration
 
