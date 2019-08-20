@@ -2,7 +2,9 @@
 
 - name: enable jessie backports
   apt_repository:
-    repo: 'deb http://ftp.debian.org/debian jessie-backports main'
+    # see https://unix.stackexchange.com/a/508728
+    # echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/100disablechecks
+    repo: 'deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main'
     filename: 'jessie-backports'
 
 - name: install required packages

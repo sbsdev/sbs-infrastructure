@@ -19,11 +19,11 @@
 #   file: path="{{ daisy_pipeline2_path }}"
 #         state=absent
 
-- name: set REMOTE=false for pipeline2
+- name: set REMOTE=true for pipeline2
   lineinfile:
     path: /etc/default/daisy-pipeline2
     regexp: "^#?REMOTE=(true|false)$"
-    line: 'REMOTE=false'
+    line: 'REMOTE=true'
   notify:
     - restart pipeline2
 
@@ -34,8 +34,20 @@
   notify:
     - restart pipeline2
 
-# FIXME: is this still needed? Why do we need to set the client_secret
-# if we do not even install the cli client?
+- name: disallow local filesystem interactions
+  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+              regexp='^#?org.daisy.pipeline.ws.localfs='
+              line='org.daisy.pipeline.ws.localfs=false'
+  notify:
+    - restart pipeline2
+
+- name: set authentication to false
+  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+              regexp='^#?org.daisy.pipeline.ws.authentication='
+              line='org.daisy.pipeline.ws.authentication=false'
+  notify:
+    - restart pipeline2
+
 - name: set client secret in server
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               regexp='^org.daisy.pipeline.ws.authentication.secret='
@@ -50,12 +62,19 @@
   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
               line='org.daisy.pipeline.liblouis.external=true'
 
-# install sbs pipeline module
-- name: copy sbs pipeline module deb
-  copy: src="{{ sbs_module_deb }}" dest=/tmp
+# install sbs specific pipeline modules
+- name: copy sbs pipeline module debs
+  copy:
+    src: "{{ item }}"
+    dest: /tmp
+  with_items:
+    - "{{ sbs_module_debs }}"
 
-- name: install sbs pipeline module
-  apt: deb="/tmp/{{ sbs_module_deb }}"
+- name: install sbs pipeline module debs
+  apt:
+    deb: "/tmp/{{ item }}"
+  with_items:
+    - "{{ sbs_module_debs }}"
 
 - name: create the runit startup scripts
   include: runit.yml
