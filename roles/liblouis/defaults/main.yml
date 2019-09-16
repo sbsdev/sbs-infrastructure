@@ -1,4 +1,4 @@
 ---
-liblouis_version: 3.9.0
+liblouis_version: 3.10.0
 liblouis_local_debs:
-  - sbs-braille-tables_1.12.0_all.deb
+  - sbs-braille-tables_1.12.5_all.deb
