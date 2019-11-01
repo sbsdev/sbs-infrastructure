@@ -14,7 +14,9 @@ DATABASES = {
         }
     }
 
-ALLOWED_HOSTS = ['{{ daisyproducer_server_aliases|first }}', {% if ansible_host != daisyproducer_server_aliases|first %}'{{ ansible_host }}', {% endif %}'.sbszh.ch']
+# we allow daisy.org as a host because we serve the dtbook dtd locally
+# and pretend to be daisy.org
+ALLOWED_HOSTS = ['{{ daisyproducer_server_aliases|first }}', {% if ansible_host != daisyproducer_server_aliases|first %}'{{ ansible_host }}', {% endif %}'.sbszh.ch', '.daisy.org']
 
 import os.path
 DAISY_PIPELINE_PATH = os.path.join('/', 'usr', 'lib', 'daisy-pipeline')
