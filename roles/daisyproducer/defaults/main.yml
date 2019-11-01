@@ -30,6 +30,6 @@ daisyproducer_required_debs:
   - python-cmislib # used to talk to Alfresco
 daisyproducer_local_debs:
   - dtbook2sbsform-0.22.deb
-daisyproducer_git_version: master
+daisyproducer_git_version: debian9
 
 
