@@ -1,9 +1,7 @@
 ---
 
 - name: install dependencies
-  apt:
-    name: "{{ item }}"
-  with_items: "{{ pipeline1_required_debs }}"
+  apt: name="{{ pipeline1_required_debs }}"
 
 - name: copy local debs
   copy: src="{{ item }}" dest=/tmp

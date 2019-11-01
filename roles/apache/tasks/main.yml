@@ -1,8 +1,7 @@
 ---
 
 - name: install Apache and modules
-  apt: name={{ item }}
-  with_items: "{{ apache_required_debs }}"
+  apt: name={{ apache_required_debs }}
 
 - name: disable default site
   command: a2dissite 000-default.conf
