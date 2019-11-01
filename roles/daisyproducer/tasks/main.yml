@@ -1,17 +1,7 @@
 ---
 
-- name: enable jessie backports
-  apt_repository:
-    # see https://unix.stackexchange.com/a/508728
-    # echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/100disablechecks
-    repo: 'deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main'
-    filename: 'jessie-backports'
-
 - name: install required packages
-  apt:
-    name: "{{ item.name }}"
-    default_release: "{{ item.default_release | default('jessie') }}"
-  with_items: "{{ daisyproducer_required_debs }}"
+  apt: name="{{ daisyproducer_required_debs }}"
 
 - name: copy local debs
   copy:
@@ -25,14 +15,6 @@
   with_items: "{{ daisyproducer_local_debs }}"
   notify:
     - restart apache
-
-# Unfortunately cmislib is only avalibable as a deb in testing, so
-# install it from pypi
-- name: install pip
-  apt: name=python-pip
-
-- name: install cmislib from pypi
-  pip: name=cmislib
 
 # install virtual host
 - name: install vhost

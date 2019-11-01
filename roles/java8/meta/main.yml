@@ -1,6 +1,6 @@
 galaxy_info:
   author: Christian Egli
-  description: Role to install OpenJDK from Jessie Backports
+  description: Role to install OpenJDK
   company: Swiss Library for the Blind, Visually Impaired and Print Disabled
 
   license: GPLv3+
@@ -10,6 +10,6 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - jessie
+        - stretch
 
 dependencies: []

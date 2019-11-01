@@ -1,32 +1,33 @@
 ---
 daisyproducer_required_debs:
-  - {name: python}
-  - {name: python-lxml}
-  - {name: python-docutils}
-  - {name: python-libxml2}
-  - {name: python-libxslt1}
-  - {name: python-pypdf}
-  - {name: python-requests}
-  - {name: python-stdnum}
-  - {name: default-jre}
-  - {name: texlive-xetex} # contains ucharclasses
-  - {name: texlive-latex-extra}
-  - {name: texlive-latex-recommended}
-  - {name: texlive-lang-german}
-  - {name: latexmk}
-  - {name: ttf-tiresias}
-  - {name: ttf-mscorefonts-installer} # for arial font in large print
-  - {name: lmodern}
-  - {name: libsaxonhe-java}
-  - {name: jing}
-  - {name: unzip}
-  - {name: mysql-client}
-  - {name: python-mysqldb}
-  - {name: openoffice.org-hyphenation-de} # hyphenation patterns
-  - {name: python-httplib2} # for talking to alfresco (abacus_import)
-  - {name: gettext} # to compile the Django translation strings
-  - {name: python-django, default_release: jessie-backports}
-  - {name: python-requests} # used for the new Pipeline2 client
+  - python
+  - python-lxml
+  - python-docutils
+  - python-libxml2
+  - python-libxslt1
+  - python-pypdf2
+  - python-requests
+  - python-stdnum
+  - default-jre
+  - texlive-xetex # contains ucharclasses
+  - texlive-latex-extra
+  - texlive-latex-recommended
+  - texlive-lang-german
+  - latexmk
+  - ttf-tiresias
+  - ttf-mscorefonts-installer # for arial font in large print
+  - lmodern
+  - libsaxonhe-java
+  - jing
+  - unzip
+  - mysql-client
+  - python-mysqldb
+  - hyphen-de # hyphenation patterns
+  - python-httplib2 # for talking to alfresco (abacus_import)
+  - gettext # to compile the Django translation strings
+  - python-django
+  - python-requests # used for the new Pipeline2 client
+  - python-cmislib # used to talk to Alfresco
 daisyproducer_local_debs:
   - dtbook2sbsform-0.22.deb
 daisyproducer_git_version: master
