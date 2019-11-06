@@ -27,6 +27,9 @@ CMIS_HOST = '{{ daisyproducer_cmis_host }}'
 CMIS_USER = 'DaisyProducer'
 CMIS_PASSWORD = '{{ daisyproducer_cmis_password }}'
 
+# Allow for bigger data uploads. The default is 2.5 MB, so we double it.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
+
 DEBUG = {{ daisyproducer_debug }}
 
 SERVE_STATIC_FILES = False
