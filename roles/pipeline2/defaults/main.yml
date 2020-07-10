@@ -2,5 +2,5 @@
 daisy_pipeline2_path: /opt/daisy-pipeline2/etc
 pipeline2_deb: assembly-1.11.1-SNAPSHOT-all.deb
 sbs_module_debs:
-  - mod-sbs_1.8.1~20190510.110912-6f7dcb5e_all.deb
+  - mod-sbs_1.8.1~20200623.165934-c6ff01de_all.deb
   - dtbook-to-odt_1.0.0-SNAPSHOT_all.deb

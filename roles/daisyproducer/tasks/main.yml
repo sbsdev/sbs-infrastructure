@@ -69,14 +69,13 @@
         user="www-data"
         job="{{ daisyproducer_app_path }}/daisyproducer/abacus_import/misc/cron.d/daisyproducerImportABACUSProductData > /dev/null 2>&1"
 
-- name: create a log file for the daisyproducer ABACUS import
-  copy:
-    content: ""
-    dest: /var/log/daisyproducer_abacus_import.log
-    force: no
+- name: create directory for the daisyproducer log files
+  file:
+    path: /var/log/daisyproducer
+    state: directory
     group: www-data
     owner: www-data
-    mode: 0644
+    mode: 0755
 
 - name: fix daisyproducer app path in clean_excess_document_versions cron job
   lineinfile:
