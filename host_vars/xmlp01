@@ -10,5 +10,3 @@ daisyproducer_server_aliases:
   - xmlp
   - xmlp.sbszh.ch
 daisyproducer_debug: False
-pipeline1_local_debs:
-  - daisy-pipeline_20180425-2_all.deb
