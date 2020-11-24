@@ -1,0 +1,23 @@
+---
+
+- name: copy jar file
+  copy:
+    src: dp2.jar
+    dest: /opt/dp2/dp2.jar
+  notify:
+    - restart dp2
+
+- name: create a config file
+  template:
+    src: config.edn.j2
+    dest: /etc/dp2/config.edn
+    mode: '0600'
+  notify:
+    - restart dp2
+
+# - name: create an init script
+#   template:
+#     src: run.j2
+#     dest: /etc/sv/dp2/run
+
+
