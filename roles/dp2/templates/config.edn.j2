@@ -4,4 +4,12 @@
  :hyphenation-db-url "mysql://db.sbszh.ch:3309/hyphenation_test?user=hyphenation&password=MhsksatMN123k"
 
  :document-root "/srv/{{ ansible_host }}.sbszh.ch/daisyproducer/daisyproducer/archive/"
+
+ :ldap-address "ipa01.sbszh.ch"
+
+ ; secret to generate the jwt token, see
+ ; https://stackoverflow.com/a/62779478
+ ; generated with openssl rand -hex 20
+ :jwt-secret "{{ dp2_jwt_secret }}"
+
 }
