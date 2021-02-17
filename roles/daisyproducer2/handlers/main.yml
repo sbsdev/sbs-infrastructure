@@ -1,0 +1,5 @@
+---
+- name: restart daisyproducer2
+  runit:
+    name: daisyproducer2
+    state: restarted

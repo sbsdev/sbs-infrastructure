@@ -5,6 +5,6 @@
     - "vars/passwords.yml"
 
   roles:
-    - dp2
+    - daisyproducer2
 
 

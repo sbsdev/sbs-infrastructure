@@ -1,5 +1,0 @@
----
-- name: restart dp2
-  runit:
-    name: dp2
-    state: restarted

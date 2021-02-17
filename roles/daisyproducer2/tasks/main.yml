@@ -1,0 +1,23 @@
+---
+
+- name: Download the daisyproducer2 jar file
+  get_url:
+    url: https://github.com/sbsdev/daisyproducer2/releases/download/v{{ daisyproducer2_version }}/daisyproducer2.jar
+    dest: /opt/daisyproducer2/daisyproducer2.jar
+  notify:
+    - restart daisyproducer2
+
+- name: create a config file
+  template:
+    src: config.edn.j2
+    dest: /etc/daisyproducer2/config.edn
+    mode: '0600'
+  notify:
+    - restart daisyproducer2
+
+# - name: create an init script
+#   template:
+#     src: run.j2
+#     dest: /etc/sv/daisyproducer2/run
+
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec 2>&1
+exec /usr/bin/java -Dconf=/etc/daisyproducer2/config.edn -jar /opt/daisyproducer2/daisyproducer2.jar
