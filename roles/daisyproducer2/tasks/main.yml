@@ -1,11 +1,21 @@
 ---
 
+- name: create an install directory
+  file:
+    path: /opt/daisyproducer2
+    state: directory
+
 - name: Download the daisyproducer2 jar file
   get_url:
-    url: https://github.com/sbsdev/daisyproducer2/releases/download/v{{ daisyproducer2_version }}/daisyproducer2.jar
+    url: https://github.com/sbsdev/daisyproducer2/releases/download/{{ daisyproducer2_version }}/daisyproducer2.jar
     dest: /opt/daisyproducer2/daisyproducer2.jar
   notify:
     - restart daisyproducer2
+
+- name: create a config directory
+  file:
+    path: /etc/daisyproducer2
+    state: directory
 
 - name: create a config file
   template:
@@ -15,9 +25,15 @@
   notify:
     - restart daisyproducer2
 
+- name: create a directory for the service
+  file:
+    path: /etc/sv/daisyproducer2
+    state: directory
+
 - name: create an init script
   template:
     src: run.j2
     dest: /etc/sv/daisyproducer2/run
+    mode: '0755'
 
 
