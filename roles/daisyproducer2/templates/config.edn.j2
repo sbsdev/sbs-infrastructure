@@ -7,12 +7,16 @@
 
  :ldap-address "ipa01.sbszh.ch"
 
- ; where to place the whitelists
+ ;; where to place the whitelists
  :tables-dir "/usr/local/share/liblouis/tables"
 
- ; secret to generate the jwt token, see
- ; https://stackoverflow.com/a/62779478
- ; generated with openssl rand -hex 20
+ ;; secret to generate the jwt token, see
+ ;; https://stackoverflow.com/a/62779478
+ ;; generated with openssl rand -hex 20
  :jwt-secret "{{ daisyproducer2_jwt_secret }}"
+
+ ;; link to the hyphenation dictionaries
+ :hyphen-dictionaries {0 "/usr/share/hyphen/hyph_de_DE_OLDSPELL_base.dic"
+                       1 "/usr/share/hyphen/hyph_de_DE_base.dic"}
 
 }
