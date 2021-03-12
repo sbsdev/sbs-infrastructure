@@ -37,6 +37,12 @@
     chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
     creates: "/usr/local/lib/python2.7/dist-packages/louis-{{ liblouis_version }}.egg-info"
 
+- name: install Python3 bindings
+  command: python3 setup.py install
+  args:
+    chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
+    creates: "/usr/local/lib/python3.8/dist-packages/louis-{{ liblouis_version }}.egg-info"
+
 - name: copy sbs tables
   copy:
     src: "{{ item }}"
