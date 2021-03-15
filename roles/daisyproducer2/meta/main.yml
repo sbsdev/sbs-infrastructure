@@ -1,3 +1,4 @@
 dependencies:
   - java8
   - liblouis
+  - prometheus-node
