@@ -1,0 +1,29 @@
+---
+
+- name: install prometheus server
+  apt:
+    name: prometheus
+
+- name: install prometheus alert manager
+  apt:
+    name: prometheus-alertmanager
+
+- name: create alerting rules
+  copy:
+    src: alert.rules.yml
+    dest: /etc/prometheus/alert.rules.yml
+  notify:
+    - restart prometheus
+
+- name: create config file for prometheus
+  template: src=prometheus.yml.j2
+            dest=/etc/prometheus/prometheus.yml
+  notify:
+    - restart prometheus
+
+- name: create config file for prometheus alertmanager
+  template: src=alertmanager.yml.j2
+            dest=/etc/prometheus/alertmanager.yml
+  notify:
+    - restart prometheus
+
