@@ -1,12 +1,26 @@
 ---
 
+# Stretch has a very old version of Prometheus. Especially the alerting
+# manager still uses a old syntax to define alerts. It is really hard
+# to find documentation for it. Given that it makes more sense to
+# upgrade and use the new syntax.
+
+# FIXME: Once the production is upgraded to buster we no longer need backports
+- name: Enable the strech backports repo
+  apt_repository:
+    repo: deb http://deb.debian.org/debian stretch-backports main
+    state: present
+
 - name: install prometheus server
   apt:
     name: prometheus
+    default_release: stretch-backports
+    update_cache: yes
 
 - name: install prometheus alert manager
   apt:
     name: prometheus-alertmanager
+    default_release: stretch-backports
 
 - name: create alerting rules
   copy:
