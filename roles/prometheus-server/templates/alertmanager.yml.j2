@@ -2,10 +2,8 @@
 
 global:
   # The smarthost and SMTP sender used for mail notifications.
-  smtp_smarthost: 'localhost:25'
-  smtp_from: 'alertmanager@example.org'
-  smtp_auth_username: 'alertmanager'
-  smtp_auth_password: 'password'
+  smtp_smarthost: 'smtp.sbszh.ch'
+  smtp_from: 'daisyproducer2@{{ ansible_host }}'
 
 # The directory from which notification templates are read.
 templates:
