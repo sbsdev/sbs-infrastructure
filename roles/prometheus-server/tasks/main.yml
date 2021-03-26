@@ -39,5 +39,5 @@
   template: src=alertmanager.yml.j2
             dest=/etc/prometheus/alertmanager.yml
   notify:
-    - restart prometheus
+    - restart alertingmanager
 
