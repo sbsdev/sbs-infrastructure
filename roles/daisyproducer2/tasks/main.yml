@@ -36,4 +36,8 @@
     dest: /etc/sv/daisyproducer2/run
     mode: '0755'
 
+- name: enable the service
+  runit:
+    name: daisyproducer2
+    enabled: yes
 
