@@ -1,6 +1,6 @@
 ---
 
-- name: install node exporter deb
+- name: install node exporter
   apt:
     name: prometheus-node-exporter
 

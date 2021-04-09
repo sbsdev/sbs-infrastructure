@@ -6,7 +6,7 @@
 # upgrade and use the new syntax.
 
 # FIXME: Once the production is upgraded to buster we no longer need backports
-- name: Enable the strech backports repo
+- name: Enable the stretch backports repo
   apt_repository:
     repo: deb http://deb.debian.org/debian stretch-backports main
     state: present
