@@ -4,7 +4,7 @@
     url: "https://github.com/liblouis/liblouis/releases/download/v{{ liblouis_version }}/liblouis-{{ liblouis_version }}.tar.gz"
     dest: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
 
-- name: Expand liblouis archive.
+- name: Expand liblouis archive
   unarchive:
     src: "/tmp/liblouis-{{ liblouis_version }}.tar.gz"
     dest: /tmp
