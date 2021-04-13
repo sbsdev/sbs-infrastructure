@@ -39,6 +39,9 @@ route:
 
   routes:
     - match:
+        severity: warning
+      receiver: daisyproducer-mails
+    - match:
         severity: critical
       receiver: daisyproducer-mails
 
