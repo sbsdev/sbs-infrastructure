@@ -2,7 +2,7 @@ groups:
   - name: main
     rules:
       - alert: FailingFunctions
-        expr: fn_runs_total{result!="success"}
+        expr: delta(fn_runs_total{result!="success"}[1m]) > 0
         labels:
           severity: warning
         annotations:
