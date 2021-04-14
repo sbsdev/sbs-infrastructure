@@ -2,7 +2,7 @@
 
 global:
   # The smarthost and SMTP sender used for mail notifications.
-  smtp_smarthost: 'smtp.sbszh.ch'
+  smtp_smarthost: 'smtp.sbszh.ch:25'
   smtp_from: 'daisyproducer2@{{ ansible_host }}'
   smtp_hello: '{{ ansible_host }}'
   smtp_require_tls: false
