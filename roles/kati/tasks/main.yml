@@ -1,0 +1,50 @@
+---
+
+- name: Distribution
+  debug: msg="{{ ansible_distribution }}"
+- name: Distribution version
+  debug: msg="{{ ansible_distribution_version}}"
+- name: Distribution major version
+  debug: msg="{{ ansible_distribution_major_version }}"
+    
+- name: create an install directory
+  file:
+    path: /opt/kati
+    state: directory
+
+- name: Download the jar file
+  get_url:
+    url: https://github.com/sbsdev/catalog/releases/download/{{ kati_version }}/catalog.jar
+    dest: /opt/kati/kati.jar
+  notify:
+    - restart kati
+
+- name: create a config directory
+  file:
+    path: /etc/kati
+    state: directory
+
+- name: create a config file
+  template:
+    src: config.edn.j2
+    dest: /etc/kati/config.edn
+    mode: '0600'
+  notify:
+    - restart kati
+
+- name: create a directory for the service
+  file:
+    path: /etc/sv/kati
+    state: directory
+
+- name: create an init script
+  template:
+    src: run.j2
+    dest: /etc/sv/kati/run
+    mode: '0755'
+
+- name: enable the service
+  runit:
+    name: kati
+    enabled: yes
+

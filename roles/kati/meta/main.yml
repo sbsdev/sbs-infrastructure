@@ -1,0 +1,8 @@
+dependencies:
+  - java8
+  # prometheus-node only works from Debian 9 and up
+  - role: prometheus-node
+    when:
+      - ansible_distribution == 'Debian'
+      - ansible_distribution_major_version|int >= 9
+

@@ -1,0 +1,5 @@
+---
+- name: restart kati
+  runit:
+    name: kati
+    state: restarted
