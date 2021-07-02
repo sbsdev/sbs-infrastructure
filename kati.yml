@@ -14,7 +14,7 @@
       apt: deb=/tmp/ttf-stonesans_0.1-2_all.deb
 
     - name: install other fonts
-      apt: name={{ item }}
-      with_items:
-        - ttf-mscorefonts-installer
-        - ttf-tiresias
+      apt:
+        name:
+          - ttf-mscorefonts-installer
+          - ttf-tiresias
