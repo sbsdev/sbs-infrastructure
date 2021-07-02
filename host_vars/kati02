@@ -1,0 +1,6 @@
+---
+database_server: db.sbszh.ch
+database_name: catalog_test
+database_port: 3309
+database_user: catalog
+

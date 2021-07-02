@@ -4,7 +4,7 @@
   vars_files:
     - "vars/passwords.yml"
   roles:
-    - wildfly
+    - kati
 
   tasks:
     - name: copy stone font debian package
@@ -14,22 +14,7 @@
       apt: deb=/tmp/ttf-stonesans_0.1-2_all.deb
 
     - name: install other fonts
-      apt: name={{ item }}
-      with_items:
-        - ttf-mscorefonts-installer
-        - ttf-tiresias
-
-    - name: configure the datasource manually
-      debug: msg="Configure the datasources"
-
-    - name: deploy war manually using the admin web interface
-      debug: msg="deploy the war manually using the admin web interface"
-
-    # - name: copy war
-    #   copy: src=catalog.war dest=/tmp/catalog.war
-
-    # - name: deploy application
-    #   jboss: src=/tmp/catalog.war
-    #          deployment=catalog.war
-    #          deploy_path=/usr/local/wildfly/standalone/deployments
-
+      apt:
+        name:
+          - ttf-mscorefonts-installer
+          - ttf-tiresias
