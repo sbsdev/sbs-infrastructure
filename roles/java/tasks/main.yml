@@ -1,0 +1,5 @@
+---
+
+- name: install Java
+  apt: name=default-jdk
+
