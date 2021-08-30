@@ -2,13 +2,13 @@
 
 - name: create an install directory
   file:
-    path: /usr/local/kati
+    path: "{{ kati_install_dir }}"
     state: directory
 
 - name: Download the jar file
   get_url:
     url: https://github.com/sbsdev/catalog/releases/download/{{ kati_version }}/catalog.jar
-    dest: /usr/local/kati/kati.jar
+    dest: "{{ kati_install_dir }}/kati.jar"
   notify:
     - restart kati
 
