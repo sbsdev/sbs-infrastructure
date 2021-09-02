@@ -37,6 +37,10 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:3000']
 
+  - job_name: 'kati'
+    static_configs:
+      - targets: ['kati.sbszh.ch:3000']
+
 alerting:
   alertmanagers:
     - static_configs:
