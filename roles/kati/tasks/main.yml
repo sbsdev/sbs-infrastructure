@@ -36,6 +36,20 @@
     dest: /etc/sv/kati/run
     mode: '0755'
 
+- name: create an sites available file for ngnix
+  template:
+    src: sites-available.j2
+    dest: /etc/nginx/sites-available/kati
+    mode: '0644'
+
+- name: create a link in sites enabled for ngnix
+  file:
+    src: /etc/nginx/sites-available/kati
+    dest: /etc/nginx/sites-enabled/kati
+    owner: root
+    group: root
+    state: link
+
 - name: enable the service
   runit:
     name: kati
