@@ -1,8 +1,0 @@
-#!/bin/sh
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/games
-INSTALLDIR={{ daisyproducer_app_path }}
-umask 113
-
-# Write the liblouis tables
-cd $INSTALLDIR
-python manage.py writeLiblouisTables
