@@ -1,12 +1,9 @@
-* SBS infrastructure
-  :PROPERTIES:
-  :TOC:      :include siblings :ignore this
-  :END:
+* SBS infrastructure                                             :noexport:
 
 [[http://www.ansible.com/home][Ansible playbooks]] to install a [[http://sbsdev.github.io/daisyproducer][Daisyproducer]], a [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]], a [[https://github.com/sbsdev/catalog][Kati]]
 or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
 
-:CONTENTS:
+* Table of Contents                                                     :TOC:
 - [[#deployment][Deployment]]
   - [[#daisyproducer][Daisyproducer]]
   - [[#daisyproducer2][Daisyproducer2]]
@@ -15,7 +12,6 @@ or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
   - [[#pipeline][Pipeline]]
 - [[#edit-passwords][Edit Passwords]]
 - [[#license][License]]
-:END:
 
 * Deployment
 ** Daisyproducer
