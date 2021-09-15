@@ -6,8 +6,6 @@
 [[http://www.ansible.com/home][Ansible playbooks]] to install a [[http://sbsdev.github.io/daisyproducer][Daisyproducer]], a [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]], a [[https://github.com/sbsdev/catalog][Kati]]
 or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
 
------
-
 :CONTENTS:
 - [[#deployment][Deployment]]
   - [[#daisyproducer][Daisyproducer]]
