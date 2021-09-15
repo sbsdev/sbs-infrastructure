@@ -1,0 +1,86 @@
+* SBS infrastructure
+
+[[http://www.ansible.com/home][Ansible playbooks]] to install a [[http://sbsdev.github.io/daisyproducer][Daisyproducer]], a [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]], a [[https://github.com/sbsdev/catalog][Kati]]
+or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
+
+** Deployment
+
+*** Daisyproducer
+
+Put the needed debs into file:roles/daisyproducer/files. Adapt the
+version numbers in file:host_vars/xmlp02 and file:host_vars/xmlp01. To
+deploy to the test server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i test -K --vault-password-file .vault_pass.txt daisyproducer.yml
+#+END_SRC
+
+To deploy to the production server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisyproducer.yml
+#+END_SRC
+
+*** Daisyproducer2
+
+Create a release in [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]] with ~lein release~. This triggers
+the [[https://github.com/sbsdev/daisyproducer2/blob/main/.github/workflows/upload-release-asset.yml][release github action]] which builds the uberjar and uploads it to
+the [[https://github.com/sbsdev/daisyproducer2/releases][github release page]]. Then adapt the version number in
+file:roles/daisyproducer2/defaults/main.yml. To deploy to the test
+server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i test -K --vault-password-file .vault_pass.txt daisyproducer2.yml
+#+END_EXAMPLE
+
+To deploy to the production server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisyproducer2.yml
+#+END_SRC
+
+*** Kati
+
+Create a release in [[https://github.com/sbsdev/catalog][Kati]] with ~lein release~. This triggers the
+[[https://github.com/sbsdev/catalog/blob/master/.github/workflows/upload-release-asset.yml][release github action]] which builds the uberjar and uploads it to the
+[[https://github.com/sbsdev/catalog/releases][github release page]]. Then adapt the version number in
+file:roles/kati/defaults/main.yml. To deploy to the test server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i test -K --vault-password-file .vault_pass.txt kati.yml
+#+END_SRC
+
+To deploy to the production server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i production -K --vault-password-file .vault_pass.txt kati.yml
+#+END_SRC
+
+*** Madras2
+
+To deploy to the madras test server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i test -K --vault-password-file .vault_pass.txt madras2.yml
+#+END_SRC
+
+*** Pipeline
+
+To deploy to the pipeline test server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i test -K --vault-password-file .vault_pass.txt pipeline.yml
+#+END_SRC
+
+** Edit Passwords
+
+#+BEGIN_SRC shell
+  ansible-vault edit --vault-password-file .vault_pass.txt vars/passwords.yml
+#+END_SRC
+
+** License
+
+Copyright (c) 2014 [[http://www.sbs.ch/][Swiss Library for the Blind, Visually Impaired and
+Print Disabled]].
+
+Licensed under the [[./LICENSE][MIT License]].
