@@ -7,9 +7,9 @@ or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
 
 *** Daisyproducer
 
-Put the needed debs into file:roles/daisyproducer/files. Adapt the
-version numbers in file:host_vars/xmlp02 and file:host_vars/xmlp01. To
-deploy to the test server run
+Put the needed debs into [[file:roles/daisyproducer/files][roles/daisyproducer/files]]. Adapt the version
+numbers in [[file:host_vars/xmlp02][host_vars/xmlp02]] and [[file:host_vars/xmlp01][host_vars/xmlp01]]. To deploy to the
+test server run
 
 #+BEGIN_SRC shell
   ansible-playbook -i test -K --vault-password-file .vault_pass.txt daisyproducer.yml
@@ -26,12 +26,12 @@ To deploy to the production server run
 Create a release in [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]] with ~lein release~. This triggers
 the [[https://github.com/sbsdev/daisyproducer2/blob/main/.github/workflows/upload-release-asset.yml][release github action]] which builds the uberjar and uploads it to
 the [[https://github.com/sbsdev/daisyproducer2/releases][github release page]]. Then adapt the version number in
-file:roles/daisyproducer2/defaults/main.yml. To deploy to the test
-server run
+[[file:roles/daisyproducer2/defaults/main.yml][roles/daisyproducer2/defaults/main.yml]]. To deploy to the test server
+run
 
 #+BEGIN_SRC shell
   ansible-playbook -i test -K --vault-password-file .vault_pass.txt daisyproducer2.yml
-#+END_EXAMPLE
+#+END_SRC
 
 To deploy to the production server run
 
@@ -44,7 +44,7 @@ To deploy to the production server run
 Create a release in [[https://github.com/sbsdev/catalog][Kati]] with ~lein release~. This triggers the
 [[https://github.com/sbsdev/catalog/blob/master/.github/workflows/upload-release-asset.yml][release github action]] which builds the uberjar and uploads it to the
 [[https://github.com/sbsdev/catalog/releases][github release page]]. Then adapt the version number in
-file:roles/kati/defaults/main.yml. To deploy to the test server run
+[[file:roles/kati/defaults/main.yml][roles/kati/defaults/main.yml]]. To deploy to the test server run
 
 #+BEGIN_SRC shell
   ansible-playbook -i test -K --vault-password-file .vault_pass.txt kati.yml
