@@ -3,15 +3,9 @@
 - name: install required packages
   apt: name="{{ daisyproducer_required_debs }}"
 
-- name: copy local debs
-  copy:
-    src: "{{ item }}"
-    dest: "/tmp"
-  with_items: "{{ daisyproducer_local_debs }}"
-
 - name: install local debs
   apt:
-    deb: "/tmp/{{ item }}"
+    deb: "{{ item }}"
   with_items: "{{ daisyproducer_local_debs }}"
   notify:
     - restart apache
