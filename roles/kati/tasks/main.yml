@@ -41,6 +41,8 @@
     src: sites-available.j2
     dest: /etc/nginx/sites-available/kati
     mode: '0644'
+  notify:
+    - restart ngnix
 
 - name: create a link in sites enabled for ngnix
   file:
@@ -49,6 +51,8 @@
     owner: root
     group: root
     state: link
+  notify:
+    - restart ngnix
 
 - name: enable the service
   runit:

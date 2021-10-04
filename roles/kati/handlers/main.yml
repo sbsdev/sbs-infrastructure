@@ -3,3 +3,8 @@
   runit:
     name: kati
     state: restarted
+
+- name: restart ngnix
+  runit:
+    name: ngnix
+    state: restarted
