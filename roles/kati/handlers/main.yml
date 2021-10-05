@@ -4,7 +4,7 @@
     name: kati
     state: restarted
 
-- name: restart ngnix
+- name: restart nginx
   runit:
-    name: ngnix
+    name: nginx
     state: restarted

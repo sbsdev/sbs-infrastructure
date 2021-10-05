@@ -42,7 +42,7 @@
     dest: /etc/nginx/sites-available/kati
     mode: '0644'
   notify:
-    - restart ngnix
+    - restart nginx
 
 - name: create a link in sites enabled for ngnix
   file:
@@ -52,7 +52,7 @@
     group: root
     state: link
   notify:
-    - restart ngnix
+    - restart nginx
 
 - name: enable the service
   runit:
