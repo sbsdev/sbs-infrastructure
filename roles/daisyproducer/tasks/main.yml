@@ -95,11 +95,14 @@
     recurse: yes
     state: directory
 
-- name: create a spool directory for ebooks
+- name: create spool directories for ebooks
   file:
-    path: '/var/spool/daisyproducer'
+    path: "{{ item }}"
     state: directory
     owner: www-data
     group: www-data
     mode: 0775
+  with_items:
+    - "/var/spool/daisyproducer"
+    - "/var/spool/daisyproducer/it"
 
