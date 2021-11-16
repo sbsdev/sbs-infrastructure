@@ -1,4 +1,4 @@
 #!/bin/sh
 
 exec 2>&1
-exec /usr/bin/java -Xmx2G -Dconf=/etc/kati/config.edn -jar {{ kati_install_dir }}/kati.jar
+exec /usr/bin/java -Xmx4G -Dconf=/etc/kati/config.edn -jar {{ kati_install_dir }}/kati.jar
