@@ -1,14 +1,7 @@
 ---
-- name: copy deb
-  copy:
-    src: "{{ item }}"
-    dest: /tmp
-  with_items:
-    - "{{ pipeline2_deb }}"
-
 - name: install pipeline2
   apt:
-    deb: "/tmp/{{ item }}"
+    deb: "{{ item }}"
   with_items:
     - "{{ pipeline2_deb }}"
 
@@ -63,16 +56,9 @@
               line='org.daisy.pipeline.liblouis.external=true'
 
 # install sbs specific pipeline modules
-- name: copy sbs pipeline module debs
-  copy:
-    src: "{{ item }}"
-    dest: /tmp
-  with_items:
-    - "{{ sbs_module_debs }}"
-
 - name: install sbs pipeline module debs
   apt:
-    deb: "/tmp/{{ item }}"
+    deb: "{{ item }}"
   with_items:
     - "{{ sbs_module_debs }}"
 
