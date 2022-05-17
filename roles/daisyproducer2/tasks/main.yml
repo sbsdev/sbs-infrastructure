@@ -41,3 +41,5 @@
     name: daisyproducer2
     enabled: yes
 
+- name: install the hyphenation tables
+  include: hyphenation.yml

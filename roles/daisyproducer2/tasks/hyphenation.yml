@@ -1,0 +1,35 @@
+---
+
+- name: make sure we have /usr/share/libhyphen/substrings.pl
+  apt:
+    pkg: libhyphen-dev
+
+- name: install German hyphenation tables
+  apt:
+    deb: https://github.com/sbsdev/hyphen-de-base/releases/download/{{ hyphen_deb_version }}/hyphen-de-base_{{ hyphen_deb_version }}_all.deb
+
+- name: create a directory for the generated hyphenation tables
+  file:
+    path: /usr/share/hyphen/generated
+    state: directory
+    mode: 0755
+
+- name: Move the existing hyphen dicts to the generated directory
+  copy:
+    src: '/usr/share/hyphen/{{ item }}'
+    dest: '/usr/share/hyphen/generated/{{ item }}'
+    remote_src: True
+  with_items:
+    - "hyph_de_DE.dic"
+    - "hyph_de_DE_OLDSPELL.dic"
+
+- name: replace old hyphen dicts with links to the generated ones
+  file:
+    path: '/usr/share/hyphen/{{ item }}'
+    src: '/usr/share/hyphen/generated/{{ item }}'
+    state: link
+    force: yes
+  with_items:
+    - "hyph_de_DE.dic"
+    - "hyph_de_DE_OLDSPELL.dic"
+
