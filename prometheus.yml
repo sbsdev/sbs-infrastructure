@@ -1,0 +1,12 @@
+---
+- hosts: promi
+  become: true
+  vars_files:
+    - "vars/passwords.yml"
+
+  roles:
+    - prometheus-server
+
+
+
+
