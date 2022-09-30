@@ -1,55 +1,11 @@
 ---
 
-- name: install Java7
-  apt: name=openjdk-7-jdk
-
 - name: install genisoimage
   apt: name=genisoimage
 
 # we need xmllint to format the ncc.html and the master.smil
 - name: install xmllint
   apt: name=libxml2-utils
-
-- name: download wildfly
-  get_url: url=http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz
-           dest=/tmp/wildfly-8.2.0.Final.tar.gz
-
-# wildfly runs under a special user
-# - name: create a wildfly user
-#   shell: adduser --system --group --no-create-home --home /opt/wildfly --uid 35 --quiet --disabled-login wildfly || true
-
-- name: install wildfly
-  unarchive: src=/tmp/wildfly-8.2.0.Final.tar.gz
-             copy=no
-             dest={{ wildfly_prefix }}
-             owner={{ wildfly_user }} group={{ wildfly_group }}
-             creates={{ wildfly_prefix }}/wildfly-8.2.0.Final/standalone/configuration/standalone-full.xml
-  register: install_wildfly
-
-- name: create a symlink
-  file: path={{ wildfly_prefix }}/wildfly
-        src={{ wildfly_prefix }}/wildfly-8.2.0.Final
-        owner={{ wildfly_user }} group={{ wildfly_group }}
-        state=link
-
-- name: make sure wildfly gets enough memory
-  template: src=standalone.conf.j2
-            dest={{ wildfly_prefix }}/wildfly/bin/standalone.conf
-
-- name: create wildfly defaults file
-  template: src=wildfly.conf.j2
-            dest=/etc/default/wildfly
-
-- name: create startup script
-  template: src=wildfly-init-debian.sh.j2
-            dest=/etc/init.d/wildfly
-            mode=0755
-
-- name: enable the wildfly service
-  service: name=wildfly enabled=yes
-
-- name: add an admin user to be able to access the wildfly admin console
-  shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ madras2_admin_user }} -p {{ madras2_admin_password }}"
 
 - name: create spool directory for outgoing files to ABACUS
   file: path=/var/spool/abacus state=directory
@@ -75,7 +31,6 @@
 
 - name: create symlinks to the mounts so that the dirs are where madras2 expects them
   file: path={{ item.path }} src={{ item.src }} state=link
-        owner={{ wildfly_user }} group={{ wildfly_group }}
   with_items:
     - { path: '/var/spool/agadir/books', src: '/mnt/a03/agadir' }
     - { path: '/var/spool/agadir/periodicals', src: '/mnt/a03/d14' }
@@ -87,29 +42,64 @@
     - { path: '/var/lib/mdr2/iso', src: '/mnt/a03/iso' }
     - { path: '/var/lib/mdr2/split', src: '/mnt/a03/split' }
 
-- name: start the wildfly service
-  service: name=wildfly state=started
+- name: create an install directory
+  file:
+    path: "{{ madras2_install_dir }}"
+    state: directory
 
-- name: download database driver
-  get_url: url=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar
-           dest=/tmp/mysql-connector-java-5.1.35.jar
+- name: Download the jar file
+  get_url:
+    url: https://github.com/sbsdev/mdr2/releases/download/{{ madras2_version }}/mdr2.jar
+    dest: "{{ madras_install_dir }}/mdr2.jar"
+  notify:
+    - restart madras2
 
-- name: deploy the database driver
-  jboss: src=/tmp/mysql-connector-java-5.1.35.jar
-         deployment=mysql-connector-java-5.1.35.jar
-         deploy_path={{ wildfly_prefix }}/wildfly/standalone/deployments
+- name: create a config directory
+  file:
+    path: /etc/madras2
+    state: directory
 
-- name: create config file for wildfly cli
-  template: src=configure_wildfly_standalone.cli.j2
-            dest=/tmp/configure_wildfly_standalone.cli
+- name: create a config file
+  template:
+    src: config.edn.j2
+    dest: /etc/madras2/config.edn
+    mode: '0600'
+  notify:
+    - restart madras2
 
-- name: configure system properties and datasources
-  command: "{{ wildfly_prefix }}/wildfly/bin/jboss-cli.sh --file=/tmp/configure_wildfly_standalone.cli"
+- name: create a directory for the service
+  file:
+    path: /etc/sv/madras2
+    state: directory
 
-# - name: deploy madras application
-#   jboss: src=/tmp/mdr2.war deployment=mdr2.war state=present
-#          deploy_path={{ wildfly_prefix }}/wildfly/standalone/deployments
+- name: create an init script
+  template:
+    src: run.j2
+    dest: /etc/sv/madras2/run
+    mode: '0755'
+  notify:
+    - restart madras2
 
-# - name: deploy madras application
-#   copy: src=/home/eglic/src/mdr2/target/mdr2.war
-#         dest={{ wildfly_prefix }}/wildfly/standalone/deployments/mdr2.war
+- name: create an sites available file for ngnix
+  template:
+    src: sites-available.j2
+    dest: /etc/nginx/sites-available/madras2
+    mode: '0644'
+  notify:
+    - restart nginx
+
+- name: create a link in sites enabled for ngnix
+  file:
+    src: /etc/nginx/sites-available/madras2
+    dest: /etc/nginx/sites-enabled/madras2
+    owner: root
+    group: root
+    state: link
+  notify:
+    - restart nginx
+
+- name: enable the service
+  runit:
+    name: madras2
+    enabled: yes
+

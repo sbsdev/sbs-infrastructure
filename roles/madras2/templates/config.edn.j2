@@ -1,0 +1,38 @@
+{:port 3000
+
+ ;; when :nrepl-port is set the application starts the nREPL server on load
+ :nrepl-port 7000
+ 
+ :database-url "mysql://{{ database_server }}:{{ database_port }}/{{ database_name }}?user={{ database_user }}&password={{ madras2_db_password }}"
+
+ :archive-database-url "mysql://{{ archive_database_server }}:{{ archive_database_port }}/{{ archive_database_name }}?user={{ archive_database_user }}&password={{ archive_database_password }}"
+
+ :ldap-address "ipa01.sbszh.ch"
+
+ :production-path {{ production_path }}
+ :abacus-export-dir {{ abacus_export_dir }}
+ :pipeline1-install-path "/usr/lib/daisy-pipeline"
+
+ :pipeline2-auth-id "clientid"
+ :pipeline2-secret "supersekret"
+ :pipeline2-remote false
+
+ ;; Path to the archive spool directory, i.e. where to place incoming
+ ;; productions that are to be archived
+ :archive-spool-dir {{ archive_spool_dir }}
+ ;; Path to the archive spool directory for periodicals
+ :archive-periodical-spool-dir {{ archive_periodical_spool_dir }}
+ ;; Path to the archive spool directory for other productions
+ :archive-other-spool-dir {{ archive_other_spool_dir }}
+
+ :archive-web-root {{ archive_web_root }}
+ :archive-web-user "madras"
+ :archive-web-password "IeS2shoh"
+
+ ;; secret to generate the jwt token, see
+ ;; https://stackoverflow.com/a/62779478
+ ;; generated with openssl rand -hex 20
+ :jwt-secret "7c7827fffab21851e3ec0411cf3051d12a4b821b"
+
+
+}

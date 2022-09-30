@@ -1,0 +1,10 @@
+---
+- name: restart madras2
+  runit:
+    name: madras2
+    state: restarted
+
+- name: restart nginx
+  runit:
+    name: nginx
+    state: restarted

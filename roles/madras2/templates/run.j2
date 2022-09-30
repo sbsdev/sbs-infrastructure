@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec 2>&1
+exec /usr/bin/java -Xmx4G -Dconf=/etc/madras2/config.edn -jar {{ madras2_install_dir }}/mdr2.jar
