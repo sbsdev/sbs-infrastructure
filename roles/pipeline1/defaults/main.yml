@@ -3,6 +3,4 @@ pipeline1_required_debs:
   - default-jdk
   - lame
   - espeak
-pipeline1_local_debs:
-  - daisy-pipeline_20220630-2_all.deb
 

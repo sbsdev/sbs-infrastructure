@@ -3,15 +3,9 @@
 - name: install dependencies
   apt: name="{{ pipeline1_required_debs }}"
 
-- name: copy local debs
-  copy: src="{{ item }}" dest=/tmp
-  register: copy_deb
-  with_items: "{{ pipeline1_local_debs }}"
-
-- name: install local debs
-  apt: deb="/tmp/{{ item }}"
-  when: copy_deb.changed
-  with_items: "{{ pipeline1_local_debs }}"
+- name: install Pipeline1
+  apt:
+    deb: https://github.com/daisy/pipeline1/releases/download/{{ pipeline1_version }}/daisy-pipeline_{{ pipeline1_version }}-2_all.deb
 
 - name: adapt the settings
   template:
