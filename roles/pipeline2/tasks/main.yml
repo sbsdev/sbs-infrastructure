@@ -1,9 +1,7 @@
 ---
-- name: install pipeline2
+- name: install Pipeline2
   apt:
-    deb: "{{ item }}"
-  with_items:
-    - "{{ pipeline2_deb }}"
+    deb: https://github.com/daisy/pipeline-assembly/releases/download/v{{ pipeline2_version }}/pipeline2-{{ pipeline2_version }}_debian.deb
 
 # in some cases it is beneficial to remove the pipeline database
 # (to get rid of old jobs, etc). But this causes problems when the
