@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/mdr2.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/mdr2.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    {% if mail_recipients %}
+    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+      <smtpHost>{{ mail_host }}</smtpHost>
+      {% for recipient in mail_recipients %}
+      <to>{{ recipient }}</to>
+      {% endfor %}
+      <from>{{ mail_sender }}</from>
+      <subject>[Madras2]: %logger{20} - %msg</subject>
+      <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+      </layout>
+      <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+        <bufferSize>1</bufferSize>
+      </cyclicBufferTracker>
+    </appender>
+    {% endif %}
+    <logger name="org.apache.http" level="warn" />
+    <logger name="org.xnio.nio" level="warn" />
+    <logger name="com.zaxxer.hikari" level="warn" />
+    <logger name="io.undertow.websockets.core.request" level="warn" />
+    <logger name="io.undertow.request" level="warn" />
+    <logger name="io.undertow.session" level="warn" />
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+	{% if mail_recipients %}
+        <appender-ref ref="EMAIL" />
+	{% endif %}
+    </root>
+</configuration>

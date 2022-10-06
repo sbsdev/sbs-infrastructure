@@ -1,3 +1,7 @@
 ---
 madras2_version: 0.37.0
 madras2_install_dir: /usr/local/share/java
+mail_host: smtp.sbszh.ch
+mail_sender: madras2@sbs.ch
+mail_recipients: [sysadmin@sbs.ch]
+mail_prefix: "[Madras2]"
