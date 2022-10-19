@@ -49,7 +49,7 @@
 - name: Download the jar file
   get_url:
     url: https://github.com/sbsdev/mdr2/releases/download/{{ madras2_version }}/mdr2.jar
-    dest: "{{ madras_install_dir }}/mdr2.jar"
+    dest: "{{ madras2_install_dir }}/mdr2.jar"
   notify:
     - restart madras2
 
