@@ -1,0 +1,8 @@
+[Unit]
+Description=Madras2
+
+[Service]
+ExecStart=/usr/bin/java -Xmx4G -Dconf=/etc/madras2/config.edn -Dlogback.configurationFile=/etc/madras2/logback.xml -jar {{ madras2_install_dir }}/mdr2.jar
+
+[Install]
+WantedBy=multi-user.target

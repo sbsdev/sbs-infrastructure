@@ -1,10 +1,10 @@
 ---
 - name: restart madras2
-  runit:
+  service:
     name: madras2
     state: restarted
 
 - name: restart nginx
-  runit:
+  service:
     name: nginx
     state: restarted

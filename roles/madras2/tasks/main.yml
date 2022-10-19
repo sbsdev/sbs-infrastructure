@@ -75,16 +75,18 @@
   notify:
     - restart madras2
 
-- name: create a directory for the service
-  file:
-    path: /etc/sv/madras2
-    state: directory
-
 - name: create an init script
   template:
-    src: run.j2
-    dest: /etc/sv/madras2/run
-    mode: '0755'
+    src: madras2.service.j2
+    dest: /etc/systemd/system/madras2.service
+    mode: '0644'
+  notify:
+    - restart madras2
+
+- name: enable the service
+  service:
+    name: madras2
+    enabled: yes
   notify:
     - restart madras2
 
@@ -106,8 +108,10 @@
   notify:
     - restart nginx
 
-- name: enable the service
-  runit:
-    name: madras2
-    enabled: yes
+- name: remove the default site from ngnix
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - restart nginx
 
