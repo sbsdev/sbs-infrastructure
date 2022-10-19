@@ -9,8 +9,8 @@
 
  :ldap-address "ipa01.sbszh.ch"
 
- :production-path {{ production_path }}
- :abacus-export-dir {{ abacus_export_dir }}
+ :production-path "{{ production_path }}"
+ :abacus-export-dir "{{ abacus_export_dir }}"
  :pipeline1-install-path "/usr/lib/daisy-pipeline"
 
  :pipeline2-auth-id "clientid"
@@ -19,13 +19,13 @@
 
  ;; Path to the archive spool directory, i.e. where to place incoming
  ;; productions that are to be archived
- :archive-spool-dir {{ archive_spool_dir }}
+ :archive-spool-dir "{{ archive_spool_dir }}"
  ;; Path to the archive spool directory for periodicals
- :archive-periodical-spool-dir {{ archive_periodical_spool_dir }}
+ :archive-periodical-spool-dir "{{ archive_periodical_spool_dir }}"
  ;; Path to the archive spool directory for other productions
- :archive-other-spool-dir {{ archive_other_spool_dir }}
+ :archive-other-spool-dir "{{ archive_other_spool_dir }}"
 
- :archive-web-root {{ archive_web_root }}
+ :archive-web-root "{{ archive_web_root }}"
  :archive-web-user "madras"
  :archive-web-password "IeS2shoh"
 
@@ -34,8 +34,8 @@
  ;; generated with openssl rand -hex 20
  :jwt-secret "7c7827fffab21851e3ec0411cf3051d12a4b821b"
 
- :mail-host {{ mail_host }}
- :mail-sender {{ mail_sender }}
- :mail-prefix {{ mail_prefix }}
+ :mail-host "{{ mail_host }}"
+ :mail-sender "{{ mail_sender }}"
+ :mail-prefix "{{ mail_prefix }}"
 
 }
