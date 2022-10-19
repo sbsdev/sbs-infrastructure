@@ -69,7 +69,7 @@
 
 - name: create the logback config file
   template:
-    src: logback.xml.js
+    src: logback.xml.j2
     dest: /etc/madras2/logback.xml
     mode: '0600'
   notify:
