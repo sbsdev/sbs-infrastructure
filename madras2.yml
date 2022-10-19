@@ -4,6 +4,4 @@
   vars_files:
     - "vars/passwords.yml"
   roles:
-    - pipeline1
-    - pipeline2
     - madras2
