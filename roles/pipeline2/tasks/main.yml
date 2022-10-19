@@ -62,4 +62,4 @@
 
 - name: create the runit startup scripts
   include: runit.yml
-
+  when: host_has_runit

@@ -1,5 +1,14 @@
 ---
-- name: restart pipeline2
+- name: restart pipeline2 with runit
   runit:
     name: daisy-pipeline2
     state: restarted
+  when: host_has_runit
+  listen: "restart pipeline2"
+
+- name: restart pipeline2 with service
+  service:
+    name: daisy-pipeline2
+    state: restarted
+  when: not host_has_runit
+  listen: "restart pipeline2"

@@ -17,11 +17,14 @@
     state: directory
     mode: 0755
 
-- name: create the directory for the services env variables
+- name: create directories for the services env variables and log files
   file:
-    path: "/etc/sv/{{ service_name }}/env"
+    path: "/etc/sv/{{ service_name }}/{{ item }}"
     state: directory
     mode: 0755
+  with_items:
+    - env
+    - log
 
 - name: define env variables for daemon
   copy:
