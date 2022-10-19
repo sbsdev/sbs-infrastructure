@@ -9,7 +9,6 @@
 
 - name: create spool directory for outgoing files to ABACUS
   file: path=/var/spool/abacus state=directory
-        owner={{ wildfly_user }} group={{ wildfly_group }}
 
 - name: mount all needed directories from the main file server and from the studio server
   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
