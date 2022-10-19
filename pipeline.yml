@@ -40,7 +40,7 @@
     #   # not sure if this is really needed. AFAIK liblouis comes with the
     #   # braille modules. See
     #   # https://github.com/sbsdev/deployment/blob/master/src/plans/pipeline2.clj#L31
-    #   lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+    #   lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
     #               line='org.daisy.pipeline.liblouis.external=true'
 
     - name: copy webui deb

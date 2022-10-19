@@ -25,22 +25,22 @@
   notify:
     - restart pipeline2
 
-- name: sallow local filesystem interactions
-  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+- name: allow local filesystem interactions
+  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
               regexp='^#?org.daisy.pipeline.ws.localfs='
               line='org.daisy.pipeline.ws.localfs=true'
   notify:
     - restart pipeline2
 
 - name: set authentication to false
-  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
               regexp='^#?org.daisy.pipeline.ws.authentication='
               line='org.daisy.pipeline.ws.authentication=false'
   notify:
     - restart pipeline2
 
 - name: set client secret in server
-  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
               regexp='^org.daisy.pipeline.ws.authentication.secret='
               line='org.daisy.pipeline.ws.authentication.secret={{ pipeline2_client_secret }}'
   notify:
@@ -50,7 +50,7 @@
   # not sure if this is really needed. AFAIK liblouis comes with the
   # braille modules. See
   # https://github.com/sbsdev/deployment/blob/master/src/plans/pipeline2.clj#L31
-  lineinfile: dest="{{ daisy_pipeline2_path }}/system.properties"
+  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
               line='org.daisy.pipeline.liblouis.external=true'
 
 # install sbs specific pipeline modules
