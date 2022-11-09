@@ -35,7 +35,7 @@
  :jwt-secret "7c7827fffab21851e3ec0411cf3051d12a4b821b"
 
  :mail-host "{{ mail_host }}"
- :mail-sender "{{ mail_sender }}"
+ :mail-sender "{{ mail_sender }}@{{ ansible_host }}"
  :mail-prefix "{{ mail_prefix }}"
 
 }
