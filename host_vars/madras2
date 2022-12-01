@@ -12,5 +12,5 @@ archive_other_spool_dir: /var/spool/agadir/other
 archive_database_server: db.sbszh.ch
 archive_database_name: agadir
 archive_database_port: 3309
-archive_database_user: madras2
+archive_database_user: agadir
 archive_web_root: http://archive.sbszh.ch/archive/master
