@@ -14,3 +14,4 @@ archive_database_name: agadir
 archive_database_port: 3309
 archive_database_user: agadir
 archive_web_root: http://archive.sbszh.ch/archive/master
+mail_recipients: [sysadmin@sbs.ch, christian.egli@sbs.ch]
