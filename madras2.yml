@@ -5,3 +5,4 @@
     - "vars/passwords.yml"
   roles:
     - madras2
+    - prometheus-node
