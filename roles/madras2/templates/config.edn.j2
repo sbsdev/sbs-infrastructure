@@ -32,7 +32,7 @@
  ;; secret to generate the jwt token, see
  ;; https://stackoverflow.com/a/62779478
  ;; generated with openssl rand -hex 20
- :jwt-secret "7c7827fffab21851e3ec0411cf3051d12a4b821b"
+ :jwt-secret "{{ jwt_secret }}"
 
  :mail-host "{{ mail_host }}"
  :mail-sender "{{ mail_sender }}@{{ ansible_host }}"
