@@ -34,9 +34,9 @@
     - { path: '/var/spool/agadir/books', src: '/mnt/a03/agadir' }
     - { path: '/var/spool/agadir/periodicals', src: '/mnt/a03/d14' }
     - { path: '/var/spool/agadir/other', src: '/mnt/a03/kleinauftraege' }
-    - { path: '/var/lib/mdr2/structured', src: '/mnt/miloun/structured' }
-    - { path: '/var/lib/mdr2/recorded', src: '/mnt/miloun/recorded' }
-    - { path: '/var/lib/mdr2/recording', src: '/mnt/miloun/recording' }
+    - { path: '/var/lib/mdr2/structured', src: '/mnt/vac/structured' }
+    - { path: '/var/lib/mdr2/recorded', src: '/mnt/vac/recorded' }
+    - { path: '/var/lib/mdr2/recording', src: '/mnt/vac/recording' }
     - { path: '/var/lib/mdr2/encoded', src: '/mnt/a03/encoded' }
     - { path: '/var/lib/mdr2/iso', src: '/mnt/a03/iso' }
     - { path: '/var/lib/mdr2/split', src: '/mnt/a03/split' }
