@@ -1,7 +1,6 @@
 server {
     listen 80;
-{# for the production server we also need to define a server name madras2.sbszh.ch #}
-    server_name {% if ansible_host == "madras01" %}madras2.sbszh.ch {% endif %}{{ ansible_host }}.sbszh.ch;
+    server_name {{ ansible_host }} {{ ansible_host }}.sbszh.ch;
 
     client_max_body_size 100M;
 
