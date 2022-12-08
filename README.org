@@ -67,6 +67,11 @@ To deploy to the production server run
 
 ** Madras2
 
+Create a release in [[https://github.com/sbsdev/mdr2][Madras]] with ~lein release~. This triggers the
+[[https://github.com/sbsdev/mdr2/blob/master/.github/workflows/upload-release-asset.yml][release github action]] which builds the uberjar and uploads it to the
+[[https://github.com/sbsdev/mdr2/releases][github release page]]. Then adapt the version number in
+[[file:roles/madras2/defaults/main.yml][roles/madras2/defaults/main.yml]]. To deploy to the test server run
+
 To deploy to the madras test server run
 
 #+BEGIN_SRC shell
