@@ -10,16 +10,16 @@
 - name: create spool directory for outgoing files to ABACUS
   file: path=/var/spool/abacus state=directory
 
-- name: mount all needed directories from the main file server and from the studio server
-  mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
-  with_items:
-    - { name: '/mnt/a03/agadir', src: 'a03:/disk/sdb1/agadir/in'}
-    - { name: '/mnt/a03/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
-    - { name: '/mnt/a03/iso', src: 'a03:/disk/sdb1/madras2/iso'}
-    - { name: '/mnt/a03/split', src: 'a03:/disk/sdb1/madras2/split'}
-    - { name: '/mnt/miloun/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
-    - { name: '/mnt/miloun/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
-    - { name: '/mnt/miloun/recording', src: 'miloun:/mnt/studio/studio/madras2/recording'}
+# - name: mount all needed directories from the main file server and from the studio server
+#   mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
+#   with_items:
+#     - { name: '/mnt/a03/agadir', src: 'a03:/disk/sdb1/agadir/in'}
+#     - { name: '/mnt/a03/encoded', src: 'a03:/disk/sdb1/madras2/encoded'}
+#     - { name: '/mnt/a03/iso', src: 'a03:/disk/sdb1/madras2/iso'}
+#     - { name: '/mnt/a03/split', src: 'a03:/disk/sdb1/madras2/split'}
+#     - { name: '/mnt/miloun/structured', src: 'miloun:/mnt/studio/studio/madras2/structured'}
+#     - { name: '/mnt/miloun/recorded', src: 'miloun:/mnt/studio/studio/madras2/recorded'}
+#     - { name: '/mnt/miloun/recording', src: 'miloun:/mnt/studio/studio/madras2/recording'}
 
 # FIXME: this fails because root apparently cannot mount this
 # - name: mount the archive for other productions
