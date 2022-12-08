@@ -14,5 +14,6 @@ archive_database_name: agadir_test
 archive_database_port: 3309
 archive_database_user: madras2_test
 archive_web_root: http://archive.sbszh.ch/archive/master
+archive_web_user: madras
 mail_recipients: [sysadmin@sbs.ch, christian.egli@sbs.ch]
 jwt_secret: c0a4b8343ec9cdf252cf89a288245631453d474c

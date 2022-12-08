@@ -14,5 +14,6 @@ archive_database_name: agadir
 archive_database_port: 3309
 archive_database_user: agadir
 archive_web_root: http://archive.sbszh.ch/archive/master
+archive_web_user: madras
 mail_recipients: [sysadmin@sbs.ch, christian.egli@sbs.ch]
 jwt_secret: 7c7827fffab21851e3ec0411cf3051d12a4b821b
