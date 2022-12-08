@@ -1,8 +1,6 @@
 ---
 - hosts: daisyproducer
   become: true
-  vars_files:
-    - "vars/passwords.yml"
 
   roles:
     - daisyproducer

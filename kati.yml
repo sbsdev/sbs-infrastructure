@@ -1,8 +1,6 @@
 ---
 - hosts: kati
   become: true
-  vars_files:
-    - "vars/passwords.yml"
   roles:
     - kati
 

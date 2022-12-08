@@ -1,8 +1,6 @@
 ---
 - hosts: madras2
   become: true
-  vars_files:
-    - "vars/passwords.yml"
   roles:
     - madras2
     - prometheus-node
