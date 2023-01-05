@@ -3,15 +3,10 @@
 - name: install dependencies
   apt: name="{{ pipeline1_required_debs }}"
 
-- name: copy pipeline1 deb
-  copy:
-    src: files/{{ pipeline1_deb }}
-    dest: /tmp
-  register: copy_deb
-
-- name: install pipeline1 deb
-  apt: deb="/tmp/{{ pipeline1_deb }}"
-  when: copy_deb.changed
+- name: install Pipeline1
+  apt:
+    deb: https://github.com/sbsdev/pipeline1/releases/download/{{ pipeline1_version }}/daisy-pipeline_{{ pipeline1_version }}-2_all.deb
+  register: install_deb
 
 - name: adapt the settings
   template:
@@ -23,5 +18,5 @@
 - name: copy dtbook2latex_sbs.xsl
   command: cp dtbook2latex_sbs.xsl dtbook2latex.xsl
            chdir=/usr/lib/daisy-pipeline/transformers/se_tpb_dtbook2latex
-  when: copy_deb.changed
+  when: install_deb.changed
 
