@@ -3,10 +3,15 @@
 - name: install required packages
   apt: name="{{ daisyproducer_required_debs }}"
 
-- name: install local debs
+- name: install dtbook2sbsform
   apt:
-    deb: "{{ item }}"
-  with_items: "{{ daisyproducer_local_debs }}"
+    deb: https://github.com/sbsdev/dtbook2sbsform/releases/download/v{{ dtbook2sbsform_version }}/dtbook2sbsform-{{ dtbook2sbsform_version }}.deb
+  notify:
+    - restart apache
+
+- name: install update-dtbook-metadata
+  apt:
+    deb: https://github.com/sbsdev/update-dtbook-metadata/releases/download/v{{ update_dtbook_metadata_version }}/update-dtbook-metadata_{{ update_dtbook_metadata_version }}_all.deb
   notify:
     - restart apache
 
