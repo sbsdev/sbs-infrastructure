@@ -10,3 +10,4 @@ daisyproducer_server_aliases:
   - xmlp
   - xmlp.sbszh.ch
 daisyproducer_debug: False
+host_has_runit: true
