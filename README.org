@@ -86,6 +86,10 @@ To deploy to the pipeline test server run
   ansible-playbook -i test -K --vault-password-file .vault_pass.txt pipeline.yml
 #+END_SRC
 
+* Secrets management
+Global secrets are stored in ~group_vars/all.yml~. Per host secrets
+are stored in ~host_vars/<host>/secrets.yml~.
+
 * Edit Passwords
 
 #+BEGIN_SRC shell
