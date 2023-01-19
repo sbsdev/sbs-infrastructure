@@ -16,11 +16,11 @@
 #   file: path="{{ daisy_pipeline2_path }}"
 #         state=absent
 
-- name: set REMOTE=false for pipeline2
+- name: set REMOTE=true for pipeline2
   lineinfile:
     path: /etc/default/daisy-pipeline2
     regexp: "^#?REMOTE=(true|false)$"
-    line: 'REMOTE=false'
+    line: 'REMOTE=true'
   notify:
     - restart pipeline2
 
@@ -45,7 +45,7 @@
 - name: disallow local filesystem interactions
   lineinfile: dest="{{ pipeline_config_file }}"
               regexp='^#?org.daisy.pipeline.ws.localfs='
-              line='org.daisy.pipeline.ws.localfs=true'
+              line='org.daisy.pipeline.ws.localfs=false'
   notify:
     - restart pipeline2
 
