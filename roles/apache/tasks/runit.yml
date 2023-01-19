@@ -1,6 +1,7 @@
 ---
 
-- set_fact:
+- name: set the service name to apache
+  set_fact:
     service_name: "apache"
 
 - name: create the directory for the service
