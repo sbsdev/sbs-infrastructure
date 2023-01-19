@@ -2,6 +2,12 @@
 - name: install Pipeline2
   apt:
     deb: https://github.com/daisy/pipeline-assembly/releases/download/v{{ pipeline2_version }}/pipeline2-{{ pipeline2_version }}_debian.deb
+  when: pipeline2_deb is undefined
+
+- name: install old version Pipeline2
+  apt:
+    deb: "{{ pipeline2_deb }}"
+  when: pipeline2_deb is defined
 
 # in some cases it is beneficial to remove the pipeline database
 # (to get rid of old jobs, etc). But this causes problems when the
@@ -25,22 +31,33 @@
   notify:
     - restart pipeline2
 
-- name: allow local filesystem interactions
-  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
+# the location of the properties file has changed in version 1.14.1
+- name: set config file to pipeline.properties
+  set_fact:
+    pipeline_config_file: "{{ daisy_pipeline2_path }}/pipeline.properties"
+  when: "pipeline2_version is version('1.14.1', '>=')"
+
+- name: set config file to system.properties
+  set_fact:
+    pipeline_config_file: "{{ daisy_pipeline2_path }}/system.properties"
+  when: "pipeline2_version is version('1.14.1', '<')"
+
+- name: disallow local filesystem interactions
+  lineinfile: dest="{{ pipeline_config_file }}"
               regexp='^#?org.daisy.pipeline.ws.localfs='
               line='org.daisy.pipeline.ws.localfs=true'
   notify:
     - restart pipeline2
 
 - name: set authentication to false
-  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
+  lineinfile: dest="{{ pipeline_config_file }}"
               regexp='^#?org.daisy.pipeline.ws.authentication='
               line='org.daisy.pipeline.ws.authentication=false'
   notify:
     - restart pipeline2
 
 - name: set client secret in server
-  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
+  lineinfile: dest="{{ pipeline_config_file }}"
               regexp='^org.daisy.pipeline.ws.authentication.secret='
               line='org.daisy.pipeline.ws.authentication.secret={{ pipeline2_client_secret }}'
   notify:
@@ -50,7 +67,7 @@
   # not sure if this is really needed. AFAIK liblouis comes with the
   # braille modules. See
   # https://github.com/sbsdev/deployment/blob/master/src/plans/pipeline2.clj#L31
-  lineinfile: dest="{{ daisy_pipeline2_path }}/pipeline.properties"
+  lineinfile: dest="{{ pipeline_config_file }}"
               line='org.daisy.pipeline.liblouis.external=true'
 
 # install sbs specific pipeline modules
