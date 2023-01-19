@@ -2,6 +2,5 @@ dependencies:
   - java
   - prometheus-node
   - pipeline1
-  - pipeline2
 
 
