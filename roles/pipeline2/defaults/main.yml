@@ -2,8 +2,8 @@
 daisy_pipeline2_path: /opt/daisy-pipeline2/etc
 pipeline2_version: 1.14.7
 sbs_module_debs:
-  - https://github.com/sbsdev/pipeline/releases/download/clean-css-0.2/mod-sbs_1.8.1.20220704.110046-clean-css-0.2_all.deb
-  - https://github.com/sbsdev/pipeline/releases/download/clean-css-0.2/dtbook-to-odt_1.0.0-SNAPSHOT_all.deb
+  - https://github.com/sbsdev/pipeline/releases/download/clean-css-0.3/mod-sbs_1.8.1.20230307.144143-clean-css-0.3_all.deb
+  - https://github.com/sbsdev/pipeline/releases/download/clean-css-0.3/dtbook-to-odt_1.0.0-SNAPSHOT_all.deb
 host_has_runit: false
 
 
