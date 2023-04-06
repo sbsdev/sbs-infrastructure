@@ -3,4 +3,4 @@ pipeline1_required_debs:
   - default-jdk
   - lame
   - espeak
-pipeline1_version: 20230314
+pipeline1_version: 20230406
