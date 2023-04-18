@@ -29,7 +29,7 @@ daisyproducer_required_debs:
   - python-requests # used for the new Pipeline2 client
   - python-cmislib # used to talk to Alfresco
 pipeline1_version: 20230118
-dtbook2sbsform_version: 0.24
+dtbook2sbsform_version: 0.25
 update_dtbook_metadata_version: 0.6
 daisyproducer_git_version: master
 

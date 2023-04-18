@@ -43,15 +43,8 @@
     chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
     creates: "/usr/local/lib/python3.8/dist-packages/louis-{{ liblouis_version }}.egg-info"
 
-- name: copy sbs tables
-  copy:
-    src: "{{ item }}"
-    dest: "/tmp"
-  with_items: "{{ liblouis_local_debs }}"
-
 - name: install sbs tables
   apt:
-    deb: "/tmp/{{ item }}"
-  with_items: "{{ liblouis_local_debs }}"
+    deb: https://github.com/sbsdev/sbs-braille-tables/releases/download/v{{ sbs_braille_tables_version }}/sbs-braille-tables_{{ sbs_braille_tables_version }}_all.deb
   notify:
     - restart apache
