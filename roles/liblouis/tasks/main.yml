@@ -41,7 +41,7 @@
   command: python3 setup.py install
   args:
     chdir: "/tmp/liblouis-{{ liblouis_version }}/python"
-    creates: "/usr/local/lib/python3.8/dist-packages/louis-{{ liblouis_version }}.egg-info"
+    creates: "/usr/local/lib/python3.[1-9]/dist-packages/louis-{{ liblouis_version }}.egg-info"
 
 - name: install sbs tables
   apt:
