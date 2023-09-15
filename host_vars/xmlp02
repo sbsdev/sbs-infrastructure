@@ -13,4 +13,4 @@ host_has_runit: true
 # daisyproducer needs a very old forked version of the Pipeline2, so
 # we define the path to the deb here
 pipeline2_version: 1.11.1
-pipeline2_deb: https://github.com/sbsdev/pipeline/releases/download/clean-css-0.3/assembly-1.11.1-SNAPSHOT-all.deb
+pipeline2_deb: https://github.com/sbsdev/pipeline/releases/download/sursilvan-0.1/assembly-1.11.1-SNAPSHOT-all.deb
