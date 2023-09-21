@@ -38,7 +38,7 @@
   notify:
     - restart kati
 
-- name: create an sites available file for ngnix
+- name: create an sites available file for nginx
   template:
     src: sites-available.j2
     dest: /etc/nginx/sites-available/kati
@@ -46,7 +46,7 @@
   notify:
     - restart nginx
 
-- name: create a link in sites enabled for ngnix
+- name: create a link in sites enabled for nginx
   file:
     src: /etc/nginx/sites-available/kati
     dest: /etc/nginx/sites-enabled/kati

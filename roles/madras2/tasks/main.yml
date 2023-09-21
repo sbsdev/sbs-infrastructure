@@ -89,7 +89,7 @@
   notify:
     - restart madras2
 
-- name: create an sites available file for ngnix
+- name: create an sites available file for nginx
   template:
     src: sites-available.j2
     dest: /etc/nginx/sites-available/madras2
@@ -97,7 +97,7 @@
   notify:
     - restart nginx
 
-- name: create a link in sites enabled for ngnix
+- name: create a link in sites enabled for nginx
   file:
     src: /etc/nginx/sites-available/madras2
     dest: /etc/nginx/sites-enabled/madras2
@@ -107,7 +107,7 @@
   notify:
     - restart nginx
 
-- name: remove the default site from ngnix
+- name: remove the default site from nginx
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
