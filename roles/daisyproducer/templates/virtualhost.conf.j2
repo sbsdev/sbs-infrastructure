@@ -35,6 +35,13 @@
     Alias /archive/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/archive/
     Alias /schema/  /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/documents/schema/
 
+    # serve the ebooks for the online player from a spool directory
+    Alias /ebooks/  /var/spool/ebooks/
+    <Directory /var/spool/ebooks>
+	Require all granted
+	Header set Access-Control-Allow-Origin '*'
+    </Directory>
+
     # since daisy.org changed their website we can no longer properly
     # access http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd (which
     # is in the DOCTYPE). So most of our xml processing is hosed. As a

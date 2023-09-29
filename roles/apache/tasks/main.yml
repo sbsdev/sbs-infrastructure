@@ -17,6 +17,7 @@
     - proxy
     - proxy_http
     - rewrite
+    - headers
   notify:
     - restart apache
 
