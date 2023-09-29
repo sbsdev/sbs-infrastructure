@@ -18,6 +18,14 @@
  :hyphen-dictionaries {0 "/usr/share/hyphen/hyph_de_DE_OLDSPELL_base.dic"
                        1 "/usr/share/hyphen/hyph_de_DE_base.dic"}
 
+
+ ;; how to reach the online player, from which url to serve the
+ ;; generated EPUBs and in which directory to store the generated
+ ;; EPUBs
+ :online-player {:url "http://player2.sbs.dmz/?autoPlay=true&url="
+                 :source "http://{{ ansible_host }}.sbszh.ch/ebooks/%s/EPUB/package.opf"
+                 :spool-dir "{{ online_player_spool_dir }}"}
+
  ;; where to find the pipeline1
  :pipeline1-install-path "/usr/lib/daisy-pipeline"
 

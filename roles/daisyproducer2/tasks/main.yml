@@ -25,6 +25,11 @@
   notify:
     - restart daisyproducer2
 
+- name: create a spool directory for the ebooks which are served to the online player
+  file:
+    path: "{{ online_player_spool_dir }}"
+    state: directory
+
 - name: create a directory for the service
   file:
     path: /etc/sv/daisyproducer2
