@@ -1,0 +1,45 @@
+---
+
+# Instead of using the Java versions provided by Debian we download the binaries from adoptium
+# directly. See https://adoptium.net/temurin/releases/
+
+- name: create the download directory
+  file:
+    path: /opt/adoptium
+    state: directory
+    mode: '0755'
+
+- name: download the jdk for Java8
+  get_url:
+    url: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u382-b05/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    dest: /opt/adoptium
+
+- name: extract the files
+  unarchive:
+    src: /opt/adoptium/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    dest: /opt/adoptium
+    remote_src: true
+
+- name: create a symbolic link for Java8
+  file:
+    src: jdk8u382-b05
+    dest: /opt/adoptium/java8
+    state: link
+
+- name: download the jdk for Java17
+  get_url:
+    url: https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz
+    dest: /opt/adoptium
+
+- name: extract the files
+  unarchive:
+    src: /opt/adoptium/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz
+    dest: /opt/adoptium
+    remote_src: true
+
+- name: create a symbolic link for Java17
+  file:
+    src: jdk-17.0.8.1+1
+    dest: /opt/adoptium/java17
+    state: link
+
