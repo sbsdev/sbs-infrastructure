@@ -1,0 +1,66 @@
+
+<VirtualHost *:443>
+    ServerAdmin sysadmin@sbszh.ch
+    ServerName {{ daisyproducer_host }}
+{% for alias in daisyproducer_server_aliases %}
+    ServerAlias {{ alias }}
+{% endfor %}
+
+    DocumentRoot /srv/{{ daisyproducer_host }}/
+    ErrorLog /var/log/apache2/{{ daisyproducer_host }}-error_log
+    CustomLog /var/log/apache2/{{ daisyproducer_host }}-access_log combined
+
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/letsencrypt/fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/letsencrypt/privkey.pem
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    # LogLevel info
+
+    HostnameLookups Off
+    UseCanonicalName Off
+    ServerSignature On
+
+    Alias /media/ /usr/share/python-django-common/django/contrib/admin/static/
+
+    <Directory /usr/share/python-django-common/django/contrib/admin/static/>
+        Require all granted
+    </Directory>
+
+    Alias /stylesheets/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/stylesheets/
+    Alias /javascripts/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/javascripts/
+    Alias /images/      /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/public/images/
+
+    <Directory /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer>
+        Require all granted
+    </Directory>
+
+    Alias /archive/ /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/archive/
+    Alias /schema/  /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/documents/schema/
+
+    # serve the ebooks for the online player from a spool directory
+    Alias /ebooks/  /var/spool/ebooks/
+    <Directory /var/spool/ebooks>
+	Require all granted
+	Header set Access-Control-Allow-Origin '*'
+    </Directory>
+
+    # since daisy.org changed their website we can no longer properly
+    # access http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd (which
+    # is in the DOCTYPE). So most of our xml processing is hosed. As a
+    # gross workaround we redirect all traffic to daisy.org to the
+    # local machine (via an entry in /etc/hosts) and serve the dtd
+    # locally.
+    Alias /z3986/2005/  /usr/share/xml/dtbook/
+
+    <Directory /usr/share/xml/dtbook>
+	Require all granted
+    </Directory>
+
+    RewriteEngine On
+    RewriteRule "^/hyphenations/(.*)" "http://{{ daisyproducer_host }}:8080/hyphenations/$1" [P]
+
+    WSGIScriptAlias / /srv/{{ daisyproducer_host }}/daisyproducer/daisyproducer/daisyproducer.wsgi
+
+</VirtualHost>

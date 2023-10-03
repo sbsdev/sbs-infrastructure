@@ -24,7 +24,20 @@
 - name: enable vhost
   command: a2ensite {{ ansible_host }}.sbszh.ch.conf
   args:
-    creates: /etc/apache2/sites-enabled/xmlp02.sbszh.ch.conf
+    creates: /etc/apache2/sites-enabled/{{ ansible_host }}.sbszh.ch.conf
+  notify:
+    - restart apache
+
+# install virtual host for https
+- name: install vhost for https
+  template:
+    src: virtualhost-ssl.conf.j2
+    dest: "/etc/apache2/sites-available/{{ ansible_host }}-ssl.sbszh.ch.conf"
+
+- name: enable vhost for https
+  command: a2ensite {{ ansible_host }}-ssl.sbszh.ch.conf
+  args:
+    creates: /etc/apache2/sites-enabled/{{ ansible_host }}-ssl.sbszh.ch.conf
   notify:
     - restart apache
 
