@@ -22,8 +22,8 @@
  ;; how to reach the online player, from which url to serve the
  ;; generated EPUBs and in which directory to store the generated
  ;; EPUBs
- :online-player {:url "http://player2.sbs.dmz/?autoPlay=true&url="
-                 :source "http://{{ ansible_host }}.sbszh.ch/ebooks/%s/EPUB/package.opf"
+ :online-player {:url "https://player2.sbs.ch/?autoPlay=true&url="
+                 :source "https://{{ ansible_host }}.sbszh.ch/ebooks/%s/EPUB/package.opf"
                  :spool-dir "{{ online_player_spool_dir }}"}
 
  ;; where to find the pipeline1
