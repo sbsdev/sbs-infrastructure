@@ -18,6 +18,7 @@
     - proxy_http
     - rewrite
     - headers
+    - ssl
   notify:
     - restart apache
 
