@@ -26,6 +26,11 @@
                  :source "https://{{ ansible_host }}.sbszh.ch/ebooks/%s/EPUB/package.opf"
                  :spool-dir "{{ online_player_spool_dir }}"}
 
+ ;; where to spool the finished ebooks
+ :ebook-spool-dir {"it" "/var/spool/daisyproducer/it/"
+                   "de" "/var/spool/daisyproducer/"
+                   "de-1901" "/var/spool/daisyproducer/"}
+
  ;; where to find the pipeline1
  :pipeline1-install-path "/usr/lib/daisy-pipeline"
 
