@@ -23,7 +23,7 @@
  ;; generated EPUBs and in which directory to store the generated
  ;; EPUBs
  :online-player {:url "https://player2.sbs.ch/?autoPlay=true&url="
-                 :source "https://{{ ansible_host }}.sbszh.ch/ebooks/%s/EPUB/package.opf"
+                 :source "https://{% if ansible_host == 'xmlp01' %}xmlp{% else %}{{ ansible_host }}{% endif %}.sbszh.ch/ebooks/%s/EPUB/package.opf"
                  :spool-dir "{{ online_player_spool_dir }}"}
 
  ;; where to spool the finished ebooks
