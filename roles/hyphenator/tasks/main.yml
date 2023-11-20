@@ -23,16 +23,12 @@
     path: /usr/share/hyphen/generated
     state: directory
     mode: 0755
-    owner: wildfly
-    group: wildfly
 
 - name: Move the existing hyphen dicts to the generated directory
   copy:
     src: '/usr/share/hyphen/{{ item }}'
     dest: '/usr/share/hyphen/generated/{{ item }}'
     remote_src: True
-    owner: wildfly
-    group: wildfly
   with_items:
     - "hyph_de_DE.dic"
     - "hyph_de_DE_OLDSPELL.dic"
