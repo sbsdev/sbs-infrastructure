@@ -1,4 +1,6 @@
 ---
+hyphenator_version: 1.1.2
+hyphenator_install_dir: /usr/local/share/java
 hyphenator_debs:
   - hyphen-de-base_1.1-2_all.deb
   - sbs-hyphenation-tables_1.21_all.deb

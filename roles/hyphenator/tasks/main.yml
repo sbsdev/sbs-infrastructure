@@ -1,9 +1,16 @@
 ---
 
-- name: deploy dtbook hyphenator
-  unarchive: src=files/dtbook_hyphenator.zip dest=/opt
+- name: Create the install directory
+  file:
+    path: "{{ hyphenator_install_dir }}"
+    state: directory
   notify:
     - restart apache
+
+- name: Download the jar file
+  get_url:
+    url: https://github.com/sbsdev/dtbook_hyphenator/releases/download/{{ hyphenator_version }}/dtbook-hyphenator-{{ hyphenator_version }}-shaded.jar
+    dest: "{{ hyphenator_install_dir }}/dtbook-hyphenator.jar"
 
 - name: copy deb for spelling
   copy: src="{{ item }}" dest=/tmp
