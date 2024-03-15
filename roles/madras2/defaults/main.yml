@@ -1,5 +1,5 @@
 ---
-madras2_version: 0.9.10
+madras2_version: 0.9.11
 madras2_install_dir: /usr/local/share/java
 mail_host: smtp.sbszh.ch
 mail_sender: madras
