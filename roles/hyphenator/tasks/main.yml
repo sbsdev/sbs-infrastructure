@@ -10,7 +10,13 @@
 - name: Download the jar file
   get_url:
     url: https://github.com/sbsdev/dtbook_hyphenator/releases/download/{{ hyphenator_version }}/dtbook-hyphenator-{{ hyphenator_version }}-shaded.jar
+    dest: "{{ hyphenator_install_dir }}/dtbook-hyphenator-{{ hyphenator_version }}.jar"
+
+- name: create a version independent link to the jar file
+  file:
+    src: "dtbook-hyphenator-{{ hyphenator_version }}.jar"
     dest: "{{ hyphenator_install_dir }}/dtbook-hyphenator.jar"
+    state: link
 
 - name: copy deb for spelling
   copy: src="{{ item }}" dest=/tmp
