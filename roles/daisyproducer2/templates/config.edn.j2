@@ -31,7 +31,11 @@
                    "de" "/var/spool/daisyproducer/"
                    "de-1901" "/var/spool/daisyproducer/"}
 
- ;; where to find the pipeline1
+ ;; where to place generated files such as generated EPUBs, SBSform
+ ;; files, etc. They will be served from there using a static route
+ :spool-dir "{{ generated_resources_spool_dir }}"
+
+;; where to find the pipeline1
  :pipeline1-install-path "/usr/lib/daisy-pipeline"
 
  ;; how to talk to the pipeline2

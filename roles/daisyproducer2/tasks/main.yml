@@ -30,6 +30,11 @@
     path: "{{ online_player_spool_dir }}"
     state: directory
 
+- name: create a temp directory for generated resources
+  file:
+    path: "{{ generated_resources_spool_dir }}"
+    state: directory
+
 - name: create a directory for the service
   file:
     path: /etc/sv/daisyproducer2
