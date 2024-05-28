@@ -53,3 +53,28 @@
 
 - name: install the hyphenation tables
   include: hyphenation.yml
+
+- name: create an sites available file for nginx
+  template:
+    src: daisyproducer2-site.j2
+    dest: /etc/nginx/sites-available/daisyproducer2
+    mode: '0644'
+  notify:
+    - restart nginx
+
+- name: create a link in sites enabled for nginx
+  file:
+    src: /etc/nginx/sites-available/daisyproducer2
+    dest: /etc/nginx/sites-enabled/daisyproducer2
+    owner: root
+    group: root
+    state: link
+  notify:
+    - restart nginx
+
+- name: remove the default site from nginx
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - restart nginx

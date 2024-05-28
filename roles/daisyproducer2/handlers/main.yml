@@ -3,3 +3,8 @@
   runit:
     name: daisyproducer2
     state: restarted
+
+- name: restart nginx
+  runit:
+    name: nginx
+    state: restarted

@@ -1,0 +1,48 @@
+
+upstream backend  {
+server localhost:8080;
+}
+
+server {
+    root /usr/share/nginx/www;
+    index index.html index.htm;
+
+    # Make site accessible from http://localhost/
+    server_name localhost {{ ansible_host }} {{ ansible_host }}.sbszh.ch xmlp xmlp.sbszh.ch;
+
+    location / {
+    	proxy_pass  http://backend;
+    }
+
+    location /doc/ {
+	alias /usr/share/doc/;
+	autoindex on;
+	allow 127.0.0.1;
+	allow ::1;
+	deny all;
+    }
+
+    # serve the DTBook schema (presumably for oXygen)
+    location /schema/ {
+        alias /usr/share/xml/schema/dtbook/;
+	autoindex on;
+    }
+
+    # since daisy.org changed their website we can no longer properly
+    # access http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd (which
+    # is in the DOCTYPE). So most of our xml processing is hosed. As a
+    # gross workaround we redirect all traffic to daisy.org to the
+    # local machine (via an entry in /etc/hosts) and serve the dtd
+    # locally.
+    location /z3986/2005/ {
+        alias /usr/share/xml/dtbook/;
+	autoindex on;
+    }
+
+    # serve the ebooks for the online player from a spool directory
+    location /ebooks/ {
+        alias /var/spool/ebooks/;
+	autoindex on;
+        add_header 'Access-Control-Allow-Origin' '*';
+    }
+}

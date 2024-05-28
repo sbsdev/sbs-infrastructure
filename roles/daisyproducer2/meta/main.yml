@@ -2,3 +2,4 @@ dependencies:
   - adoptium
   - liblouis
   - prometheus-node
+  - nginx
