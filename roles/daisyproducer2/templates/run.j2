@@ -1,4 +1,4 @@
 #!/bin/sh
 
 exec 2>&1
-exec /opt/adoptium/java17/bin/java -Xmx2G -Dconf=/etc/daisyproducer2/config.edn -jar /opt/daisyproducer2/daisyproducer2.jar
+exec /opt/adoptium/java17/bin/java -Xmx2G -Dconf=/etc/daisyproducer2/config.edn -Dlogback.configurationFile=/etc/daisyproducer2/logback.xml -jar /opt/daisyproducer2/daisyproducer2.jar
