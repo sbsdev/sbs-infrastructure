@@ -1,0 +1,5 @@
+---
+
+- name: Install the dtbook schema
+  apt:
+    deb: "https://github.com/sbsdev/dtbook-schema/releases/download/v{{ dtbook_schema_version }}/dtbook-schema_{{ dtbook_schema_version }}_all.deb"

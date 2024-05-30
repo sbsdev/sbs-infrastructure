@@ -3,3 +3,4 @@ dependencies:
   - liblouis
   - prometheus-node
   - nginx
+  - dtbook-schema
