@@ -2,15 +2,21 @@
 
 - name: create an install directory
   file:
-    path: /opt/daisyproducer2
+    path: "{{ daisyproducer2_install_dir }}"
     state: directory
 
 - name: Download the daisyproducer2 jar file
   get_url:
-    url: https://github.com/sbsdev/daisyproducer2/releases/download/{{ daisyproducer2_version }}/daisyproducer2.jar
-    dest: /opt/daisyproducer2/daisyproducer2.jar
+    url: https://github.com/sbsdev/daisyproducer2/releases/download/{{ daisyproducer2_version }}/daisyproducer2-{{ daisyproducer2_version }}-standalone.jar
+    dest: "{{ daisyproducer2_install_dir }}daisyproducer2-{{ daisyproducer2_version }}-standalone.jar"
   notify:
     - restart daisyproducer2
+
+- name: create a version independent link to the jar file
+  file:
+    src: "dtbook-hyphenator-{{ hyphenator_version }}.jar"
+    dest: "{{ hyphenator_install_dir }}/dtbook-hyphenator.jar"
+    state: link
 
 - name: create a config directory
   file:
