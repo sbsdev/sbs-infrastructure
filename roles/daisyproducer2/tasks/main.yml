@@ -31,6 +31,12 @@
   notify:
     - restart daisyproducer2
 
+- name: create directory for the daisyproducer log files
+  file:
+    path: /var/log/daisyproducer2
+    state: directory
+    mode: 0755
+
 - name: create the logback config file
   template:
     src: logback.xml.j2
@@ -38,6 +44,17 @@
     mode: '0600'
   notify:
     - restart daisyproducer2
+
+# - name: make sure archive is owned by www-data
+
+- name: create spool directories for ebooks
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+  with_items:
+    - "/var/spool/daisyproducer"
+    - "/var/spool/daisyproducer/it"
 
 - name: create a spool directory for the ebooks which are served to the online player
   file:
