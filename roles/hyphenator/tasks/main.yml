@@ -4,8 +4,6 @@
   file:
     path: "{{ hyphenator_install_dir }}"
     state: directory
-  notify:
-    - restart apache
 
 - name: Download the jar file
   get_url:
@@ -17,6 +15,10 @@
     src: "dtbook-hyphenator-{{ hyphenator_version }}.jar"
     dest: "{{ hyphenator_install_dir }}/dtbook-hyphenator.jar"
     state: link
+
+- name: install the German base hyphenation patterns
+  apt:
+    name: hyphen-de
 
 - name: copy deb for spelling
   copy: src="{{ item }}" dest=/tmp
