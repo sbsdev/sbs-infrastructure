@@ -1,0 +1,6 @@
+---
+
+- name: install dtbook2sbsform
+  apt:
+    deb: "https://github.com/sbsdev/dtbook2sbsform/releases/download/v{{ dtbook2sbsform_version }}/dtbook2sbsform-{{ dtbook2sbsform_version }}.deb"
+
