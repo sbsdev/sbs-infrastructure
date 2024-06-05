@@ -1,6 +1,11 @@
 dependencies:
   - adoptium
   - liblouis
+  - pipeline1
+  - pipeline2
+  - hyphenator
+  - update-dtbook-metadata
   - prometheus-node
   - nginx
   - dtbook-schema
+  - dtbook2sbsform
