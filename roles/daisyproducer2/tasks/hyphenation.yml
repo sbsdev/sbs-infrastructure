@@ -4,6 +4,10 @@
   apt:
     pkg: libhyphen-dev
 
+- name: install the German base hyphenation patterns
+  apt:
+    name: hyphen-de
+
 - name: install German hyphenation tables
   apt:
     deb: https://github.com/sbsdev/hyphen-de-base/releases/download/{{ hyphen_deb_version }}/hyphen-de-base_{{ hyphen_deb_version }}_all.deb
