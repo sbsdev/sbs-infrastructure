@@ -3,4 +3,14 @@ pipeline1_required_debs:
   - default-jdk
   - lame
   - espeak
+  # for large print we need most of LaTeX
+  - texlive-xetex # contains ucharclasses
+  - texlive-latex-extra
+  - texlive-latex-recommended
+  - texlive-lang-german
+  - latexmk
+  - ttf-tiresias
+  - ttf-mscorefonts-installer # for arial font in large print
+  - lmodern
+
 pipeline1_version: 20230516
