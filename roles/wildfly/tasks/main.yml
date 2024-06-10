@@ -36,7 +36,7 @@
   shell: "{{ wildfly_prefix }}/wildfly/bin/add-user.sh --silent -u {{ wildfly_admin_user }} -p {{ wildfly_admin_password }}"
 
 - name: create the runit startup scripts
-  include: runit.yml
+  include_tasks: runit.yml
 
 - name: start the wildfly service
   runit:

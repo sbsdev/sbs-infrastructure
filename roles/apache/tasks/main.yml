@@ -23,4 +23,4 @@
     - restart apache
 
 - name: create the runit startup scripts
-  include: runit.yml
+  include_tasks: runit.yml

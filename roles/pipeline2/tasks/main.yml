@@ -78,5 +78,5 @@
     - "{{ sbs_module_debs }}"
 
 - name: create the runit startup scripts
-  include: runit.yml
+  include_tasks: runit.yml
   when: host_has_runit

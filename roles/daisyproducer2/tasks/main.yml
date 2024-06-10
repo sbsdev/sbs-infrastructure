@@ -83,7 +83,7 @@
     enabled: yes
 
 - name: install the hyphenation tables
-  include: hyphenation.yml
+  include_tasks: hyphenation.yml
 
 - name: create an sites available file for nginx
   template:
