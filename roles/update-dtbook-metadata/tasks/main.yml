@@ -1,5 +1,0 @@
----
-
-- name: install update-dtbook-metadata
-  apt:
-    deb: "https://github.com/sbsdev/update-dtbook-metadata/releases/download/v{{ update_dtbook_metadata_version }}/update-dtbook-metadata_{{ update_dtbook_metadata_version }}_all.deb"
