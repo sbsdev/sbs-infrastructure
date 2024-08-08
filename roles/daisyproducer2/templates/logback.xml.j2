@@ -24,14 +24,36 @@
             <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
         </encoder>
     </appender>
+{% if mail_recipients %}
+    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+      <smtpHost>{{ mail_host }}</smtpHost>
+{% for recipient in mail_recipients %}
+      <to>{{ recipient }}</to>
+{% endfor %}
+      <from>{{ mail_sender }}@{{ ansible_host }}</from>
+      <subject>{{ mail_prefix }}: %logger{20} - %msg</subject>
+      <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+      </layout>
+      <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+        <bufferSize>1</bufferSize>
+      </cyclicBufferTracker>
+    </appender>
+{% endif %}
     <logger name="org.apache.http" level="warn" />
     <logger name="org.xnio.nio" level="warn" />
     <logger name="com.zaxxer.hikari" level="warn" />
     <logger name="io.undertow.websockets.core.request" level="warn" />
     <logger name="io.undertow.request" level="warn" />
     <logger name="io.undertow.session" level="warn" />
+{% if mail_recipients %}
+    <!-- If there is an error in the ABACUS importer notify by mail -->
+    <logger name="daisyproducer2.documents.abacus" level="error">
+      <appender-ref ref="EMAIL" />
+    </logger>
+{% endif %}
     <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="FILE" />
     </root>
 </configuration>

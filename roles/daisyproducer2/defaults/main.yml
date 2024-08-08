@@ -5,3 +5,7 @@ hyphen_deb_version: 1.1-2
 online_player_spool_dir: /var/spool/ebooks/
 generated_resources_spool_dir: /var/tmp/daisyproducer2
 
+mail_host: smtp.sbszh.ch
+mail_sender: daisyproducer
+mail_recipients: [sysadmin@sbs.ch, marlies.bochsler@sbs.ch, mischa.kuenzle@sbs.ch]
+mail_prefix: "[Daisyproducer]"
