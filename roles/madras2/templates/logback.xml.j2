@@ -31,7 +31,7 @@
       <to>{{ recipient }}</to>
       {% endfor %}
       <from>{{ mail_sender }}@{{ ansible_host }}</from>
-      <subject>[Madras2]: %logger{20} - %msg</subject>
+      <subject>{{ mail_prefix }}: %logger{20} - %msg</subject>
       <layout class="ch.qos.logback.classic.PatternLayout">
         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
       </layout>
