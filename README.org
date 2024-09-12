@@ -93,7 +93,7 @@ are stored in ~host_vars/<host>/secrets.yml~.
 * Edit Passwords
 
 #+BEGIN_SRC shell
-  ansible-vault edit --vault-password-file .vault_pass.txt vars/passwords.yml
+  ansible-vault edit --vault-password-file .vault_pass.txt group_vars/all.yml
 #+END_SRC
 
 * License
