@@ -3,6 +3,8 @@ daisyproducer_host: xmlp01.sbszh.ch
 daisyproducer_app_path: /srv/xmlp01.sbszh.ch/daisyproducer
 daisyproducer_db_name: daisyproducer2
 daisyproducer_cmis_host: pam01.sbszh.ch
+daisyproducer_alfresco_url: https://pam01.sbszh.ch/alfresco/api/-default-/public
+daisyproducer_alfresco_user: DaisyProducer
 daisyproducer_server_email: daisyproducer@xmlp01
 # the first value of the list of server aliases is also used for
 # ALLOWED_HOSTS in settings_local.py
