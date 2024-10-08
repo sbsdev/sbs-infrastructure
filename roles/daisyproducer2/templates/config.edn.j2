@@ -48,4 +48,10 @@
             :user "{{ daisyproducer_alfresco_user }}"
             :password "{{ daisyproducer_alfresco_password }}"}
 
+ ;; the production machine unfortunately does not have Java17 in a
+ ;; standard path
+ ;; FIXME: this hard coded path is tightly coupled with the adoptium
+ ;; role (where it is also hard coded)
+ :java17 "/opt/adoptium/java17/bin/java"
+
 }
