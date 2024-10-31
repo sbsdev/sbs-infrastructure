@@ -1,6 +1,6 @@
 {:port 3000
 
- :database-url "mysql://db.sbszh.ch:3309/{{ daisyproducer_db_name }}?user=daisyproducer&password={{ daisyproducer_db_password }}"
+ :database-url "mysql://db.sbszh.ch:3309/{{ daisyproducer_db_name }}?user={{ daisyproducer_db_user }}&password={{ daisyproducer_db_password }}"
 
  :document-root "/srv/{{ ansible_host }}.sbszh.ch/daisyproducer/daisyproducer/archive/"
 
