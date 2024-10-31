@@ -1,0 +1,34 @@
+---
+
+- name: Install dependencies
+  apt:
+    name: xml-core
+
+- name: Install the dtbook catalog
+  apt:
+    deb: "https://github.com/sbsdev/dtbook-catalog/releases/download/v{{ dtbook_catalog_version }}/dtbook-catalog_{{ dtbook_catalog_version }}_all.deb"
+
+- name: Add an entry to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    search_string: '127.0.1.1'
+    line: 127.0.1.1       {{ ansible_host }}.sbszh.ch {{ ansible_host }} daisy.org www.daisy.org
+
+- name: Create an sites available file for nginx
+  template:
+    src: dtbook-catalog-site.j2
+    dest: /etc/nginx/sites-available/dtbook-catalog
+    mode: '0644'
+  notify:
+    - restart nginx
+
+- name: Create a link in sites enabled for nginx
+  file:
+    src: /etc/nginx/sites-available/dtbook-catalog
+    dest: /etc/nginx/sites-enabled/dtbook-catalog
+    owner: root
+    group: root
+    state: link
+  notify:
+    - restart nginx
+
