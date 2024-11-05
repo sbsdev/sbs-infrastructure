@@ -1,0 +1,14 @@
+---
+- name: restart nginx with runit
+  runit:
+    name: nginx
+    state: restarted
+  when: host_has_runit
+  listen: "restart nginx"
+
+- name: restart nginx with service
+  service:
+    name: nginx
+    state: restarted
+  when: not host_has_runit
+  listen: "restart nginx"
