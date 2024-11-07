@@ -17,14 +17,6 @@ server {
         proxy_redirect  off;
     }
 
-    location /doc/ {
-	alias /usr/share/doc/;
-	autoindex on;
-	allow 127.0.0.1;
-	allow ::1;
-	deny all;
-    }
-
     # serve the DTBook schema (presumably for oXygen)
     location /schema/ {
         alias /usr/share/xml/schema/dtbook/;
