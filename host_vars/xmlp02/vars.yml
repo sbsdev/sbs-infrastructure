@@ -1,8 +1,10 @@
 ---
 daisyproducer_host: xmlp02.sbszh.ch
 daisyproducer_app_path: /srv/xmlp02.sbszh.ch/daisyproducer
-daisyproducer_db_name: daisyproducer_test
-daisyproducer_db_user: daisyproducer
+# daisyproducer_db_name: daisyproducer_test
+# daisyproducer_db_user: daisyproducer
+daisyproducer_db_name: daisyproducer2_test
+daisyproducer_db_user: daisyproducer2_test
 daisyproducer_cmis_host: pam04.sbszh.ch
 daisyproducer_alfresco_url: https://pam04.sbszh.ch/alfresco/api/-default-/public
 daisyproducer_alfresco_user: DaisyProducer
