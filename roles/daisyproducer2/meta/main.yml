@@ -8,3 +8,4 @@ dependencies:
   - nginx
   - dtbook-schema
   - dtbook2sbsform
+  - dtbook-catalog
