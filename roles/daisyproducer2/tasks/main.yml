@@ -54,6 +54,8 @@
     mode: 0775
   with_items:
     - "/var/spool/daisyproducer"
+    - "/var/spool/daisyproducer/processed"
+    - "/var/spool/daisyproducer/invalid"
     - "/var/spool/daisyproducer/it"
 
 - name: create a spool directory for the ebooks which are served to the online player
@@ -84,6 +86,31 @@
 
 - name: install the hyphenation tables
   include_tasks: hyphenation.yml
+
+- name: create a script to import data from ABACUS
+  template:
+    src: dp2_abacus_import.j2
+    dest: /usr/local/sbin/dp2_abacus_import.sh
+    mode: '0700'
+
+- name: add a cron job to run the daisyproducer ABACUS import
+  cron:
+    name: "run the daisyproducer ABACUS import every 10 minutes on weekdays"
+    minute: "*/10"
+    hour: "6-20"
+    weekday: "1-5"
+    cron_file: "daisyproducerImportABACUS"
+    user: root
+    job: "/usr/local/sbin/dp2_abacus_import.sh > /dev/null"
+
+- name: remove legacy cron jobs
+  cron:
+    name: "{{ item.name }}"
+    cron_file: "{{ item.file }}"
+    state: absent
+  loop:
+    - { name: 'run the daisyproducer ABACUS import every 10 minutes on weekdays', file: 'daisyproducerCleanOldVersions' }
+    - { name: 'run the daisyproducer ABACUS import every 10 minutes on weekdays', file: 'daisyproducerImportABACUSProductData' }
 
 - name: create an sites available file for nginx
   template:

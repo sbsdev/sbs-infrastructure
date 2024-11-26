@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Push productions notifications from the abacus machine to Daisproducer2.
+# Use curl to send HTTP push for each notification. If the request
+# returns 200 or 201 all is well and the xml file can be moved to the
+# processed dir. Otherwise echo the result which contains a
+# description of the problem.
+
+SPOOL_DIR=/var/spool/daisyproducer
+HOST=localhost
+URL=http://${HOST}/api/abacus/import
+REGEXP="^HTTP/1.1 (200 OK|201 Created)"
+FILES="${SPOOL_DIR}/SN_Alfresco_*.xml"
+
+# make sure only one instance of this script is run
+[ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
+
+#set -x
+
+for file in $FILES ; do
+    if [ -e "$file" ] ; then # make sure it isn't an empty match
+        RESULT=$(curl -i -X 'POST' $URL -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F "file=@${file};type=text/xml" --silent 2>&1)
+	if echo "$RESULT" | grep -q "$REGEXP"
+	then mv "$file" $SPOOL_DIR/processed/
+	else
+            echo "Moving file to $SPOOL_DIR/invalid/"
+            mv "$file" "$SPOOL_DIR"/invalid/
+            printf '\n%s\n%s\n\n' "Daisproducer2 response:" "$RESULT"
+            grep -E \
+               'artikel_nr|identifier|date|title|idVorstufe|process_status' \
+               $SPOOL_DIR/invalid/${file##*/}
+            echo "========================================="
+	fi
+    fi
+done
