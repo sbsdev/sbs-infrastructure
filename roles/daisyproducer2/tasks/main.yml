@@ -89,8 +89,8 @@
 
 - name: create a script to import data from ABACUS
   template:
-    src: dp2_abacus_import.j2
-    dest: /usr/local/sbin/dp2_abacus_import.sh
+    src: daisyproducer2_abacus_import.j2
+    dest: /usr/local/sbin/daisyproducer2_abacus_import.sh
     mode: '0700'
 
 - name: add a cron job to run the daisyproducer ABACUS import
@@ -101,7 +101,7 @@
     weekday: "1-5"
     cron_file: "daisyproducerImportABACUS"
     user: root
-    job: "/usr/local/sbin/dp2_abacus_import.sh > /dev/null"
+    job: "/usr/local/sbin/daisyproducer2_abacus_import.sh > /dev/null"
 
 - name: remove legacy cron jobs
   cron:
