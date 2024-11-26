@@ -15,21 +15,19 @@ FILES="${SPOOL_DIR}/SN_Alfresco_*.xml"
 # make sure only one instance of this script is run
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
 
-#set -x
-
 for file in $FILES ; do
     if [ -e "$file" ] ; then # make sure it isn't an empty match
-        RESULT=$(curl -i -X 'POST' $URL -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F "file=@${file};type=text/xml" --silent 2>&1)
-	if echo "$RESULT" | grep -q "$REGEXP"
+        RESULT=$(curl -i -X 'POST' $URL -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F "file=@${file};type=text/xml" --silent --fail --show-error)
+	if echo "$RESULT" | grep --extended-regexp --quiet "$REGEXP"
 	then mv "$file" $SPOOL_DIR/processed/
 	else
-            echo "Moving file to $SPOOL_DIR/invalid/"
+            echo >&2 "Moving file to $SPOOL_DIR/invalid/"
             mv "$file" "$SPOOL_DIR"/invalid/
-            printf '\n%s\n%s\n\n' "Daisproducer2 response:" "$RESULT"
-            grep -E \
+            printf >&2 '\n%s\n%s\n\n' "Daisproducer2 response:" "$RESULT"
+            grep --extended-regexp >&2 \
                'artikel_nr|identifier|date|title|idVorstufe|process_status' \
                $SPOOL_DIR/invalid/${file##*/}
-            echo "========================================="
+            echo >&2 "========================================="
 	fi
     fi
 done
