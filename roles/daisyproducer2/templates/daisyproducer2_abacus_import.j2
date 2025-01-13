@@ -1,35 +1,83 @@
 #!/bin/bash
 
 # Push productions notifications from the abacus machine to Daisproducer2.
-# Use curl to send HTTP push for each notification. If the request
+# Use curl to send HTTP POST for each notification. If the request
 # returns 200 or 201 all is well and the xml file can be moved to the
-# processed dir. Otherwise echo the result which contains a
-# description of the problem.
+# `processed` dir. Otherwise send a mail with the result containing a
+# description of the problem and move the file to the `invalid`
+# directory.
 
 SPOOL_DIR=/var/spool/daisyproducer
 HOST=localhost
 URL=http://${HOST}/api/abacus/import
-REGEXP="^HTTP/1.1 (200 OK|201 Created)"
 FILES="${SPOOL_DIR}/SN_Alfresco_*.xml"
+RECIPIENTS={{ mail_recipients }}
+SUBJECT_WARNING="{{ mail_prefix }} Import Warning"
+SUBJECT_FAILURE="{{ mail_prefix }} Import Failure"
 
 # make sure only one instance of this script is run
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
 
-for file in $FILES ; do
-    if [ -e "$file" ] ; then # make sure it isn't an empty match
-	# drop files that aren't meant for daisyproducer2
-	grep --quiet "<daisy_producer>nein</daisy_producer>" "$file" && rm -f "$file" && continue
-        RESULT=$(curl -i -X 'POST' $URL -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F "file=@${file};type=text/xml" --silent --fail --show-error)
-	if echo "$RESULT" | grep --extended-regexp --quiet "$REGEXP"
-	then mv "$file" $SPOOL_DIR/processed/
-	else
-	    echo >&2 "Moving file to $SPOOL_DIR/invalid/"
-	    mv "$file" "$SPOOL_DIR"/invalid/
-	    printf >&2 '\n%s\n%s\n\n' "Daisproducer2 response:" "$RESULT"
-	    grep --extended-regexp >&2 \
-		 'artikel_nr|identifier|date|title|idVorstufe|process_status' \
-		 $SPOOL_DIR/invalid/${file##*/}
-	    echo >&2 "========================================="
+send_mail() {
+    local subject="$1"
+    local message="$2"
+
+    echo "$message" | mail -s "$subject" "$RECIPIENTS"
+}
+
+for file in $FILES; do
+    if [ -e "$file" ]; then # make sure it isn't an empty match
+        # drop files that aren't meant for daisyproducer2
+        if grep --quiet "<daisy_producer>nein</daisy_producer>" "$file"
+	then
+	    rm -f "$file"
+	    send_mail "$SUBJECT_WARNING" "Import file $file was ignored"
+	    continue
 	fi
+	RESPONSE=$(curl -X POST --silent --include -F "file=@${file};type=text/xml" $URL )
+
+	# Extract the response status code
+	STATUS=$(echo "$RESPONSE" | grep -o '^HTTP/1.[01] [0-9][0-9][0-9]' | grep -o '[0-9][0-9][0-9]')
+
+	# Extract the response body
+	BODY=$(echo "$RESPONSE" | sed -e '1,/^\r$/d')
+
+	# Grab the key information from the ABACUS import file
+	EXCERPT=$(grep --extended-regexp >&2 'artikel_nr|identifier|date|title|idVorstufe|process_status' "$file")
+
+        case "$STATUS" in
+            200|201)
+                mv "$file" $SPOOL_DIR/processed/
+                ;;
+	    204|422)
+		send_mail "$SUBJECT_WARNING: File ignored" "$RESPONSE\n\n$EXCERPT"
+		rm -f "$file"
+                ;;
+	    400)
+		# Extract the response body
+		ERROR_ID=$(echo "$BODY" | grep -o -E ':error-id [a-z:-]+' | cut -f 2 -d " ")
+		case "$ERROR_ID" in
+		     :invalid-xml)
+			 send_mail "$SUBJECT_FAILURE: Invalid XML" "$RESPONSE\n\n$EXCERPT"
+			 ;;
+		     :invalid-isbn)
+			 send_mail "$SUBJECT_FAILURE: Invalid ISBN" "$RESPONSE\n\n$EXCERPT"
+			 ;;
+		     :invalid-product-number)
+			 send_mail "$SUBJECT_FAILURE: Invalid Product Number" "$RESPONSE\n\n$EXCERPT"
+			 ;;
+		esac
+		mv "$file" $SPOOL_DIR/invalid/
+                ;;
+	    500)
+		send_mail "$SUBJECT_FAILURE: Internal Server Error" "$RESPONSE\n\n$EXCERPT"
+                mv "$file" $SPOOL_DIR/invalid/
+                ;;
+            *)
+		send_mail "$SUBJECT_FAILURE: Unknown Error ($STATUS)" "$RESPONSE\n\n$EXCERPT"
+                mv "$file" "$SPOOL_DIR"/invalid/
+                ;;
+        esac
     fi
 done
+
