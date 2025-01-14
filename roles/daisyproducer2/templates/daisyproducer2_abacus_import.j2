@@ -66,6 +66,9 @@ for file in $FILES; do
 		     :invalid-product-number)
 			 send_mail "$SUBJECT_FAILURE: Invalid Product Number" "$RESPONSE\n\n$EXCERPT"
 			 ;;
+		     *)
+			 send_mail "$SUBJECT_FAILURE: Bad Request" "$RESPONSE\n\n$EXCERPT"
+			 ;;
 		esac
 		mv "$file" $SPOOL_DIR/invalid/
                 ;;
