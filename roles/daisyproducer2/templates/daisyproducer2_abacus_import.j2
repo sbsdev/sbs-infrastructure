@@ -43,7 +43,7 @@ for file in $FILES; do
 	BODY=$(echo "$RESPONSE" | sed -e '1,/^\r$/d')
 
 	# Grab the key information from the ABACUS import file
-	EXCERPT=$(grep --extended-regexp >&2 'artikel_nr|identifier|date|title|idVorstufe|process_status' "$file")
+	EXCERPT=$(grep --extended-regexp 'artikel_nr|identifier|date|title|idVorstufe|process_status' "$file")
 
         case "$STATUS" in
             200|201)
