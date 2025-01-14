@@ -11,7 +11,7 @@ SPOOL_DIR=/var/spool/daisyproducer
 HOST=localhost
 URL=http://${HOST}/api/abacus/import
 FILES="${SPOOL_DIR}/SN_Alfresco_*.xml"
-RECIPIENTS={{ mail_recipients }}
+RECIPIENTS={{ mail_recipients|join(',') }}
 SUBJECT_WARNING="{{ mail_prefix }} Import Warning"
 SUBJECT_FAILURE="{{ mail_prefix }} Import Failure"
 
