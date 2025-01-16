@@ -22,7 +22,7 @@ send_mail() {
     local subject="$1"
     local message="$2"
 
-    echo "$message" | mail -s "$subject" "$RECIPIENTS"
+    echo -e "$message" | mail -s "$subject" "$RECIPIENTS"
 }
 
 for file in $FILES; do
