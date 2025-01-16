@@ -27,13 +27,18 @@ send_mail() {
 
 for file in $FILES; do
     if [ -e "$file" ]; then # make sure it isn't an empty match
+
+	# Grab the contents of the ABACUS import file
+	XML=$(cat "$file")
+
         # drop files that aren't meant for daisyproducer2
         if grep --quiet "<daisy_producer>nein</daisy_producer>" "$file"
 	then
 	    rm -f "$file"
-	    send_mail "$SUBJECT_WARNING" "Import file $file was ignored"
+	    send_mail "$SUBJECT_WARNING" "Import file $file was ignored\n\n$XML"
 	    continue
 	fi
+
 	RESPONSE=$(curl -X POST --silent --include -F "file=@${file};type=text/xml" $URL )
 
 	# Extract the response status code (ignoring the 100 Continue status code)
@@ -42,15 +47,12 @@ for file in $FILES; do
 	# Extract the response body
 	BODY=$(echo "$RESPONSE" | sed -e '1,/^\r$/d')
 
-	# Grab the key information from the ABACUS import file
-	EXCERPT=$(grep --extended-regexp 'artikel_nr|identifier|date|title|idVorstufe|process_status' "$file")
-
         case "$STATUS" in
             200|201)
                 mv "$file" $SPOOL_DIR/processed/
                 ;;
 	    204|422)
-		send_mail "$SUBJECT_WARNING: File ignored" "$RESPONSE\n\n$EXCERPT"
+		send_mail "$SUBJECT_WARNING: File ignored" "$RESPONSE\n\n$XML"
 		rm -f "$file"
                 ;;
 	    400)
@@ -58,26 +60,26 @@ for file in $FILES; do
 		ERROR_ID=$(echo "$BODY" | grep -o -E ':error-id [a-z:-]+' | cut -f 2 -d " ")
 		case "$ERROR_ID" in
 		     :invalid-xml)
-			 send_mail "$SUBJECT_FAILURE: Invalid XML" "$RESPONSE\n\n$EXCERPT"
+			 send_mail "$SUBJECT_FAILURE: Invalid XML" "$RESPONSE\n\n$XML"
 			 ;;
 		     :invalid-isbn)
-			 send_mail "$SUBJECT_FAILURE: Invalid ISBN" "$RESPONSE\n\n$EXCERPT"
+			 send_mail "$SUBJECT_FAILURE: Invalid ISBN" "$RESPONSE\n\n$XML"
 			 ;;
 		     :invalid-product-number)
-			 send_mail "$SUBJECT_FAILURE: Invalid Product Number" "$RESPONSE\n\n$EXCERPT"
+			 send_mail "$SUBJECT_FAILURE: Invalid Product Number" "$RESPONSE\n\n$XML"
 			 ;;
 		     *)
-			 send_mail "$SUBJECT_FAILURE: Bad Request" "$RESPONSE\n\n$EXCERPT"
+			 send_mail "$SUBJECT_FAILURE: Bad Request" "$RESPONSE\n\n$XML"
 			 ;;
 		esac
 		mv "$file" $SPOOL_DIR/invalid/
                 ;;
 	    500)
-		send_mail "$SUBJECT_FAILURE: Internal Server Error" "$RESPONSE\n\n$EXCERPT"
+		send_mail "$SUBJECT_FAILURE: Internal Server Error" "$RESPONSE\n\n$XML"
                 mv "$file" $SPOOL_DIR/invalid/
                 ;;
             *)
-		send_mail "$SUBJECT_FAILURE: Unknown Error ($STATUS)" "$RESPONSE\n\n$EXCERPT"
+		send_mail "$SUBJECT_FAILURE: Unknown Error ($STATUS)" "$RESPONSE\n\n$XML"
                 mv "$file" "$SPOOL_DIR"/invalid/
                 ;;
         esac
