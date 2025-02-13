@@ -19,8 +19,8 @@ server {
         # allow for very long requests, such as generation of expensive previews
         proxy_read_timeout 1h;
 
-        # allow upload of large images
-        client_max_body_size 10m;
+        # allow upload of very large images
+        client_max_body_size 50m;
     }
 
     # serve the DTBook schema (presumably for oXygen)
