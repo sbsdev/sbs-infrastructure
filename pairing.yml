@@ -1,0 +1,37 @@
+---
+- hosts: droplet
+  become: yes
+  tasks:
+    - name: Create pair user
+      user:
+        name: pair
+        groups: sudo
+        shell: /bin/bash
+
+    - name: Add authorized key
+      authorized_key:
+        user: pair
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: Allow passwordless sudo for pair user
+      lineinfile:
+        path: /etc/sudoers.d/pair
+        line: "pair ALL=(ALL) NOPASSWD: ALL"
+        create: yes
+        mode: 0440
+        validate: /usr/sbin/visudo -cf %s
+
+    - name: Install required packages
+      apt:
+        name: 
+          - tmux
+          - curl
+          - emacs
+          - debian-el
+          - openjdk-17-jdk
+          - openjdk-17-jre
+          - git
+          - unzip
+          - build-essential
+        update_cache: yes
+
