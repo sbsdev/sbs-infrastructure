@@ -7,5 +7,5 @@ generated_resources_spool_dir: /var/tmp/daisyproducer2
 
 mail_host: smtp.sbszh.ch
 mail_sender: daisyproducer
-mail_recipients: [marlies.bochsler@sbs.ch, archiv-mvl@sbs.ch, christian.egli@sbs.ch]
+mail_recipients: [marlies.bochsler@sbs.ch, archiv-mvl@sbs.ch, christian.egli@sbs.ch, medienverlag@sbs.ch]
 mail_prefix: "[Daisyproducer]"
