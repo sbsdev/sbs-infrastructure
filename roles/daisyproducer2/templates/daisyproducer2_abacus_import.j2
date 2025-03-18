@@ -8,7 +8,7 @@
 # directory.
 
 SPOOL_DIR=/var/spool/daisyproducer
-HOST=localhost
+HOST=localhost:3000
 URL=http://${HOST}/api/abacus/import
 FILES="${SPOOL_DIR}/SN_Alfresco_*.xml"
 RECIPIENTS={{ mail_recipients|join(',') }}
