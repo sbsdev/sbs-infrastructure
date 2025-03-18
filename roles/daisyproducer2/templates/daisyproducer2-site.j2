@@ -4,8 +4,16 @@ server {
     listen 80;
     server_name localhost {{ ansible_host }} {{ ansible_host }}.sbszh.ch xmlp xmlp.sbszh.ch;
 
-    # redirect all HTTP to HTTPS
-    return 301 https://{% if ansible_host == "xmlp01" %}xmlp{% else %}{{ ansible_host }}{% endif %}.sbszh.ch$request_uri;
+    # serve the DTBook schema (presumably for oXygen)
+    location /schema/ {
+        alias /usr/share/xml/schema/dtbook/;
+	autoindex on;
+    }
+
+    location / {
+        # redirect all HTTP to HTTPS
+        return 301 https://{% if ansible_host == "xmlp01" %}xmlp{% else %}{{ ansible_host }}{% endif %}.sbszh.ch$request_uri;
+    }
 }
 
 # HTTPS server
@@ -34,12 +42,6 @@ server {
 
         # allow upload of very large images
         client_max_body_size 50m;
-    }
-
-    # serve the DTBook schema (presumably for oXygen)
-    location /schema/ {
-        alias /usr/share/xml/schema/dtbook/;
-	autoindex on;
     }
 
     # serve the ebooks for the online player from a spool directory
