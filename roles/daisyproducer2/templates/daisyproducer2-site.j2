@@ -5,7 +5,7 @@ server {
     server_name localhost {{ ansible_host }} {{ ansible_host }}.sbszh.ch xmlp xmlp.sbszh.ch;
 
     # redirect all HTTP to HTTPS
-    return 301 https://{{ ansible_host }}.sbszh.ch$request_uri;
+    return 301 https://{% if ansible_host == "xmlp01" %}xmlp{% else %}{{ ansible_host }}{% endif %}.sbszh.ch$request_uri;
 }
 
 # HTTPS server
