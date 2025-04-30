@@ -33,5 +33,7 @@
           - git
           - unzip
           - build-essential
+          - leiningen
+          - maven
         update_cache: yes
 
