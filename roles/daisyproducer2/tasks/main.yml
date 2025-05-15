@@ -78,6 +78,8 @@
     src: run.j2
     dest: /etc/sv/daisyproducer2/run
     mode: '0755'
+  notify:
+    - restart daisyproducer2
 
 - name: enable the service
   runit:
