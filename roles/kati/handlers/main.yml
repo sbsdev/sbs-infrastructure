@@ -1,10 +1,12 @@
 ---
 - name: restart kati
-  runit:
+  service:
+    daemon_reload: yes
     name: kati
     state: restarted
 
 - name: restart nginx
-  runit:
+  service:
+    daemon_reload: yes
     name: nginx
     state: restarted

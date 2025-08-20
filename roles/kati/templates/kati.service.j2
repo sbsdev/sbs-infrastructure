@@ -1,0 +1,10 @@
+[Unit]
+Description=Kati Service
+
+[Service]
+ExecStart=/usr/bin/java -Xmx4G -Dconf=/etc/kati/config.edn -jar {{ kati_install_dir }}/kati.jar
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

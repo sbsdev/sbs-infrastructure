@@ -25,18 +25,19 @@
   notify:
     - restart kati
 
-- name: create a directory for the service
-  file:
-    path: /etc/sv/kati
-    state: directory
-
-- name: create an init script
+- name: Install kati systemd service
   template:
-    src: run.j2
-    dest: /etc/sv/kati/run
-    mode: '0755'
+    src: kati.service.j2
+    dest: /etc/systemd/system/kati.service
+    mode: '0644'
   notify:
     - restart kati
+
+- name: Enable and start the service
+  systemd:
+    name: kati
+    enabled: yes
+    state: started
 
 - name: create an sites available file for nginx
   template:
@@ -55,9 +56,4 @@
     state: link
   notify:
     - restart nginx
-
-- name: enable the service
-  runit:
-    name: kati
-    enabled: yes
 
