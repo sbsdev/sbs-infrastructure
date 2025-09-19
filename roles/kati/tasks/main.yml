@@ -8,9 +8,15 @@
 - name: Download the jar file
   get_url:
     url: https://github.com/sbsdev/catalog/releases/download/{{ kati_version }}/catalog.jar
-    dest: "{{ kati_install_dir }}/kati.jar"
+    dest: "{{ kati_install_dir }}/kati-{{ kati_version }}.jar"
   notify:
     - restart kati
+
+- name: create a version independent link to the jar file
+  file:
+    src: "kati-{{ kati_version }}.jar"
+    dest: "{{ kati_install_dir }}/kati.jar"
+    state: link
 
 - name: create a config directory
   file:
