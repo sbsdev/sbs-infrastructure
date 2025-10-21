@@ -1,10 +1,12 @@
 ---
 - name: restart daisyproducer2
-  runit:
+  service:
+    daemon_reload: yes
     name: daisyproducer2
     state: restarted
 
 - name: restart nginx
-  runit:
+  service:
+    daemon_reload: yes
     name: nginx
     state: restarted
