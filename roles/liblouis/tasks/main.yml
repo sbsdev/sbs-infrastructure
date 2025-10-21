@@ -46,5 +46,3 @@
 - name: install sbs tables
   apt:
     deb: https://github.com/sbsdev/sbs-braille-tables/releases/download/v{{ sbs_braille_tables_version }}/sbs-braille-tables_{{ sbs_braille_tables_version }}_all.deb
-  notify:
-    - restart apache
