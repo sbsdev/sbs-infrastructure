@@ -1,9 +1,6 @@
 [daisyproducer]
 xmlp04
 
-[pipeline]
-pipeline.sbs.ch
-
 [kati]
 kati02
 
