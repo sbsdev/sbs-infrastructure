@@ -8,6 +8,7 @@ pipeline1_required_debs:
   - texlive-latex-extra
   - texlive-latex-recommended
   - texlive-lang-german
+  - texlive-lang-greek # hyperref apparently needs `puenc-greek.def` which is provided by `texlive-lang-greek`
   - latexmk
   - ttf-tiresias
   - ttf-mscorefonts-installer # for arial font in large print
