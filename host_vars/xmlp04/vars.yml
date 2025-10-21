@@ -1,0 +1,18 @@
+---
+daisyproducer_host: xmlp04.sbszh.ch
+daisyproducer_app_path: /srv/xmlp04.sbszh.ch/daisyproducer
+daisyproducer_db_name: daisyproducer2_test
+daisyproducer_db_user: daisyproducer2_test
+daisyproducer_cmis_host: pam04.sbszh.ch
+daisyproducer_alfresco_url: https://pam04.sbszh.ch/alfresco/api/-default-/public
+daisyproducer_alfresco_user: DaisyProducer
+daisyproducer_server_email: daisyproducer@xmlp04
+# the first value of the list of server aliases is also used for
+# ALLOWED_HOSTS in settings_local.py
+daisyproducer_server_aliases:
+  - xmlp04
+daisyproducer_debug: True
+# daisyproducer needs a very old forked version of the Pipeline2, so
+# we define the path to the deb here
+pipeline2_version: 1.11.1
+pipeline2_deb: https://github.com/sbsdev/pipeline/releases/download/sursilvan-0.1/assembly-1.11.1-SNAPSHOT-all.deb
