@@ -11,4 +11,4 @@ galaxy_info:
     - name: Debian
 
 dependencies:
-  - java
+  - java8
