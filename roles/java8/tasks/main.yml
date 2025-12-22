@@ -1,16 +1,27 @@
 ---
 
-- name: disable other java 8 repos
-  apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' state=absent
+# Instead of using the Java versions provided by Debian we download the binaries from adoptium
+# directly. See https://adoptium.net/temurin/releases/
 
-- name: disable other java 8 src repos
-  apt_repository: repo='deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' state=absent
+- name: create the download directory
+  file:
+    path: /opt/adoptium
+    state: directory
+    mode: '0755'
 
-- name: install Java8
-  apt: name=openjdk-8-jre
+- name: download the jdk for Java8
+  get_url:
+    url: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u462-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u462b08.tar.gz
+    dest: /opt/adoptium
 
-- name: set java to the right version
-  alternatives: name=java path=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+- name: extract the files
+  unarchive:
+    src: /opt/adoptium/OpenJDK8U-jdk_x64_linux_hotspot_8u462b08.tar.gz
+    dest: /opt/adoptium
+    remote_src: true
 
-
-
+- name: create a symbolic link for Java8
+  file:
+    src: jdk8u462-b08
+    dest: /opt/adoptium/java8
+    state: link

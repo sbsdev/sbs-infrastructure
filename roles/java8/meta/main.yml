@@ -1,6 +1,6 @@
 galaxy_info:
   author: Christian Egli
-  description: Role to install OpenJDK
+  description: Role to install Java 8 JDK from Adoptium
   company: Swiss Library for the Blind, Visually Impaired and Print Disabled
 
   license: GPLv3+
@@ -9,7 +9,5 @@ galaxy_info:
 
   platforms:
     - name: Debian
-      versions:
-        - stretch
 
 dependencies: []
