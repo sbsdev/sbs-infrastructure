@@ -9,27 +9,11 @@
     deb: "{{ pipeline2_deb }}"
   when: pipeline2_deb is defined
 
-# in some cases it is beneficial to remove the pipeline database
-# (to get rid of old jobs, etc). But this causes problems when the
-# deb isn't actually reinstalled and we restart the service.
-# - name: remove database
-#   file: path="{{ daisy_pipeline2_path }}"
-#         state=absent
-
-- name: set REMOTE=true for pipeline2
-  lineinfile:
-    path: /etc/default/daisy-pipeline2
-    regexp: "^#?REMOTE=(true|false)$"
-    line: 'REMOTE=true'
-  notify:
-    - restart pipeline2
-
-- name: set memory for pipeline2
-  lineinfile:
-    path: /etc/default/daisy-pipeline2
-    line: 'export JAVA_MAX_MEM=2G'
-  notify:
-    - restart pipeline2
+- name: set defauls file for Pipeline2
+  template:
+    src: daisy-pipeline2.default.j2
+    dest: /etc/default/daisy-pipeline2
+    mode: '0644'
 
 # the location of the properties file has changed in version 1.14.1
 - name: set config file to pipeline.properties
