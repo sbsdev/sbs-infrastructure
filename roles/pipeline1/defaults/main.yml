@@ -14,4 +14,4 @@ pipeline1_required_debs:
   - ttf-mscorefonts-installer # for arial font in large print
   - lmodern
 
-pipeline1_version: 20251218
+pipeline1_version: 20260107
