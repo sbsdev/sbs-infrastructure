@@ -13,7 +13,6 @@ daisyproducer_server_aliases:
   - xmlp
   - xmlp.sbszh.ch
 daisyproducer_debug: False
-host_has_runit: true
 # daisyproducer needs a very old forked version of the Pipeline2, so
 # we define the path to the deb here
 pipeline2_version: 1.11.1

@@ -1,5 +1,6 @@
 dependencies:
   - java
+  - nginx
   - prometheus-node
   - pipeline1
 

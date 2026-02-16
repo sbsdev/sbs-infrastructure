@@ -11,35 +11,35 @@
 
 - name: download the jdk for Java8
   get_url:
-    url: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u382-b05/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    url: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u462-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u462b08.tar.gz
     dest: /opt/adoptium
 
 - name: extract the files
   unarchive:
-    src: /opt/adoptium/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    src: /opt/adoptium/OpenJDK8U-jdk_x64_linux_hotspot_8u462b08.tar.gz
     dest: /opt/adoptium
     remote_src: true
 
 - name: create a symbolic link for Java8
   file:
-    src: jdk8u382-b05
+    src: jdk8u462-b08
     dest: /opt/adoptium/java8
     state: link
 
 - name: download the jdk for Java17
   get_url:
-    url: https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz
+    url: https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz
     dest: /opt/adoptium
 
 - name: extract the files
   unarchive:
-    src: /opt/adoptium/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz
+    src: /opt/adoptium/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz
     dest: /opt/adoptium
     remote_src: true
 
 - name: create a symbolic link for Java17
   file:
-    src: jdk-17.0.8.1+1
+    src: jdk-17.0.16+8
     dest: /opt/adoptium/java17
     state: link
 

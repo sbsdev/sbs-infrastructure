@@ -1,5 +1,5 @@
 dependencies:
-  - adoptium
+  - java
   - liblouis
   - pipeline1
   - pipeline2

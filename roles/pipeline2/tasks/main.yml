@@ -9,27 +9,11 @@
     deb: "{{ pipeline2_deb }}"
   when: pipeline2_deb is defined
 
-# in some cases it is beneficial to remove the pipeline database
-# (to get rid of old jobs, etc). But this causes problems when the
-# deb isn't actually reinstalled and we restart the service.
-# - name: remove database
-#   file: path="{{ daisy_pipeline2_path }}"
-#         state=absent
-
-- name: set REMOTE=true for pipeline2
-  lineinfile:
-    path: /etc/default/daisy-pipeline2
-    regexp: "^#?REMOTE=(true|false)$"
-    line: 'REMOTE=true'
-  notify:
-    - restart pipeline2
-
-- name: set memory for pipeline2
-  lineinfile:
-    path: /etc/default/daisy-pipeline2
-    line: 'export JAVA_MAX_MEM=2G'
-  notify:
-    - restart pipeline2
+- name: set defauls file for Pipeline2
+  template:
+    src: daisy-pipeline2.default.j2
+    dest: /etc/default/daisy-pipeline2
+    mode: '0644'
 
 # the location of the properties file has changed in version 1.14.1
 - name: set config file to pipeline.properties
@@ -77,6 +61,37 @@
   with_items:
     - "{{ sbs_module_debs }}"
 
-- name: create the runit startup scripts
-  include_tasks: runit.yml
-  when: host_has_runit
+# - name: Stop the system V service
+#   sysvinit:
+#     name: daisy-pipeline2
+#     state: stopped
+#     enabled: no
+#   when: install_deb.changed
+
+# FIXME: Do not remove the system V init file for now as the pipeline2
+# systemd service just adds a layer on top of it (at least for now)
+# - name: Remove the system V init file
+#   file:
+#     path: /etc/init.d/daisy-pipeline2
+#     state: absent
+
+# Install the pipeline2 systemd service
+- name: Install the Pipeline2 systemd service
+  template:
+    src: daisy-pipeline2.service.j2
+    dest: /etc/systemd/system/daisy-pipeline2.service
+    mode: '0644'
+  notify:
+    - restart pipeline2
+
+- name: Enable and start the service
+  systemd:
+    name: daisy-pipeline2
+    enabled: yes
+    state: started
+
+# Make Pipeline2 logs available under /var/log even on a system with systemd
+- name: install rsyslog
+  apt:
+    name: rsyslog
+
