@@ -4,8 +4,16 @@
   apt:
     deb: "https://github.com/sbsdev/dtbook2sbsform/releases/download/v{{ dtbook2sbsform_version }}/dtbook2sbsform-{{ dtbook2sbsform_version }}.deb"
 
-- name: Make sure java8 from adoptium is used
+- name: Set JAVA_HOME to make sure java8 from adoptium is used
   lineinfile:
     path: /opt/dtbook2sbsform/saxon.sh
-    search_string: '-cp $CP org.liblouis.LouisTransform "$@"'
-    line: /opt/adoptium/java8 -cp $CP org.liblouis.LouisTransform "$@"
+    insertbefore: 'org.liblouis.LouisTransform'
+    search_string: 'export JAVA_HOME='
+    line: export JAVA_HOME=/opt/adoptium/java8
+
+- name: Also use a specific java binary to REALLY make sure java8 from adoptium is used
+  lineinfile:
+    path: /opt/dtbook2sbsform/saxon.sh
+    search_string: 'java -cp $CP org.liblouis.LouisTransform "$@"'
+    line: /opt/adoptium/java8/bin/java -cp $CP org.liblouis.LouisTransform "$@"
+
