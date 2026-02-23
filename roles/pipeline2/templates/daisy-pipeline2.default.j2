@@ -1,0 +1,10 @@
+# Configuration file for /etc/init.d/daisy-pipeline2  -*- mode: conf-unix; -*-
+
+# Execute pipeline in remote mode
+REMOTE=true
+
+# FIXME: our old version of the Pipeline2 currently only works with Java 8
+export JAVA_HOME=/opt/adoptium/java8
+
+# Java heap size
+export JAVA_MAX_MEM=2G

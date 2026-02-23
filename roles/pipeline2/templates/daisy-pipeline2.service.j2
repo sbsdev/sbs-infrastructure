@@ -1,0 +1,38 @@
+{# -*- mode: systemd; -*- #}
+[Unit]
+Description=DAISY Pipeline 2 server
+SourcePath=/etc/init.d/daisy-pipeline2
+Before=multi-user.target
+Before=graphical.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SuccessExitStatus=5 6
+ExecStart=/etc/init.d/daisy-pipeline2 start
+ExecStop=/etc/init.d/daisy-pipeline2 stop
+
+{#
+# FIXME: We should migrate to a proper systemd start script.
+# The following is a start
+[Service]
+Type=forking
+User=pipeline2
+Group=pipeline2
+Environment="JAVA_HOME=/opt/adoptium/java8"
+ExecStart=/opt/daisy-pipeline2/bin/pipeline2
+PIDFile=/var/run/daisy-pipeline2.pid
+Restart=on-failure
+RestartSec=5
+#}
+
+[Install]
+WantedBy=multi-user.target
+
