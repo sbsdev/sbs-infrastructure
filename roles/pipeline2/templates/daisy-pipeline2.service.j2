@@ -4,6 +4,7 @@ Description=DAISY Pipeline 2 server
 SourcePath=/etc/init.d/daisy-pipeline2
 Before=multi-user.target
 Before=graphical.target
+Before=daisyproducer2.service
 After=network-online.target
 Wants=network-online.target
 

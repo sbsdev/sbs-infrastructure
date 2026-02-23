@@ -2,6 +2,7 @@
 [Unit]
 Description=Daisy Producer 2
 After=network.target
+Requires=daisy-pipeline2.service
 
 [Service]
 Type=exec
