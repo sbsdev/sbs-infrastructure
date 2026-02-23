@@ -4,3 +4,8 @@
   apt:
     deb: "https://github.com/sbsdev/dtbook2sbsform/releases/download/v{{ dtbook2sbsform_version }}/dtbook2sbsform-{{ dtbook2sbsform_version }}.deb"
 
+- name: Make sure java8 from adoptium is used
+  lineinfile:
+    path: /opt/dtbook2sbsform/saxon.sh
+    search_string: '-cp $CP org.liblouis.LouisTransform "$@"'
+    line: /opt/adoptium/java8 -cp $CP org.liblouis.LouisTransform "$@"
