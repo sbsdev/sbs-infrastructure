@@ -48,10 +48,16 @@
 
 - name: Download the jar file
   get_url:
-    url: https://github.com/sbsdev/mdr2/releases/download/{{ madras2_version }}/mdr2.jar
-    dest: "{{ madras2_install_dir }}/mdr2.jar"
+    url: https://github.com/sbsdev/mdr2/releases/download/{{ madras2_version }}/mdr2-{{ madras2_version }}-standalone.jar
+    dest: "{{ madras2_install_dir }}/mdr2-{{ madras2_version }}-standalone.jar"
   notify:
     - restart madras2
+
+- name: create a version independent link to the jar file
+  file:
+    src: "mdr2-{{ madras2_version }}-standalone.jar"
+    dest: "{{ madras2_install_dir }}/mdr2.jar"
+    state: link
 
 - name: create a config directory
   file:
