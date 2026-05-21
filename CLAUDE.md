@@ -82,7 +82,6 @@ ansible-playbook -i production -K --vault-password-file .vault_pass.txt <playboo
 
 ### Application-Specific Playbooks
 
-- `daisyproducer.yml` - Deploy legacy Daisyproducer (Django app, uses .deb packages)
 - `daisyproducer2.yml` - Deploy Daisyproducer2
 - `kati.yml` - Deploy Kati (requires manual font installation via play tasks)
 - `madras2.yml` - Deploy Madras2

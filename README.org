@@ -5,7 +5,6 @@ or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
 
 * Table of Contents                                                     :TOC:
 - [[#deployment][Deployment]]
-  - [[#daisyproducer][Daisyproducer]]
   - [[#daisyproducer2][Daisyproducer2]]
   - [[#kati][Kati]]
   - [[#madras2][Madras2]]
@@ -14,22 +13,6 @@ or a [[https://github.com/sbsdev/mdr2][Madras2]] server.
 - [[#license][License]]
 
 * Deployment
-** Daisyproducer
-
-Put the needed debs into [[file:roles/daisyproducer/files][roles/daisyproducer/files]]. Adapt the version
-numbers in [[file:host_vars/xmlp02][host_vars/xmlp02]] and [[file:host_vars/xmlp01][host_vars/xmlp01]]. To deploy to the
-test server run
-
-#+BEGIN_SRC shell
-  ansible-playbook -i test -K --vault-password-file .vault_pass.txt daisyproducer.yml
-#+END_SRC
-
-To deploy to the production server run
-
-#+BEGIN_SRC shell
-  ansible-playbook -i production -K --vault-password-file .vault_pass.txt daisyproducer.yml
-#+END_SRC
-
 ** Daisyproducer2
 
 Create a release in [[https://github.com/sbsdev/daisyproducer2][Daisyproducer2]] with ~lein release~. This triggers

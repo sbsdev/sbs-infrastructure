@@ -1,7 +1,0 @@
----
-- hosts: daisyproducer
-  become: true
-
-  roles:
-    - daisyproducer
-
