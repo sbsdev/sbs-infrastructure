@@ -55,10 +55,14 @@ Create a release in [[https://github.com/sbsdev/mdr2][Madras]] with ~lein releas
 [[https://github.com/sbsdev/mdr2/releases][github release page]]. Then adapt the version number in
 [[file:roles/madras2/defaults/main.yml][roles/madras2/defaults/main.yml]]. To deploy to the test server run
 
-To deploy to the madras test server run
-
 #+BEGIN_SRC shell
   ansible-playbook -i test -K --vault-password-file .vault_pass.txt madras2.yml
+#+END_SRC
+
+To deploy to the production server run
+
+#+BEGIN_SRC shell
+  ansible-playbook -i production -K --vault-password-file .vault_pass.txt madras2.yml
 #+END_SRC
 
 ** Pipeline
