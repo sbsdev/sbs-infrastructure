@@ -45,6 +45,19 @@
   notify:
     - restart daisyproducer2
 
+# The server does not migrate the database when it starts. Run the
+# migrations of the new version before it is restarted (handlers run at the
+# end of the play). A failing migration makes java exit with 1 and stops the
+# play.
+- name: run the database migrations
+  command: >-
+    /usr/bin/java
+    -Dconf=/etc/daisyproducer2/config.edn
+    -Dlogback.configurationFile=/etc/daisyproducer2/logback.xml
+    -jar {{ daisyproducer2_install_dir }}/daisyproducer2.jar migrate
+  register: migrations
+  changed_when: "'migratus.core - Up ' in migrations.stdout"
+
 # - name: make sure archive is owned by www-data
 
 - name: create spool directories for ebooks
