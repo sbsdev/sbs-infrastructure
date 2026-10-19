@@ -48,7 +48,10 @@
 # The server does not migrate the database when it starts. Run the
 # migrations of the new version before it is restarted (handlers run at the
 # end of the play). A failing migration makes java exit with 1 and stops the
-# play.
+# play. If a failed run left its lock (id -1 in schema_migrations) behind,
+# migratus skips all migrations but exits with 0, so check for that, too.
+# Restart after migrating, as the restart notified by the download of the
+# jar is lost if a previous run failed.
 - name: run the database migrations
   command: >-
     /usr/bin/java
@@ -57,6 +60,11 @@
     -jar {{ daisyproducer2_install_dir }}/daisyproducer2.jar migrate
   register: migrations
   changed_when: "'migratus.core - Up ' in migrations.stdout"
+  failed_when: >-
+    migrations.rc != 0 or
+    'reserved by another instance' in migrations.stdout
+  notify:
+    - restart daisyproducer2
 
 # - name: make sure archive is owned by www-data
 
