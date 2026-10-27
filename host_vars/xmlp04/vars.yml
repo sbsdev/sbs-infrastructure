@@ -12,7 +12,8 @@ daisyproducer_server_email: daisyproducer@xmlp04
 daisyproducer_server_aliases:
   - xmlp04
 daisyproducer_debug: True
-# daisyproducer needs a very old forked version of the Pipeline2, so
-# we define the path to the deb here
-pipeline2_version: 1.11.1
-pipeline2_deb: https://github.com/sbsdev/pipeline/releases/download/sursilvan-0.1/assembly-1.11.1-SNAPSHOT-all.deb
+# Test the new EPUB converter (sbsdev/dtbook-to-ebook) on a stock
+# Pipeline2.
+pipeline2_version: 1.15.5
+sbs_module_debs:
+  - https://github.com/sbsdev/dtbook-to-ebook/releases/download/v0.1.0/dtbook-to-ebook_0.1.0_all.deb
